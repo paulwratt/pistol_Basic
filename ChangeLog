@@ -1,0 +1,48 @@
+----------------------------------------------------------------------------
+David Ashley (DA) Tue Sep 29 09:42:22 CDT 2015
+dashxdr@gmail.com
+
+Current version 103.
+
+Had to tweak the grammar.y file for recent versions of bison to get it to
+build.
+
+Tweaked Makefile for newer LDARGS parameter.
+
+** is the exponent (power) operator. ~ is unary binary NOT operator.
+----------------------------------------------------------------------------
+David Ashley (DA) Mon Jun 30 00:09:19 EDT 2008
+dashxdr@gmail.com
+
+Current version 102.
+
+Fixed problem with scrollback, wouldn't snap back down if you hit up arrow or
+   down with no more lines in the history buffer...
+Added "round <expr>" and placeholder "rotate <expr>" to box and rect
+   commands, for doing rounded boxes and rectangles.
+In grammar.y, added emitfuncint() function that takes a function plus an
+   integer, and emits one followed by the other -- this is a very common
+   operation. Fixed so everything that could now uses the new function.
+Added arc and wedge commands.
+Added shape interface. shinit, shend, shdone, shline, shcurve, shcubic.
+Added cool14.bas demo -- inspired by inkscape's polygon tool.
+----------------------------------------------------------------------------
+David Ashley (DA) Wed Jun 25 21:40:30 EDT 2008
+dashxdr@gmail.com
+
+Current version 101.
+
+Fixed problem with dissassembling "pushi" instruction.
+Fixed problem with vmachine's arrayd function, was using sizeof(double *)
+   instead of sizeof(double). On my machine pointers and doubles are 8 bytes...
+Added Makefile.osx for building on MAC OSX.
+Added lock(), unlock() calls around in code to lock the SDL_surface. This
+   fixes flickering on OSX, and is actually what you're supposed to do in SDL.
+----------------------------------------------------------------------------
+David Ashley (DA) Sat Jun 21 10:55:18 EDT 2008
+dashxdr@gmail.com
+
+Current version 100.
+
+Initial release
+----------------------------------------------------------------------------

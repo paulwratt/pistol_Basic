@@ -1,0 +1,49 @@
+#NOTE have to define AR, RANLIB + WINDRES in Makefile after configure
+# need to undef main() in main routine, lots of WinMain@16 insanity...
+
+#SDL_CONFIG =/usr/local/cross-tools/i386-mingw32/bin/sdl-config
+#CROSS = /usr/local/cross-tools/bin/i386-mingw32-
+
+SDL_CONFIG=/usr/local/cross-tools/i686-w64-mingw32/bin/sdl-config
+CROSS=i586-mingw32msvc-
+
+
+#DBG += -g
+#DBG += -pg
+CC	= $(CROSS)gcc
+CFLAGS = -O2 -Wall $(DBG)
+CFLAGS += $(shell $(SDL_CONFIG) --cflags)
+#LDFLAGS = $(DBG) -lm $(SDL_BUILD)/build/.libs/SDL.dll
+LDFLAGS = $(shell $(SDL_CONFIG) --libs)
+
+# ftgrays standalone
+CFLAGS += -D_STANDALONE_
+
+
+all: basic
+basic: main.o basic.o font.o render.o keyboard.o ftgrays.o parse.o \
+	vmachine.o sound.o vdis.o help.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+main.o: main.c misc.h
+basic.o: basic.c misc.h
+font.o: font.c misc.h
+render.o: render.c misc.h
+keyboard.o: keyboard.c misc.h
+parse.o: parse.c
+parse.c: grammar.y misc.h
+	bison -o $@ $<
+vmachine.o: vmachine.c misc.h
+sound.o: sound.c misc.h
+vdis.o: vdis.c misc.h
+help.o: help.c misc.h
+
+ftgrays.o: ftgrays.c ftgrays.h ftimage.h
+
+
+clean:
+	rm -f *.o basic parse.c
+
+test:	all
+	./basic
+
