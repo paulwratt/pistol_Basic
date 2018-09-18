@@ -163,7 +163,7 @@ int diff;
 	if(!bc->tainted) return;
 	now=SDL_GetTicks();
 	diff = bc->nextupdate - now;
-	if(diff>0 && diff<250) return;
+	if(diff>0) return;
 	bc->nextupdate=now+20;
 #warning must lock
 	SDL_UpdateRect(bc->thescreen, 0, 0, 0, 0);
@@ -177,7 +177,7 @@ int now;
 	now = SDL_GetTicks();
 	bc->nextupdate = now;
 	update(bc);
-	bc->nextupdate = now+250; // 1/4 second later since we're taking control
+	bc->nextupdate = now + 500; // 1/2 second later since we're taking control
 }
 
 void resetupdate(bc *bc)
