@@ -1,5 +1,5 @@
 stuff that needs to be looked at, some may be RPi (speed/CPU) related
 -----------
 dont print onscreen character for eol
-sleepd: diff out of range: -0.017000 ( spiragraph - cool16.bas )
+sleepd: diff out of range! -0.1700000 ( spiragraph - cool16.bas )
 
