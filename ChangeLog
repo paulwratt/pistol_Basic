@@ -4,7 +4,7 @@ paul.wratt@gmail.com
 
 Current version 104.
 
-Appied patchefrom post SDL2 migration of SDL_Basic.
+Applied patches from post SDL2 migration of SDL_Basic.
 
 Added loadtexture and drawtexture functions.
 ----------------------------------------------------------------------------
