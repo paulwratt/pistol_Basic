@@ -7,6 +7,8 @@ Not specifically for Raspbery Pi, except that Pistol Basic also impliments the G
 # SDL 1.2
 I have some older platforms which do support SDL 1.2, but just dont have enough RAM to even consider static builds with SDL2. We are talking the diference between 250Kb for static builds of full SDL 1.2 with all lib extensions, compared to minimum of 2Mb just for SDL2 main lib. So SDL 1.2 static builds will work comforatbly on 1Mb platforms (like Atari ST 1040 and Amiga 1200), and with some _judicious coding_, will also work on 512Kb platforms. 
 
+# On Raspberry Pi you can built pistol_Basic (and SDL_Basic) using the baremetal repo found [here](https://github.com/maccasoft/raspberry-pi).
+
 # WYABI
 Why _Yet Another BASIC Implimentation_ when there are already alot available. Well I prefer to use an 68000 STe or 68040 ARAnyM system, and they (now both) support various BASIC's, STOS is the ST version of AMOS, and there is GFA-BASIC. They both do grapics, sounds, music and system GUI intergration right out of the box. They also BOTH support an Interpreter, and a Compiler.
 
