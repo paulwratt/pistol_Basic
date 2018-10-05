@@ -1,5 +1,5 @@
-10 rem line fonts
-20 cls : dim cP(16,4) : dim iR$(5)
+10 rem CIV type game vector icons
+20 cls : cC=2 : dim cP(16,4) : dim iR$(5)
 50 rem ** colors **
 51 cP(1,1)=0 : cP(1,2)=0 : cP(1,3)=0 : cP(1,4)=128 : rem  1 - black
 52 cP(2,1)=255 : cP(2,2)=0 : cP(2,3)=0 : cP(2,4)=128 : rem  2 - red
@@ -18,29 +18,24 @@
 65 cP(15,1)=0 : cP(15,2)=0 : cP(15,3)=0 : cP(15,4)=128 : rem 13 - 
 66 cP(16,1)=255 : cP(16,2)=255 : cP(16,3)=255 : cP(16,4)=128 : rem 16 - white
 70 rem ** ranges **
-71 iR$(1)="neon"
+71 iR$(1)="interface"
 72 iR$(2)=" actions "
 73 iR$(3)="  units  "
 74 iR$(4)="buildings"
 75 iR$(5)="resources"
-99 X=0 : Y=0 : S=4 : cC=3 : iP=3 : iR=1 : iL=1 : MU=~0 : ST$="hello abdc"
+99 X=0 : Y=0 : iR=1 : iL=1 : MU=~0
 100 home : print "color: ";chr$(iL+64) : gosub 40005 : box 60,8,4,8
-120 print "face:   ";iR$(iR)
-120 print "scale: [ ";S;" ]   pen: - ";iP;" +     "
+120 print "icons:  ";iR$(iR)
 130 print "cycle:  A-Z 0-9  space:icons"
 140 print "mouse: LB:place  MB:color  RB:cycle"
 1000 gosub 40003 : if MB<1 and KC<1 then goto 1000
 1010 X=MX : Y=MY : MU=~MU : if MU then goto 1050
-1020 if MB=1 then pen iP : gosub 2001
+1020 if MB=1 then gosub 2001
 1030 if MB=2 then cC=cC+1 : if cC>16 then cC=1
 1040 if MB=4 then iL=iL+1 : if iL>36 then iL=1
 1050 if KC=32 then iR=iR+1 : if iR>5 then iR=1
-1051 if KC=45 then iP=iP-1 : if iP<1 then iP=1
-1052 if KC=61 then iP=iP+1 : if iP>9 then iP=9
-1053 if KC=91 then S=S-.1 : if S<1 then S=1
-1054 if KC=93 then S=S+.1 : if S>10 then S=10
 1055 if KC=13 then cls : goto 100
-1060 if KC>47 and KC<58 then iL=KC-47+26
+1060 if KC>47 and KC<58 then iL=KC-47+25
 1070 if KC>64 and KC<91 then iL=KC-64
 1075 if KC>96 and KC<123 then iL=KC-96
 1080 MB=0 : KC=0
@@ -64,82 +59,82 @@
 40008 rem -=_*_=- STRING2COLOR
 40009 rem
 49998 rem -= END: SUPPORT =-
-49999 rem                                       0123456789
-50000 rem -= START: FONTS =-
+49999 rem
+50000 rem -= START: ICONS =-
 50001 rem 50004,50078,50152,50226,50300
-50002 rem -=_*_=- NEON 
+50002 rem -=_*_=- INTERFACE 
 50003 rem *** A - attack ***
-50004 color R,G,B,A : move X-(3*S),Y+(3*S) : line X,Y-(3*S) : line X+(3*S),Y+(3*S) : move X-(2*S),Y+(1*S) : line X+(2*S),Y+(1*S): return
+50004 color R,G,B,A : disc X,Y,60 : color 255,255,255,255 : shinit : shline X-50,Y : shcurve X,Y-50,X+50,Y: shcurve X,Y+50,X-50,Y : shdone : return
 50005 rem *** B - build ***
-50006 color R,G,B,A : move X+(1*S),Y+(3*S) : line X-(3*S),Y+(3*S) : line X-(3*S),Y-(3*S) : line X,Y-(3*S) : move X+(1*S),Y : line X-(3*S),Y : arc X,Y-(1.5*S),1.5*S,90,-180 : arc X+(1*S),Y+(1.5*S),1.5*S,90,-180 : return
+50006 color R,G,B,A : disc X,Y,60 : color 255,255,255,255 : shinit : shline X-50,Y : shcurve X,Y-50,X+50,Y: shcurve X,Y+50,X-50,Y : shdone : return
 50007 rem *** C - collect ***
-50008 color R,G,B,A : move X-(3*S),Y+(2*S) : arc X,Y,3*S,180,130 : arc X,Y,3*S,180,-130 : return
+50008 color R,G,B,A : disc X,Y,60 : color 255,255,255,255 : shinit : shline X-50,Y : shcurve X,Y-50,X+50,Y: shcurve X,Y+50,X-50,Y : shdone : return
 50009 rem *** D - destroy ***
-50010 color R,G,B,A : move X-(1*S),Y+(3*S) : line X-(3*S),Y+(3*S) : line X-(3*S),Y-(3*S) : line X-(1*S),Y-(3*S) : arc X-(1*S),Y,3*S,90,-180 : return
+50010 color R,G,B,A : disc X,Y,60 : color 255,255,255,255 : shinit : shline X-50,Y : shcurve X,Y-50,X+50,Y: shcurve X,Y+50,X-50,Y : shdone : return
 50011 rem *** E - eye ***
-50012 color R,G,B,A : move X+(2*S),Y+(3*S) : line X-(3*S),Y+(3*S) : line X-(3*S),Y-(3*S) : line X+(2*S),Y-(3*S) : move X+(1*S),Y : line X-(3*S),Y : return
+50012 color R,G,B,A : disc X,Y,60 : color 255,255,255,255 : shinit : shline X-50,Y : shcurve X,Y-50,X+50,Y: shcurve X,Y+50,X-50,Y : shdone : return
 50013 rem *** F - fish ***
-50014 color R,G,B,A : move X-(3*S),Y+(3*S) : line X-(3*S),Y-(3*S) : line X+(2*S),Y-(3*S) : move X+(1*S),Y : line X-(3*S),Y : return
+50014 color R,G,B,A : disc X,Y,60 : color 255,255,255,255 : shinit : shline X-50,Y : shcurve X,Y-50,X+50,Y: shcurve X,Y+50,X-50,Y : shdone : return
 50015 rem *** G - goto ***
-50016 color R,G,B,A : move X+(1*S),Y : line X+(3*S),Y : line X+(3*S),Y+(3*S) : arc X,Y,3*S,0,-180 : arc X,Y,3*S,180,-120 : return
+50016 color R,G,B,A : disc X,Y,60 : color 255,255,255,255 : shinit : shline X-50,Y : shcurve X,Y-50,X+50,Y: shcurve X,Y+50,X-50,Y : shdone : return
 50017 rem *** H - home ***
-50018 color R,G,B,A : move X-(2.5*S),Y+(3*S) : line X-(2.5*S),Y-(3*S) : move X+(2.5*S),Y+(3*S) : line X+(2.5*S),Y-(3*S) : move X-(2.5*S),Y : line X+(2.5*S),Y : return
+50018 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50019 rem *** I - irrigate ***
-50020 color R,G,B,A : move X-(2*S),Y+(3*S) : line X+(2*S),Y+(3*S) : move X-(2*S),Y-(3*S) : line X+(2*S),Y-(3*S) : move X,Y-(3*S) : line X,Y+(3*S) : return
+50020 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50021 rem *** J - square ***
-50022 color R,G,B,A : move X-(2*S),Y-(3*S) : line X+(2*S),Y-(3*S) : move X,Y-(3*S) : line X,Y+(1*S) : arc X-(1.5*S),Y+(1*S),1.5*S,180,180 : return
+50022 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50023 rem *** K - square ***
-50024 color R,G,B,A : move X-(2*S),Y+(3*S) : line X-(2*S),Y-(3*S) : move X+(2*S),Y-(3*S) : line X-(2*S),Y : line X+(2*S),Y+(3*S) : return
+50024 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50025 rem *** L - square ***
-50026 color R,G,B,A : move X-(2*S),Y-(3*S) : line X-(2*S),Y+(3*S) : line X+(2*S),Y+(3*S) : return
+50026 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50027 rem *** M - mark ***
-50028 color R,G,B,A : move X-(3*S),Y+(3*S) : line X-(1.5*S),Y-(3*S) : line X,Y+(3*S) : line X+(1.5*S),Y-(3*S) : line X+(3*S),Y+(3*S) : return
+50028 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50029 rem *** N - nuke ***
-50030 color R,G,B,A : move X-(2.5*S),Y+(3*S) : line X-(2.5*S),Y-(3*S) : line X+(2.5*S),Y+(3*S) : line X+(2.5*S),Y-(3*S) : return
+50030 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50031 rem *** O - nuke ***
-50032 color R,G,B,A : arc X,Y,3*S,180,-180 : arc X,Y,3*S,0,-180 : return
+50032 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50033 rem *** P - pillage ***
-50034 color R,G,B,A : move X-(3*S),Y+(3*S) : line X-(3*S),Y-(3*S) : line X,Y-(3*S) : move X,Y : line X-(3*S),Y : arc X,Y-(1.5*S),1.5*S,90,-180 : return
+50034 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50035 rem *** Q - nuke ***
-50036 color R,G,B,A : move X+(1*S),Y+(1*S) : line X+(3*S),Y+(3*S) : arc X,Y,3*S,0,-180 : arc X,Y,3*S,180,-180 : return
+50036 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50037 rem *** R - nuke ***
-50038 color R,G,B,A : move X-(3*S),Y+(3*S) : line X-(3*S),Y-(3*S) : line X,Y-(3*S) : move X,Y : line X-(3*S),Y : line X+(1*S),Y+(3*S) : arc X,Y-(1.5*S),1.5*S,90,-180 : return
+50038 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50039 rem *** S - stop ***
-50040 color R,G,B,A : arc X,Y+(1.5*S),2*S,90,-270 : arc X,Y-(2*S),1.5*S,270,-270 : return
+50040 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50041 rem *** T - square ***
-50042 color R,G,B,A : move X-(2.5*S),Y-(3*S) : line X+(2.5*S),Y-(3*S) : move X,Y-(3*S) : line X,Y+(3*S) : return
+50042 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50043 rem *** U - square ***
-50044 color R,G,B,A : move X-(2.5*S),Y+(1*S) : line X-(2.5*S),Y-(3*S) : move X+(2.5*S),Y+(1*S) : line X+(2.5*S),Y-(3*S) : arc X,Y+(1*S),2.5*S,0,-180 : return
+50044 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50045 rem *** V - square ***
-50046 color R,G,B,A : move X-(2.5*S),Y-(3*S) : line X,Y+(3*S) : line X+(2.5*S),Y-(3*S) : return
+50046 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50047 rem *** W - square ***
-50048 color R,G,B,A : move X-(3*S),Y-(3*S) : line X-(1.5*S),Y+(3*S) : line X,Y-(3*S) : line X+(1.5*S),Y+(3*S) : line X+(3*S),Y-(3*S) : return
+50048 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50049 rem *** X - square ***
-50050 color R,G,B,A : move X-(2.5*S),Y-(3*S) : line X+(2.5*S),Y+(3*S) : move X-(2.5*S),Y+(3*S) : line X+(2.5*S),Y-(3*S) : return
+50050 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50051 rem *** Y - square ***
-50052 color R,G,B,A : move X-(2.5*S),Y-(3*S) : line X,Y : line X+(2.5*S),Y-(3*S) : move X,Y+(3*S) : line X,Y : return
+50052 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50053 rem *** Z - square ***
-50054 color R,G,B,A : move X-(2.5*S),Y-(3*S) : line X+(2.5*S),Y-(3*S) : line X-(2.5*S),Y+(3*S) : line X+(2.5*S),Y+(3*S) : return
+50054 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y-25 : shline X+25,Y-25 : shline X+25,Y+25 : shline X-25,Y+25 : shdone : return
 50055 rem *** 0 - zero ***
-50056 color R,G,B,A : move X-(2*S),Y+(2*S) : line X+(2*S),Y-(2*S) : arc X,Y,3*S,180,-180 : arc X,Y,3*S,0,-180 : return
+50056 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50057 rem *** 1 - one ***
-50058 color R,G,B,A : move X-(2*S),Y-(1*S) : line X,Y-(3*S) : line X,Y+(3*S) : move X-(2*S),Y+(3*S) : line X+(2*S),Y+(3*S) : return
+50058 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50059 rem *** 2 - two ***
-50060 color R,G,B,A : move X+(2*S),Y+(3*S) : line X-(2*S),Y+(3*S) : line X+(2*S),Y-(1*S) : arc X,Y-(1.5*S),2*S,155,-180 : return
+50060 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50061 rem *** 3 - three ***
-50062 color R,G,B,A : arc X,Y-(1.5*S),2*S,155,-220 : arc X,Y+(1.5*S),2*S,-155,220 : return
+50062 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50063 rem *** 4 - four ***
-50064 color R,G,B,A : move X+(1*S),Y+(4*S) : line X+(1*S),Y-(4*S) : line X-(2.5*S),Y+(1*S) : line X+(2.5*S),Y+(1*S) : return
+50064 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50065 rem *** 5 - five ***
-50066 color R,G,B,A : move X+(2*S),Y-(3*S) : line X-(2*S),Y-(3*S) : line X-(2*S),Y : arc X,Y+(2*S),2.5*S,155,-305 : return
+50066 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50067 rem *** 6 - six ***
-50068 color R,G,B,A : move X-(2*S),Y-(2*S) : line X-(2*S),Y+(2*S) : arc X,Y-(1.5*S),2*S,180,-180 : arc X,Y+(1.5*S),2*S,180,360 : return
+50068 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50069 rem *** 7 - seven ***
-50070 color R,G,B,A : move X-(2*S),Y-(3*S) : line X+(2*S),Y-(3*S) : line X,Y+(4*S) : return
+50070 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50071 rem *** 8 - eight ***
-50072 color R,G,B,A : arc X,Y-(1.5*S),2*S,225,-270 : arc X,Y+(1.5*S),2*S,125,360 : return
+50072 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50073 rem *** 9 - nine ***
-50074 color R,G,B,A : move X+(2*S),Y-(2*S) : line X+(2*S),Y+(2*S) : arc X,Y-(1.5*S),2*S,180,360 : arc X,Y+(1.5*S),2*S,180,180 : return
+50074 color R,G,B,A : disc X,Y,60 : color 0,0,0,255 : shinit : shline X-25,Y : shline X,Y-25 : shline X+25,Y : shline X,Y+25 : shdone : return
 50075 rem
 50076 rem -=_*_=- ACTIONS 
 50077 rem *** A - attack ***

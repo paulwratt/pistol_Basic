@@ -2,11 +2,11 @@
 #DBG += -pg
 CC	= gcc
 MAXE = -fmax-errors=8
-CFLAGS = -O2 -Wall $(shell sdl-config --cflags) $(DBG) $(MAXE)
-#CFLAGS = -O2 -Wall -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT $(DBG) $(MAXE)
+#CFLAGS = -O2 -Wall $(shell sdl-config --cflags) $(DBG) $(MAXE)
+CFLAGS = -O2 -Wall -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT $(DBG) $(MAXE)
 LDFLAGS = $(DBG)
-#LDLIBS = -L/usr/lib/arm-linux-gnueabihf -Wl,-rpath,/usr/lib/arm-linux-gnueabihf -lSDL -lpthread -lm -lSDL_image
-LDLIBS = $(shell sdl-config --libs) -lm -lSDL_image
+LDLIBS = -L/usr/lib/arm-linux-gnueabihf -Wl,-rpath,/usr/lib/arm-linux-gnueabihf -lSDL -lpthread -lm -lSDL_image
+#LDLIBS = $(shell sdl-config --libs) -lm -lSDL_image
 
 # ftgrays standalone
 CFLAGS += -D_STANDALONE_
