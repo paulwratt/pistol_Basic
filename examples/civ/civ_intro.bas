@@ -209,24 +209,39 @@
 6882  next X
 6891 next Y
 6895 color 255,255,255,128 : pen 1 : rect xmap,ymap,mapw/2,maph/2
+7000 rem * display key text *
+7010 OS=S : S=1.5 : R=0 : G=128 : B=0 : A=128 : pen 1
+7020 X=p+10 : Y=H+20 :        S$="0             RESET" : gosub 40009
+7030 X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
+7030 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE         CYCLE" : gosub 40009
+7050 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    WIDTH" : gosub 40009
+7060 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
+7090 S=OS
 10010 x$=inkey$ : if x$="" then goto 10010
 10020 if x$="[" then grid=grid-1 : if grid<-1 then grid=-1
 10030 if x$="]" then grid=grid+1 : if grid>1 then grid=1
 10120 if x$="-" then gwidth=gwidth-1 : if gwidth<0 then gwidth=0
 10130 if x$="=" then gwidth=gwidth+1 : if gwidth>100 then gwidth=100
+10140 if x$="0" then gwidth=1 : grid=0
 10150 T=T+1 : if T>7 then T=1
-10150 a=asc(x$) : if a>48 and a<56 then T=a-48
+10160 a=asc(x$) : if a>48 and a<56 then T=a-48
 10230 cls : move 1,1 : goto 1000
 40000 rem -= START: SUPPORT =-
-40001 rem 40003,40005,40006,40007
+40001 rem 40003,40005,40009
 40002 rem -=_*_=- INPUTS
 40003 MB=mouseb : MX=mousex : MY=mousey : KC=keycode : KP=key(K) : return
 40004 rem -=_*_=- ARRAY2COLOR
 40005 R=cP(cC,1) : G=cP(cC,2) : B=cP(cC,3) : A=cP(cC,4) : color R,G,B,A : return
 40006 fR=cP(cC,1) : fG=cP(cC,2) : fB=cP(cC,3) : fA=cP(cC,4) : color fR,fG,fB,fA : return
 40007 bR=cP(cC,1) : bG=cP(cC,2) : bB=cP(cC,3) : bA=cP(cC,4) : color bR,bG,bB,bA : return
-40008 rem -=_*_=- STRING2COLOR
-40009 rem
+40008 rem -=_*_=- DISPLAYTEXT
+40009 for xi=1 to len(S$)
+40010  X=X+((3*S)*2)
+40011  x$=mid$(S$,xi,1) : if x$=" " then goto 40014
+40012  il=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
+40013  if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
+40014 next
+40015 return
 49998 rem -= END: SUPPORT =-
 49999 rem                                       0123456789
 150000 rem -= START: FONTS =-
