@@ -27,9 +27,9 @@
 99 X=0 : Y=0 : S=10 : cC=2 : iP=3 : iR=1 : iL=1 : MU=1 : ST$="hello abdc"
 100 cls : color 255,255,255 : box (xsize/2)+(xsize/4),ysize/2,xsize/4,ysize/2
 110 home : print "color: ";chr$(iL+64) : gosub 40005 : box 60,8,4,8
-120 print "icons: ";iR$(iR)
+120 rem print "icons: ";iR$(iR)
 120 print "scale: [ ";S;" ]   pen: - ";iP;" +     "
-130 print "cycle:  A-Z 0-9  space:icons"
+130 print "cycle:  A-Z 0-9  "
 140 print "mouse: LB:place  MB:color  RB:cycle"
 1000 gosub 40003 : if MB<1 and KC<1 then goto 1000
 1010 X=MX : Y=MY : if MU=0 then MU=1 else MU=0
@@ -37,7 +37,7 @@
 1020 if MB=1 then pen iP : gosub 2001
 1030 if MB=2 then cC=cC+1 : if cC>16 then cC=1
 1040 if MB=4 then iL=iL+1 : if iL>36 then iL=1
-1050 if KC=32 then iR=iR+1 : if iR>6 then iR=1
+1050 rem if KC=32 then iR=iR+1 : if iR>6 then iR=1
 1051 if KC=45 then iP=iP-1 : if iP<1 then iP=1
 1052 if KC=61 then iP=iP+1 : if iP>9 then iP=9
 1053 if KC=91 then S=S-.5 : if S<1 then S=10
@@ -75,7 +75,7 @@
 50003 rem *** A - attack ***
 50004 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
 50005 rem *** B - build ***
-50006 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
+50006 color R,G,B,A : disc X,Y,6*S : color 255,255,0,255 : disc X,Y,4.5*S : color 0,0,0,255 : shinit : shline X,Y-(4*S) : shline X+(4*S),Y : shline X+(2.5*S),Y : shline X+(2.5*S),Y+(3*S) : shline X-(2.5*S),Y+(3*S) : shline X-(2.5*S),Y : shline X-(4*S),Y : shline X,Y-(4*S) : shdone : color 255,255,0,255: box X,Y+(2*S),.5*S,1*S : return
 50007 rem *** C - collect ***
 50008 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
 50009 rem *** D - destroy ***
@@ -99,11 +99,11 @@
 50027 rem *** M - mark ***
 50028 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
 50029 rem *** N - nuke ***
-50030 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
+50030 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : disc X,Y,(4.5*S) : color 255,255,0,255 : shinit : shline X,Y : shline X-(2.7*S),Y-(3.7*S) : shcurve X,Y-(5.5*S),X+(2.7*S),Y-(3.7*S) : shend : shline X,Y : shline X-(4.5*S),Y : shcurve X-(4.5*S),Y+(2.5*S),X-(2.5*S),Y+(4*S) : shend : shline X,Y : shline X+(4.5*S),Y : shcurve X+(4.5*S),Y+(2.5*S),X+(2.5*S),Y+(4*S) : shdone : return
 50031 rem *** O - nuke ***
 50032 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
 50033 rem *** P - pillage ***
-50034 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
+50034 color R,G,B,A : disc X,Y,6*S : color 255,255,0,255 : disc X,Y,4.5*S : color 255,255,255,255 : shinit : shline X,Y : shline X-(2.7*S),Y-(3.7*S) : shcurve X,Y-(5.5*S),X+(2.7*S),Y-(3.7*S) : shend : shline X,Y : shline X-(4.5*S),Y : shcurve X-(4.5*S),Y+(2.5*S),X-(2.5*S),Y+(4*S) : shend : shline X,Y : shline X+(4.5*S),Y : shcurve X+(4.5*S),Y+(2.5*S),X+(2.5*S),Y+(4*S) : shdone : return
 50035 rem *** Q - nuke ***
 50036 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
 50037 rem *** R - nuke ***
@@ -145,374 +145,4 @@
 50073 rem *** 9 - nine ***
 50074 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
 50075 rem
-50076 rem -=_*_=- ACTIONS 
-50077 rem *** A - attack ***
-50078 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50079 rem *** B - build city ***
-50080 color R,G,B,A : disc X,Y,6*S : color 255,255,0,255 : disc X,Y,4.5*S : color 0,0,0,255 : shinit : shline X,Y-(4*S) : shline X+(4*S),Y : shline X+(2.5*S),Y : shline X+(2.5*S),Y+(3*S) : shline X-(2.5*S),Y+(3*S) : shline X-(2.5*S),Y : shline X-(4*S),Y : shline X,Y-(4*S) : shdone : color 255,255,0,255: box X,Y+(2*S),.5*S,1*S : return
-50081 rem *** C - collect ***
-50082 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50083 rem *** D - disband ***
-50084 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50085 rem *** E - eye ***
-50086 color R,G,B,A : disc X,Y,6*S : color 255,255,0,255 : disc X,Y,4.5*S : color 0,0,0,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : color 255,255,0,255 : disc X,Y,2*S : return
-50087 rem *** F - fortify ***
-50088 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50089 rem *** G - goto ***
-50090 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50091 rem *** H - goto home city ***
-50092 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50093 rem *** I - build irrigation ***
-50094 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50095 rem *** J - heal ***
-50096 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50097 rem *** K - no orders ***
-50098 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50099 rem *** L - square ***
-50100 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50101 rem *** M - build mine ***
-50102 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50103 rem *** N - goto nearest city ***
-50104 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50105 rem *** O - cleanup pollution ***
-50106 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50107 rem *** P - pillage ***
-50108 color R,G,B,A : disc X,Y,6*S : color 255,255,0,255 : disc X,Y,4.5*S : color 0,0,0,255 : shinit : shline X+(1*S),Y-(4*S) : shcurve X,Y-(3*S),X-(2*S),Y : shcurve X-(4*S),Y+(3*S),X,Y+(4*S) : shcurve X+(4*S),Y+(3*S),X+(1*S),Y-(.5*S) : shcurve X,Y-(2*S),X+(1*S),Y-(4*S) : shdone : color 255,255,0,255 : shinit : shline X,Y-(1*S) : shcurve X-(3*S),Y+(2*S),X,Y+(3*S) : shcurve X+(2*S),Y+(2*S),X+(.5*S),Y+(.5*S) : shcurve X+(1*S),Y+(2*S),X,Y+(2.5*S) : shcurve X-(1*S),Y+(1*S),X,Y-(1*S) : shdone : return
-50109 rem *** Q - build railroad ***
-50110 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50111 rem *** R - build road ***
-50112 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50113 rem *** S - set home city ***
-50114 color R,G,B,A : disc X,Y,6*S : color 255,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50115 rem *** T - sentry ***
-50116 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50117 rem *** U - patrol ***
-50118 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50119 rem *** V - square ***
-50120 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50121 rem *** W - cut down trees ***
-50122 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50123 rem *** X - auto explore ***
-50124 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50125 rem *** Y - transform terrain down ***
-50126 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50127 rem *** Z - transform terrain down ***
-50128 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50129 rem *** 0 - railroads ***
-50130 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50131 rem *** 1 - one ***
-50132 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50133 rem *** 2 - two ***
-50134 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50135 rem *** 3 - three ***
-50136 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50137 rem *** 4 - four ***
-50138 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50139 rem *** 5 - five ***
-50140 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50141 rem *** 6 - six ***
-50142 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50143 rem *** 7 - seven ***
-50144 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50145 rem *** 8 - eight ***
-50146 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50147 rem *** 9 - nine ***
-50148 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50149 rem
-50150 rem -=_*_=- UNITS 
-50151 rem *** A - archer ***
-50152 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50153 rem *** B - battleship ***
-50154 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50155 rem *** C - caravan ***
-50156 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50157 rem *** D - diplomat ***
-50158 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50159 rem *** E - engineers ***
-50160 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50161 rem *** F - artillery ***
-50162 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50163 rem *** G - tank ***
-50164 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50165 rem *** H - horse ***
-50166 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50167 rem *** I - scout ***
-50168 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50169 rem *** J - medic ***
-50170 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50171 rem *** K - knight ***
-50172 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50173 rem *** L - legion ***
-50174 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50175 rem *** M - marines ***
-50176 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50177 rem *** N - nuke ***
-50178 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : disc X,Y,(4.5*S) : color 255,255,0,255 : shinit : shline X,Y : shline X-(2.7*S),Y-(3.7*S) : shcurve X,Y-(5.5*S),X+(2.7*S),Y-(3.7*S) : shend : shline X,Y : shline X-(4.5*S),Y : shcurve X-(4.5*S),Y+(2.5*S),X-(2.5*S),Y+(4*S) : shend : shline X,Y : shline X+(4.5*S),Y : shcurve X+(4.5*S),Y+(2.5*S),X+(2.5*S),Y+(4*S) : shdone : return
-50179 rem *** O - spearman ***
-50180 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50181 rem *** P - phalanx ***
-50182 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50183 rem *** Q - missile ***
-50184 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50185 rem *** R - submarine ***
-50186 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50187 rem *** S - settler ***
-50188 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50189 rem *** T - trireme ***
-50190 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50191 rem *** U - cutter ***
-50192 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50193 rem *** V - caraval ***
-50194 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50195 rem *** W - warrior ***
-50196 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50197 rem *** X - longbowman ***
-50198 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50199 rem *** Y - sniper ***
-50200 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50201 rem *** Z - spy ***
-50202 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50203 rem *** 0 - zero ***
-50204 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50205 rem *** 1 - one ***
-50206 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50207 rem *** 2 - two ***
-50208 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50209 rem *** 3 - three ***
-50210 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50211 rem *** 4 - four ***
-50212 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50213 rem *** 5 - five ***
-50214 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50215 rem *** 6 - six ***
-50216 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50217 rem *** 7 - seven ***
-50218 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50219 rem *** 8 - eight ***
-50220 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50221 rem *** 9 - nine ***
-50222 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50223 rem
-50224 rem -=_*_=- BUILDINGS 
-50225 rem *** A - aquiduct ***
-50226 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50227 rem *** B - barracks ***
-50228 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50229 rem *** C - courthouse ***
-50230 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50231 rem *** D - police station ***
-50232 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50233 rem *** E - embassey ***
-50234 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50235 rem *** F - factory ***
-50236 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50237 rem *** G - manufacturing plant ***
-50238 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50239 rem *** H - hydro power ***
-50240 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50241 rem *** I - nuclear power ***
-50242 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50243 rem *** J - power station ***
-50244 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50245 rem *** K - radio tower ***
-50246 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50247 rem *** L - library ***
-50248 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50249 rem *** M - market ***
-50250 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50251 rem *** N - bank ***
-50252 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50253 rem *** O - harbour ***
-50254 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50255 rem *** P - port facility ***
-50256 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50257 rem *** Q - supermarket ***
-50258 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50259 rem *** R - recycling plant ***
-50260 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50261 rem *** S - sewer system ***
-50262 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50263 rem *** T - research facility ***
-50264 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50265 rem *** U - university ***
-50266 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50267 rem *** V - fortifications ***
-50268 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50269 rem *** W - city walls ***
-50270 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50271 rem *** X - city wonder ***
-50272 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50273 rem *** Y - airport ***
-50274 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50275 rem *** Z - solar power ***
-50276 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50277 rem *** 0 - city ruins ***
-50278 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50279 rem *** 1 - city size one ***
-50280 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50281 rem *** 2 - two ***
-50282 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50283 rem *** 3 - three ***
-50284 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50285 rem *** 4 - four ***
-50286 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50287 rem *** 5 - five ***
-50288 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50289 rem *** 6 - six ***
-50290 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50291 rem *** 7 - seven ***
-50292 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50293 rem *** 8 - eight ***
-50294 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50295 rem *** 9 - nine ***
-50296 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50297 rem
-50298 rem -=_*_=- RESOURCES 
-50299 rem *** A - oasis ***
-50300 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50301 rem *** B - bird ***
-50302 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50303 rem *** C - coal ***
-50304 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50305 rem *** D - dear ***
-50306 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50307 rem *** E - whale ***
-50308 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50309 rem *** F - fish ***
-50310 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50311 rem *** G - gold ***
-50312 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50313 rem *** H - horse ***
-50314 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50315 rem *** I - irrigation ***
-50316 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50317 rem *** J - farmland ***
-50318 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50319 rem *** K - bison ***
-50320 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50321 rem *** L - square ***
-50322 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50323 rem *** M - mine ***
-50324 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50325 rem *** N - platonium ***
-50326 color R,G,B,A : disc X,Y,6*S : color 255,255,0,255 : disc X,Y,4.5*S : color 255,255,255,255 : shinit : shline X,Y : shline X-(2.7*S),Y-(3.7*S) : shcurve X,Y-(5.5*S),X+(2.7*S),Y-(3.7*S) : shend : shline X,Y : shline X-(4.5*S),Y : shcurve X-(4.5*S),Y+(2.5*S),X-(2.5*S),Y+(4*S) : shend : shline X,Y : shline X+(4.5*S),Y : shcurve X+(4.5*S),Y+(2.5*S),X+(2.5*S),Y+(4*S) : shdone : return
-50327 rem *** O - oil ***
-50328 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50329 rem *** P - polution ***
-50330 color R,G,B,A : disc X,Y,6*S : color 255,255,0,255 : disc X,Y,4.5*S : color 255,255,255,255 : shinit : shline X,Y : shline X-(2.7*S),Y-(3.7*S) : shcurve X,Y-(5.5*S),X+(2.7*S),Y-(3.7*S) : shend : shline X,Y : shline X-(4.5*S),Y : shcurve X-(4.5*S),Y+(2.5*S),X-(2.5*S),Y+(4*S) : shend : shline X,Y : shline X+(4.5*S),Y : shcurve X+(4.5*S),Y+(2.5*S),X+(2.5*S),Y+(4*S) : shdone : return
-50331 rem *** Q - pelts ***
-50332 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50333 rem *** R - square ***
-50334 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50335 rem *** S - steel ***
-50336 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50337 rem *** T - textiles ***
-50338 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50339 rem *** U - square ***
-50340 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50341 rem *** V - square ***
-50342 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50343 rem *** W - wheat ***
-50344 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50345 rem *** X - wine ***
-50346 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50347 rem *** Y - square ***
-50348 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50349 rem *** Z - gemz ***
-50350 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50351 rem *** 0 - roads ***
-50352 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50353 rem *** 1 - one ***
-50354 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50355 rem *** 2 - two ***
-50356 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50357 rem *** 3 - three ***
-50358 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50359 rem *** 4 - four ***
-50360 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50361 rem *** 5 - five ***
-50362 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50363 rem *** 6 - six ***
-50364 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50365 rem *** 7 - seven ***
-50366 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50367 rem *** 8 - eight ***
-50368 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50369 rem *** 9 - nine ***
-50370 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50371 rem
-50372 rem -=_*_=- MAP TILES
-50373 rem *** A - artic ***
-50374 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50375 rem *** B - square ***
-50376 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50377 rem *** C - coast ***
-50378 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50379 rem *** D - desert ***
-50380 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50381 rem *** E - square ***
-50382 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50383 rem *** F - forest ***
-50384 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50385 rem *** G - grassland ***
-50386 color R,G,B,A : disc X,Y,6*S : color 255,255,255,255 : shinit : shline X-(5*S),Y : shcurve X,Y-(5*S),X+(5*S),Y: shcurve X,Y+(5*S),X-(5*S),Y : shdone : return
-50387 rem *** H - hill ***
-50388 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50389 rem *** I - square ***
-50390 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50391 rem *** J - jungle ***
-50392 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50393 rem *** K - square ***
-50394 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50395 rem *** L - square ***
-50396 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50397 rem *** M - mountain ***
-50398 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50399 rem *** N - ocean
-50400 color R,G,B,A : disc X,Y,6*S : color 255,255,0,255 : disc X,Y,4.5*S : color 255,255,255,255 : shinit : shline X,Y : shline X-(2.7*S),Y-(3.7*S) : shcurve X,Y-(5.5*S),X+(2.7*S),Y-(3.7*S) : shend : shline X,Y : shline X-(4.5*S),Y : shcurve X-(4.5*S),Y+(2.5*S),X-(2.5*S),Y+(4*S) : shend : shline X,Y : shline X+(4.5*S),Y : shcurve X+(4.5*S),Y+(2.5*S),X+(2.5*S),Y+(4*S) : shdone : return
-50401 rem *** O - square ***
-50402 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50403 rem *** P - plains ***
-50404 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50405 rem *** Q - grassland ***
-50406 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50407 rem *** R - square ***
-50408 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50409 rem *** S - swamp ***
-50410 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50411 rem *** T - square ***
-50412 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50413 rem *** U - square ***
-50414 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50415 rem *** V - square ***
-50416 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50417 rem *** W - wasteland ***
-50418 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50419 rem *** X - square ***
-50420 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50421 rem *** Y - square ***
-50422 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50423 rem *** Z - square ***
-50424 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y-(2.5*S) : shline X+(2.5*S),Y+(2.5*S) : shline X-(2.5*S),Y+(2.5*S) : shdone : return
-50425 rem *** 0 - rivers ***
-50426 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50427 rem *** 1 - one ***
-50428 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50429 rem *** 2 - two ***
-50430 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50431 rem *** 3 - three ***
-50432 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50433 rem *** 4 - four ***
-50434 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50435 rem *** 5 - five ***
-50436 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50437 rem *** 6 - six ***
-50438 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50439 rem *** 7 - seven ***
-50440 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50441 rem *** 8 - eight ***
-50442 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50443 rem *** 9 - nine ***
-50444 color R,G,B,A : disc X,Y,6*S : color 0,0,0,255 : shinit : shline X-(2.5*S),Y : shline X,Y-(2.5*S) : shline X+(2.5*S),Y : shline X,Y+(2.5*S) : shdone : return
-50445 rem
 50446 rem -= END: ICONS =-
