@@ -10,6 +10,7 @@
 1013 if grid=1 then print "border";
 1014 print " ]    "
 1015 print "width: -";gwidth;" +  "
+1099 move OX,OY : pen 5 : spot : pen 1
 1101 for i=1 to 5
 1112  for j=1 to 5
 1115   if T=1 then gosub 11010
