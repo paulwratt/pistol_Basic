@@ -135,11 +135,11 @@
 3760 rem * get display area *
 3761 if T=1 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
 3762 if T=2 then OY=10 : mapw=int(wsize/(((7*S)*2)+G))-1 : maph=int(hsize/(((3.5*S)*2)+G))-2
-3763 if T=3 then OX=10 : OY=10 : mapw=int(wsize/(((9*S)*2)+G))-1 : maph=int(hsize/(((3*S)*2)+G))-2
-3764 if T=4 then OX=10 : OY=10 : mapw=int(wsize/(((10*S)*2)+G))-1 : maph=int(hsize/(((2.5*S)*2)+G))-2
+3763 if T=3 then OX=10 : OY=10 : mapw=int(wsize/(((9*S)*2)+G))-1 : maph=int(hsize/(((3*S)*2)+G))-2 : if G=0 then OX=-10
+3764 if T=4 then OX=10 : OY=10 : mapw=int(wsize/(((10*S)*2)+G))-1 : maph=int(hsize/(((2.5*S)*2)+G))-2 : if G=0 then OX=-15
 3765 if T=5 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
 3766 if T=6 then OY=5 : mapw=int(wsize/(((6*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
-3767 if T=7 then OX=0 : OY=10 : mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
+3767 if T=7 then OX=0 : OY=10 : mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1 : if G=0 then OX=-8 : OY=7
 3780 drawX=xmap-int(mapw/2)-1 : drawY=ymap-int(maph/2)-1
 5100 rem * display map area *
 5101 for i=1 to maph
