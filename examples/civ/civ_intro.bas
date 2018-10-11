@@ -4,8 +4,10 @@
 10 cls : dim cP(16,4)
 15 rem * predefines *
 20 dmi=0 : ' var dmi = dim map initialized
-30 waterSeed=2 : islandTweak=5 : contenants=50 : borders=5 : ispeninsula=1
-40 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
+25 waterSeed=2 : islandTweak=5 : contenants=50 : borders=5 : ispeninsula=1
+30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
+35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1
+40 T=7 : S=3
 50 rem ** colors ** Dawnbringer16 **
 51 cP(1,1)=78 : cP(1,2)=78 : cP(1,3)=78 : cP(1,4)=128 : rem  1 - dark gray
 52 cP(2,1)=68 : cP(2,2)=36 : cP(2,3)=52 : cP(2,4)=128 : rem  2 - brown
@@ -24,12 +26,18 @@
 65 cP(15,1)=20 : cP(15,2)=12 : cP(15,3)=28 : cP(15,4)=128 : rem 15 - near black
 66 cP(16,1)=222 : cP(16,2)=238 : cP(16,3)=212 : cP(16,4)=128 : rem 16 - off white
 1000 rem * dimension map based on screen size *
-1005 if dmi>0 then goto 1045 else dmi=1
+1005 if dmi>0 then goto 1111 else dmi=1
 1010 if xsize=640 then dim m(640,480,8)
 1020 if xsize=800 then dim m(800,600,8)
 1030 if xsize=1024 then dim m(1024,768,8)
 1040 if xsize=1280 then dim m(1280,720,8)
-1045 rem skip dim
+1045 goto 2011
+1100 rem * clear map data *
+1111 for Y=1 to H
+1122  for X=p to mapx
+1150   m(X,Y,1)=0 : m(X,Y,2)=0 : m(X,Y,3)=0 : m(X,Y,4)=0
+1182  next X
+1191 next Y
 2000 rem * generate land and water *
 2011 for Y=1 to H
 2022  for X=p to mapx
@@ -123,16 +131,15 @@
 3720 if m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X+1,Y,1)=128 and m(X+1,Y,2)=128 and m(X+1,Y,3)=255 and m(X,Y-1,1)=128 and m(X,Y-1,2)=128 and m(X,Y-1,3)=255 and m(X,Y+1,1)=128 and m(X,Y+1,2)=128 and m(X,Y+1,3)=255 then X=X-2 : Y=Y-2 : goto 3710
 3730 xmap=X : ymap=Y
 3740 m(X,Y,1)=255 : m(X,Y,2)=255 : m(X,Y,3)=255 : ' white dot for city on intro screen, thats our "center"
-3750 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1
-3755 OX=0 : OY=0 : T=7 : S=3
+3750 OX=0 : OY=0 : G=grid*gwidth
 3760 rem * get display area *
-3761 if T=1 then mapw=int(wsize/((5*S)*2)) : maph=int(hsize/((5*S)*2))-1
-3762 if T=2 then OY=10 : mapw=int(wsize/((7*S)*2))-1 : maph=int(hsize/((3.5*S)*2))-1
-3763 if T=3 then OX=-32 : OY=10 : mapw=int(wsize/((9*S)*2)) : maph=int(hsize/((3*S)*2))
-3764 if T=4 then OX=-32 : OY=10 : mapw=int(wsize/((10*S)*2)) : maph=int(hsize/((2.5*S)*2))
-3765 if T=5 then mapw=int(wsize/((5*S)*2)) : maph=int(hsize/((5*S)*2))-1
-3766 if T=6 then OY=5 : mapw=int(wsize/((6*S)*2))-1 : maph=int(hsize/((5*S)*2))-1
-3767 if T=7 then OX=10 : OY=15 : mapw=int(wsize/((5*S)*2))-1 : maph=int(hsize/((5*S)*2))-1
+3761 if T=1 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
+3762 if T=2 then OY=10 : mapw=int(wsize/(((7*S)*2)+G))-1 : maph=int(hsize/(((3.5*S)*2)+G))-2
+3763 if T=3 then OX=10 : OY=10 : mapw=int(wsize/(((9*S)*2)+G))-1 : maph=int(hsize/(((3*S)*2)+G))-2
+3764 if T=4 then OX=10 : OY=10 : mapw=int(wsize/(((10*S)*2)+G))-1 : maph=int(hsize/(((2.5*S)*2)+G))-2
+3765 if T=5 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
+3766 if T=6 then OY=5 : mapw=int(wsize/(((6*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
+3767 if T=7 then OX=0 : OY=10 : mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
 3780 drawX=xmap-int(mapw/2)-1 : drawY=ymap-int(maph/2)-1
 5100 rem * display map area *
 5101 for i=1 to maph
@@ -178,28 +185,37 @@
 6130 shinit:shline X-(S*6),Y:shline X-(S*3),Y-(S*6):shline X+(S*3),Y-(S*6):shline X+(S*6),Y:shline X+(S*3),Y+(S*6):shline X-(S*3),Y+(S*6):shdone : return
 6140 shinit:shline X-(S*7),Y:shline X-(S*3),Y-(S*5):shline X+(S*3),Y-(S*5):shline X+(S*7),Y:shline X+(S*3),Y+(S*5):shline X-(S*3),Y+(S*5):shdone : return
 6150 shinit:shline X-(S*7),Y:shline X,Y-(S*7):shline X+(S*7),Y:shline X,Y+(S*7):shdone : return
-6500 rem * display minimap *
-6510 pen 1
-6521 for Y=1 to H
-6532  for X=p to mapx
-6540   color m(X,Y,1),m(X,Y,2),m(X,Y,3),128 : move X,Y : spot
-6582  next X
-6591 next Y
-6610 color 255,255,255,128 : pen 1 : rect xmap,ymap,mapw/2,maph/2
+6500 rem * logo *
 6660 rem X=xsize/2 : Y=ysize/2 : Y=Y+50 : L=150
-6665 L=150 : K=25 : X=xsize-L-5 : Y=ysize-K-5
+6661 rem L=150 : K=25 : X=xsize-L-5 : Y=ysize-K-5
+6662 L=150 : K=25 : X=L+5 : Y=ysize-K-5
 6670 color 0,0,255,128 : box X,Y,L,K round 5 : color 255,255,0,255 : pen 3 : rect X,Y,L,K round 5
 6680 S1$="NietCiv XVIII" : S2$=" NIETCIV  2018" : e=len(S2$) : iR=1 : X=X-L
 6690 R=255 : G=255 : B=255 : A=255 : ' text color
 6711 for i=1 to e
 6720  X=X+((3*S)*2)
-6730  X$=mid$(S2$,i,1) : if X$=" " then goto 6791
-6740  il=asc(X$)-64 : if iL<1 then iL=iL+64-47+26
-6760  R=128 : G=128 : B=128 : A=128 : pen 3 : X=X+5 : Y=Y+4 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
-6760  R=255 : G=255 : B=0 : A=255 : pen 3 : X=X-5 : Y=Y-4 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
+6730  x$=mid$(S2$,i,1) : if x$=" " then goto 6791
+6740  il=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
+6760  R=128 : G=128 : B=128 : A=128 : pen 3 : X=X+4 : Y=Y+3 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
+6760  R=255 : G=255 : B=0 : A=255 : pen 3 : X=X-4 : Y=Y-3 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 6770  R=0 : G=0 : B=255 : A=255 : pen 1 : X=X+1 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 6791 next
-10000 goto 10000
+6800 rem * display minimap *
+6810 pen 1
+6821 for Y=1 to H
+6832  for X=p to mapx
+6840   color m(X,Y,1),m(X,Y,2),m(X,Y,3),128 : move X,Y : spot
+6882  next X
+6891 next Y
+6895 color 255,255,255,128 : pen 1 : rect xmap,ymap,mapw/2,maph/2
+10010 x$=inkey$ : if x$="" then goto 10010
+10020 if x$="[" then grid=grid-1 : if grid<-1 then grid=-1
+10030 if x$="]" then grid=grid+1 : if grid>1 then grid=1
+10120 if x$="-" then gwidth=gwidth-1 : if gwidth<0 then gwidth=0
+10130 if x$="=" then gwidth=gwidth+1 : if gwidth>100 then gwidth=100
+10150 T=T+1 : if T>7 then T=1
+10150 a=asc(x$) : if a>48 and a<56 then T=a-47
+10230 cls : move 1,1 : goto 1000
 40000 rem -= START: SUPPORT =-
 40001 rem 40003,40005,40006,40007
 40002 rem -=_*_=- INPUTS
