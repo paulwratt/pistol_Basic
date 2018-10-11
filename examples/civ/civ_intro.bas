@@ -26,12 +26,13 @@
 65 cP(15,1)=20 : cP(15,2)=12 : cP(15,3)=28 : cP(15,4)=128 : rem 15 - near black
 66 cP(16,1)=222 : cP(16,2)=238 : cP(16,3)=212 : cP(16,4)=128 : rem 16 - off white
 1000 rem * dimension map based on screen size *
-1005 if dmi>0 then goto 1111 else dmi=1
-1010 if xsize=640 then dim m(640,480,8)
-1020 if xsize=800 then dim m(800,600,8)
-1030 if xsize=1024 then dim m(1024,768,8)
-1040 if xsize=1280 then dim m(1280,720,8)
-1045 goto 2011
+1010 if dmi>0 then goto 1111 else dmi=1
+1011 if xsize=640 then dim m(640,480,8)
+1012 if xsize=800 then dim m(800,600,8)
+1013 if xsize=1024 then dim m(1024,768,8)
+1014 if xsize=1280 then dim m(1280,720,8)
+1015 if xsize=1360 then dim m(1360,768,8)
+1099 goto 2011
 1100 rem * clear map data *
 1111 for Y=1 to H
 1122  for X=p to mapx
@@ -214,7 +215,7 @@
 10120 if x$="-" then gwidth=gwidth-1 : if gwidth<0 then gwidth=0
 10130 if x$="=" then gwidth=gwidth+1 : if gwidth>100 then gwidth=100
 10150 T=T+1 : if T>7 then T=1
-10150 a=asc(x$) : if a>48 and a<56 then T=a-47
+10150 a=asc(x$) : if a>48 and a<56 then T=a-48
 10230 cls : move 1,1 : goto 1000
 40000 rem -= START: SUPPORT =-
 40001 rem 40003,40005,40006,40007
