@@ -3,11 +3,12 @@
 3 rem we generate a minimap first so its always random
 10 cls : dim cP(16,4)
 15 rem * predefines *
-20 dmi=0 : ' var dmi = dim map initialized
+20 firstPass=1 : dmi=0 : ' var dmi = dim map initialized
 25 waterSeed=2 : islandTweak=5 : contenants=50 : borders=5 : ispeninsula=1
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
-35 wsize=xsize-200 : hsize=ysize : grid=0 : gwidth=1
+35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1
 40 T=7 : S=3
+45 getDrawVars=1 : drawArea=1 : drawMap=1 : redrawWin=0 : drawText=1 : drawLogo=1
 50 rem ** colors ** Dawnbringer16 **
 51 cP(1,1)=78 : cP(1,2)=78 : cP(1,3)=78 : cP(1,4)=128 : rem  1 - dark gray
 52 cP(2,1)=68 : cP(2,2)=36 : cP(2,3)=52 : cP(2,4)=128 : rem  2 - brown
@@ -130,33 +131,42 @@
 3710 if m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255 then X=X-1 : goto 3710
 3715 if m(X,Y,1)=64 and m(X,Y,2)=255 and m(X,Y,3)=64 then goto 3720 else Y=Y-1 : goto 3710
 3720 if m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X+1,Y,1)=128 and m(X+1,Y,2)=128 and m(X+1,Y,3)=255 and m(X,Y-1,1)=128 and m(X,Y-1,2)=128 and m(X,Y-1,3)=255 and m(X,Y+1,1)=128 and m(X,Y+1,2)=128 and m(X,Y+1,3)=255 then X=X-2 : Y=Y-2 : goto 3710
-3730 xmap=X : ymap=Y
+3730 xmap=X : ymap=Y : mapOX=mapx : mapOY=mapy
 3740 m(X,Y,1)=255 : m(X,Y,2)=255 : m(X,Y,3)=255 : ' white dot for city on intro screen, thats our "center"
-3750 OX=0 : OY=0 : G=(grid*gwidth)
-3760 rem * get display area *
-3761 if T=1 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
-3762 if T=2 then OY=10 : mapw=int(wsize/(((7*S)*2)+G))-1 : maph=int(hsize/(((3.5*S)*2)+G))-2
-3763 if T=3 then OX=10 : OY=10 : mapw=int(wsize/(((9*S)*2)+G))-1 : maph=int(hsize/(((3*S)*2)+G))-2 : if G=0 then OX=-10
-3764 if T=4 then OX=10 : OY=10 : mapw=int(wsize/(((10*S)*2)+G))-1 : maph=int(hsize/(((2.5*S)*2)+G))-2 : if G=0 then OX=-15
-3765 if T=5 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
-3766 if T=6 then OY=5 : mapw=int(wsize/(((6*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
-3767 if T=7 then OX=0 : OY=10 : mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1 : if G=0 then OX=-8 : OY=7
-3780 drawX=xmap-int(mapw/2)-1 : drawY=ymap-int(maph/2)-1
+3799 goto 8010 : ' setup done; jump to main part
+3800 rem * get display area *
+3810 OX=0 : OY=0 : G=(grid*gwidth)
+3861 if T=1 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
+3862 if T=2 then OY=10 : mapw=int(wsize/(((7*S)*2)+G))-1 : maph=int(hsize/(((3.5*S)*2)+G))-2
+3863 if T=3 then OX=10 : OY=10 : mapw=int(wsize/(((9*S)*2)+G))-1 : maph=int(hsize/(((3*S)*2)+G))-2 : if G=0 then OX=-10
+3864 if T=4 then OX=10 : OY=10 : mapw=int(wsize/(((10*S)*2)+G))-1 : maph=int(hsize/(((2.5*S)*2)+G))-2 : if G=0 then OX=-15
+3865 if T=5 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
+3866 if T=6 then OY=5 : mapw=int(wsize/(((6*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
+3867 if T=7 then OX=0 : OY=10 : mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1 : if G=0 then OX=-8 : OY=7
+3880 drawX=xmap-int(mapw/2)-1 : drawY=ymap-int(maph/2)-1
+3899 return
+5000 rem * clear display area *
+5005 color 0,0,0,255 : box int(wsize/2),int(hsize/2),int(wsize/2),int(hsize/2) : ' clear draw area
+5099 return
 5100 rem * display map area *
-5101 for i=1 to maph
-5112  for j=1 to mapw
-5114   color m(drawX+j,drawY+i,1),m(drawX+j,drawY+i,2),m(drawX+j,drawY+i,3),128
-5115   if T=1 then gosub 6010
-5125   if T=2 then gosub 6020
-5135   if T=3 then gosub 6030
-5145   if T=4 then gosub 6040
-5155   if T=5 then gosub 6050
-5165   if T=6 then gosub 6060
-5175   if T=7 then gosub 6070
-5210   if drawX+j=xmap and drawY+i=ymap then pen 3 : R=255 : G=255 : B=255 : A=128 : gosub 150018
+5110 pen 1 
+5201 for i=1 to maph
+5212  for j=1 to mapw
+5213   X=drawX+j : Y=drawY+i
+5214   color m(X,Y,1),m(X,Y,2),m(X,Y,3),128
+5215   if T=1 then gosub 6010
+5225   if T=2 then gosub 6020
+5235   if T=3 then gosub 6030
+5245   if T=4 then gosub 6040
+5255   if T=5 then gosub 6050
+5265   if T=6 then gosub 6060
+5275   if T=7 then gosub 6070
+5310   if drawX+j=xmap and drawY+i=ymap then pen 3 : R=255 : G=255 : B=255 : A=128 : gosub 150018
 5982  next
 5991 next
-5999 goto 6500 : ' area display done; jump to next part
+5995 if drawLogo then gosub 6600
+5998 drawArea=0
+5999 return
 6000 rem * map tile types *
 6010 X=OX+((5*S)*j*2) : Y=OY+((5*S)*i*2) : gosub 6101
 6015 goto 6110
@@ -186,7 +196,7 @@
 6130 shinit:shline X-(S*6),Y:shline X-(S*3),Y-(S*6):shline X+(S*3),Y-(S*6):shline X+(S*6),Y:shline X+(S*3),Y+(S*6):shline X-(S*3),Y+(S*6):shdone : return
 6140 shinit:shline X-(S*7),Y:shline X-(S*3),Y-(S*5):shline X+(S*3),Y-(S*5):shline X+(S*7),Y:shline X+(S*3),Y+(S*5):shline X-(S*3),Y+(S*5):shdone : return
 6150 shinit:shline X-(S*7),Y:shline X,Y-(S*7):shline X+(S*7),Y:shline X,Y+(S*7):shdone : return
-6500 rem * logo *
+6600 rem * logo *
 6660 rem X=xsize/2 : Y=ysize/2 : Y=Y+50 : L=150
 6661 rem L=150 : K=25 : X=xsize-L-5 : Y=ysize-K-5
 6662 L=150 : K=25 : X=L+5 : Y=ysize-K-5
@@ -201,31 +211,86 @@
 6760  R=255 : G=255 : B=0 : A=255 : pen 3 : X=X-4 : Y=Y-3 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 6770  R=0 : G=0 : B=255 : A=255 : pen 1 : X=X+1 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 6791 next
+6799 return
 6800 rem * display minimap *
+6805 color 0,0,0,255 : box p+int(W/2),int(H/2),int(W/2),int(H/2) : ' clear mini map
 6810 pen 1
 6821 for Y=1 to H
 6832  for X=p to mapx
 6840   color m(X,Y,1),m(X,Y,2),m(X,Y,3),128 : move X,Y : spot
 6882  next X
 6891 next Y
-6895 color 255,255,255,128 : pen 1 : rect xmap,ymap,mapw/2,maph/2
+6895 rem color 255,255,255,128 : pen 1 : rect xmap,ymap,int(mapw/2),int(maph/2)
+6898 drawMap=0
+6899 return
+6900 rem * clear text area *
+6910 color 0,0,0,255 : box p+int(W/2),H+int((ysize-H)/2),int(W/2),int((ysize-H)/2) : ' clear mini map
+6999 return
 7000 rem * display key text *
 7010 OS=S : S=1.5 : R=0 : G=128 : B=0 : A=128 : pen 1
-7020 X=p+10 : Y=H+20 :        S$="0             RESET" : gosub 40009
-7030 X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
-7030 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE         CYCLE" : gosub 40009
-7050 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    WIDTH" : gosub 40009
-7060 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
-7090 S=OS
+7020 X=p+10 : Y=H+20 :        S$="ARROWS         MOVE" : gosub 40009
+7030 X=p+10 : Y=Y+((3*S)*4) : S$="0             RESET" : gosub 40009
+7040 X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
+7050 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE         CYCLE" : gosub 40009
+7060 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    WIDTH" : gosub 40009
+7070 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
+7080 X=p+10 : Y=Y+((3*S)*4) : S$="ENTER       NEW MAP" : gosub 40009
+7190 S=OS
+7198 drawText=0
+7199 return
+7200 rem * undraw map window *
+7210 drawX=oldX-int(mapw/2)-1 : drawY=oldY-int(maph/2)-1 : pen 1
+7230 jx=mapw+2
+7240 iy=maph+2
+7321 for i=1 to iy
+7332  for j=1 to jx
+7340 rem  if i=1 or j=1 then goto 7370
+7350 rem  if i=iy or j=jx then goto 7370
+7360 rem  goto 7412
+7370   X=drawX+j : Y=drawY+i : move X,Y
+7380   color 0,0,0 : spot
+7390   color m(X,Y,1),m(X,Y,2),m(X,Y,3),128 : spot
+7412  next
+7421 next
+7499 return
+7500 rem * draw map window *
+7510 drawX=xmap-int(mapw/2) : drawY=ymap-int(maph/2) : pen 1
+7530 jx=mapw
+7540 iy=maph
+7621 for i=1 to iy
+7632  for j=1 to jx
+7640   if i=1 or j=1 then goto 7670
+7650   if i=iy or j=jx then goto 7670
+7660   goto 7712
+7670   X=drawX+j : Y=drawY+i : move X,Y
+7680   color 255,255,255,128 : spot
+7712  next
+7721 next
+7798 redrawWin=0
+7799 return
+8000 rem * main loop *
+8010 if redrawWin then gosub 7210
+8020 if getDrawVars then gosub 3810 : ' set display area variables
+8030 if drawArea or redrawWin then if firstPass then gosub 5110 else gosub 5005 : gosub 5110
+8040 if drawText then gosub 6910 : gosub 7010
+8050 if drawMap then if firstPass then gosub 6810 : gosub 7510 else gosub 6805 : gosub 7510
+8060 if redrawWin or firstPass then gosub 7510
+9998 firstPass=0
+10005 oldX=xmap : oldY=ymap : move 1,1 
 10010 x$=inkey$ : if x$="" then goto 10010
-10020 if x$="[" then grid=grid-1 : if grid<-1 then grid=-1
-10030 if x$="]" then grid=grid+1 : if grid>1 then grid=1
-10120 if x$="-" then gwidth=gwidth-1 : if gwidth<0 then gwidth=0
-10130 if x$="=" then gwidth=gwidth+1 : if gwidth>100 then gwidth=100
-10140 if x$="0" then gwidth=1 : grid=0
-10150 T=T+1 : if T>7 then T=1
-10160 a=asc(x$) : if a>48 and a<56 then T=a-48
-10230 cls : move 1,1 : goto 1000
+10020 if x$="[" then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1
+10030 if x$="]" then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1
+10120 if x$="-" then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0
+10130 if x$="=" then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100
+10140 if x$="0" then gwidth=1 : grid=0 : mapx=mapOX : may=mapOY : getDrawVars=1 : redrawWin=1
+10150 if x$=" " then T=T+1 : getDrawVars=1 : drawArea=1 : if T>7 then T=1
+10160 a=asc(x$) : if a>48 and a<56 then T=a-48 : getDrawVars=1 : drawArea=1
+10170 if a=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 1000
+10184 if a=144 then xmap=xmap-1 : redrawWin=1 : if xmap<p then xmap=p : redrawWin=0
+10185 if a=145 then xmap=xmap+1 : redrawWin=1 : if xmap>xsize then xmap=xsize : redrawWin=0
+10186 if a=146 then ymap=ymap-1 : redrawWin=1 : if ymap<1 then ymap=1 : redrawWin=0
+10187 if a=147 then ymap=ymap+1 : redrawWin=1 : if ymap>H then ymap=H : redrawWin=0
+10320 goto 8010
 40000 rem -= START: SUPPORT =-
 40001 rem 40003,40005,40009
 40002 rem -=_*_=- INPUTS
