@@ -26,6 +26,8 @@
 64 cP(14,1)=218 : cP(14,2)=212 : cP(14,3)=94 : cP(14,4)=128 : rem 14 - light yellow
 65 cP(15,1)=20 : cP(15,2)=12 : cP(15,3)=28 : cP(15,4)=128 : rem 15 - near black
 66 cP(16,1)=222 : cP(16,2)=238 : cP(16,3)=212 : cP(16,4)=128 : rem 16 - off white
+100 rem * items *
+110 vBoat=0 : vHorse=0  
 1000 rem * dimension map based on screen size *
 1010 if dmi>0 then goto 1111 else dmi=1
 1011 if xsize=640 then dim m(640,480,8)
@@ -133,18 +135,20 @@
 3720 if m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X+1,Y,1)=128 and m(X+1,Y,2)=128 and m(X+1,Y,3)=255 and m(X,Y-1,1)=128 and m(X,Y-1,2)=128 and m(X,Y-1,3)=255 and m(X,Y+1,1)=128 and m(X,Y+1,2)=128 and m(X,Y+1,3)=255 then X=X-2 : Y=Y-2 : goto 3710
 3730 xmap=X : ymap=Y : mapOX=mapx : mapOY=mapy
 3740 m(X,Y,1)=255 : m(X,Y,2)=255 : m(X,Y,3)=255 : ' white dot for city on intro screen, thats our "center"
+3750 Player$="I"
 3799 goto 8010 : ' setup done; jump to main part
 3800 rem * get display area *
-3810 OX=0 : OY=0 : G=(grid*gwidth)
-3861 if T=1 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
-3862 if T=2 then OY=10 : mapw=int(wsize/(((7*S)*2)+G))-1 : maph=int(hsize/(((3.5*S)*2)+G))-2
-3863 if T=3 then OX=10 : OY=10 : mapw=int(wsize/(((9*S)*2)+G))-1 : maph=int(hsize/(((3*S)*2)+G))-2 : if G=0 then OX=-10
-3864 if T=4 then OX=10 : OY=10 : mapw=int(wsize/(((10*S)*2)+G))-1 : maph=int(hsize/(((2.5*S)*2)+G))-2 : if G=0 then OX=-15
-3865 if T=5 then mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
-3866 if T=6 then OY=5 : mapw=int(wsize/(((6*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1
-3867 if T=7 then OX=0 : OY=10 : mapw=int(wsize/(((5*S)*2)+G))-1 : maph=int(hsize/(((5*S)*2)+G))-1 : if G=0 then OX=-8 : OY=7
-3880 drawX=xmap-int(mapw/2)-1 : drawY=ymap-int(maph/2)-1
-3899 return
+3810 OX=0 : OY=0 : G=(grid*gwidth) : CR=S*5
+3911 if T=1 then CX=((5*S)*2)+G : CY=((5*S)*2)+G : mapw=int(wsize/CX)-1 : maph=int(hsize/CY)-1
+3922 if T=2 then OY=10 : CX=((7*S)*2)+G : CY=((3.5*S)*2)+G : mapw=int(wsize/CX)-1 : maph=int(hsize/CY)-2
+3933 if T=3 then OX=10 : OY=10 : CX=((9*S)*2)+G : CY=((3*S)*2)+G : mapw=int(wsize/CX)-1 : maph=int(hsize/CY)-2 : if G=0 then OX=-10
+3944 if T=4 then OX=10 : OY=10 : CX=((10*S)*2)+G : CY=((2.5*S)*2)+G : mapw=int(wsize/CX)-1 : maph=int(hsize/CY)-2 : if G=0 then OX=-15
+3955 if T=5 then CX=((5*S)*2)+G : CY=((5*S)*2)+G : mapw=int(wsize/CX)-1 : maph=int(hsize/CY)-1
+3966 if T=6 then OY=5 : CX=((6*S)*2)+G : CY=((5*S)*2)+G : mapw=int(wsize/CX)-1 : maph=int(hsize/CY)-1
+3977 if T=7 then OX=0 : OY=10 : CX=((5*S)*2)+G : CY=((5*S)*2)+G : mapw=int(wsize/CX)-1 : maph=int(hsize/CY)-1 : if G=0 then OX=-8 : OY=7
+3978 if T=7 and G<0 then OX=-7
+3995 drawX=xmap-int(mapw/2)-1 : drawY=ymap-int(maph/2)-1
+3999 return
 5000 rem * clear display area *
 5005 color 0,0,0,255 : box int(wsize/2),int(hsize/2),int(wsize/2),int(hsize/2) : ' clear draw area
 5099 return
@@ -152,16 +156,18 @@
 5110 pen 1 
 5201 for i=1 to maph
 5212  for j=1 to mapw
-5213   X=drawX+j : Y=drawY+i
-5214   color m(X,Y,1),m(X,Y,2),m(X,Y,3),128
-5215   if T=1 then gosub 6010
-5225   if T=2 then gosub 6020
-5235   if T=3 then gosub 6030
-5245   if T=4 then gosub 6040
-5255   if T=5 then gosub 6050
-5265   if T=6 then gosub 6060
-5275   if T=7 then gosub 6070
-5310   if drawX+j=xmap and drawY+i=ymap then pen 3 : R=255 : G=255 : B=255 : A=128 : gosub 150018
+5220   dX=drawX+j : dY=drawY+i : dH=dY/2
+5230   if dX<1 or dY<1 then goto 5982
+5231   if dX>mapx or dY>mapy then goto 5982
+5240   color m(dX,dY,1),m(dX,dY,2),m(dX,dY,3),128
+5315   if T=1 then gosub 6010
+5325   if T=2 then gosub 6020
+5335   if T=3 then gosub 6030
+5345   if T=4 then gosub 6040
+5355   if T=5 then gosub 6050
+5365   if T=6 then gosub 6060
+5375   if T=7 then gosub 6070
+5410   if dX=xmap and dY=ymap then pen 3 : R=255 : G=255 : B=255 : A=128 : x$=Player$ : gosub 40017
 5982  next
 5991 next
 5995 if drawLogo then gosub 6600
@@ -171,18 +177,18 @@
 6010 X=OX+((5*S)*j*2) : Y=OY+((5*S)*i*2) : gosub 6101
 6015 goto 6110
 6020 X=OX+((7*S)*j*2) : Y=OY+((3.5*S)*i*2) : gosub 6101
-6022 if (i/2)=int(i/2) then X=X+(7*S)
+6022 if dH=int(dh) then X=X+(7*S)
 6025 goto 6150
 6030 X=OX+((9*S)*j*2) : Y=OY+((3*S)*i*2) : gosub 6101
-6032 if (i/2)=int(i/2) then X=X+(9*S)
+6032 if dH=int(dh) then X=X+(9*S)
 6035 goto 6130
 6040 X=OX+((10*S)*j*2) : Y=OY+((2.5*S)*i*2) : gosub 6101
-6042 if (i/2)=int(i/2) then X=X+(10*S)
+6042 if dH=int(dh) then X=X+(10*S)
 6045 goto 6140
 6050 X=OX+((5*S)*j*2) : Y=OY+((5*S)*i*2) : gosub 6101
 6055 goto 6120
 6060 X=OX+((6*S)*j*2) : Y=OY+((5*S)*i*2) : gosub 6101
-6062 if (i/2)=int(i/2) then X=X+(6*S)
+6062 if dH=int(dh) then X=X+(6*S)
 6065 goto 6120
 6070 X=OX+((5*S)*j*2) : Y=OY+((5*S)*i*2) : gosub 6101
 6072 if (i/2)=int(i/2) then X=X+(5*S)
@@ -248,6 +254,8 @@
 7350 rem  if i=iy or j=jx then goto 7370
 7360 rem  goto 7412
 7370   X=drawX+j : Y=drawY+i : move X,Y
+7375   if X<p or Y<1 then goto 7412
+7376   if X>mapx or Y>H then goto 7412
 7380   color 0,0,0 : spot
 7390   color m(X,Y,1),m(X,Y,2),m(X,Y,3),128 : spot
 7412  next
@@ -263,12 +271,15 @@
 7650   if i=iy or j=jx then goto 7670
 7660   goto 7712
 7670   X=drawX+j : Y=drawY+i : move X,Y
+7675   if X<p or Y<1 then goto 7712
+7676   if X>mapx or Y>H then goto 7712
 7680   color 255,255,255,128 : spot
 7712  next
 7721 next
 7798 redrawWin=0
 7799 return
 8000 rem * main loop *
+8005 update
 8010 if redrawWin then gosub 7210
 8020 if getDrawVars then gosub 3810 : ' set display area variables
 8030 if drawArea or redrawWin then if firstPass then gosub 5110 else gosub 5005 : gosub 5110
@@ -276,21 +287,76 @@
 8050 if drawMap then if firstPass then gosub 6810 : gosub 7510 else gosub 6805 : gosub 7510
 8060 if redrawWin or firstPass then gosub 7510
 9998 firstPass=0
-10005 oldX=xmap : oldY=ymap : move 1,1 
-10010 x$=inkey$ : if x$="" then goto 10010
-10020 if x$="[" then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1
-10030 if x$="]" then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1
-10120 if x$="-" then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0
-10130 if x$="=" then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100
-10140 if x$="0" then gwidth=1 : grid=0 : mapx=mapOX : may=mapOY : getDrawVars=1 : redrawWin=1
-10150 if x$=" " then T=T+1 : getDrawVars=1 : drawArea=1 : if T>7 then T=1
-10160 a=asc(x$) : if a>48 and a<56 then T=a-48 : getDrawVars=1 : drawArea=1
-10170 if a=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 1000
-10184 if a=144 then xmap=xmap-1 : redrawWin=1 : if xmap<p then xmap=p : redrawWin=0
-10185 if a=145 then xmap=xmap+1 : redrawWin=1 : if xmap>xsize then xmap=xsize : redrawWin=0
-10186 if a=146 then ymap=ymap-1 : redrawWin=1 : if ymap<1 then ymap=1 : redrawWin=0
-10187 if a=147 then ymap=ymap+1 : redrawWin=1 : if ymap>H then ymap=H : redrawWin=0
-10320 goto 8010
+10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0
+10010 gosub 40003 : if MB>0 then goto 39001
+10020 if KC=-1 and Mgoto then goto 39015
+10030 if KC=-1 then goto 10010
+10040 if KC>399 then goto 10200
+10110 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 1000
+10120 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1
+10130 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1
+10140 if KC=45 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0
+10150 if KC=43 or KC=61 then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100
+10160 if KC=48 then gwidth=1 : grid=0 : mapx=mapOX : may=mapOY : getDrawVars=1 : redrawWin=1
+10170 if KC=32 then T=T+1 : getDrawVars=1 : drawArea=1 : if T>7 then T=1
+10180 if KC>48 and KC<56 then T=KC-48 : getDrawVars=1 : redrawWin=1
+10199 rem * direction keys *
+10200 if KC=400 then on T gosub 29994,29994,29983,29983,29994,29994,29994
+10201 if KC=401 then on T gosub 29995,29995,29982,29982,29995,29995,29995
+10202 if KC=402 then on T gosub 29996,29998,29998,29998,29996,29996,29996
+10203 if KC=403 then on T gosub 29997,29999,29999,29999,29997,29997,29997
+10204 if KC=404 then on T gosub 29990,29996,29981,29981,29990,29981,29990
+10205 if KC=405 then on T gosub 29991,29997,29982,29982,29991,29982,29991
+10206 if KC=406 then on T gosub 29992,29992,29983,29983,29992,29983,29992
+10207 if KC=407 then on T gosub 29993,29993,29984,29984,29993,29984,29993
+10319 rem print @1;KC
+10320 goto 8000
+29980 rem * tile movement *
+29981 if ymap/2=int(ymap/2) then xmap=xmap+1 : ymap=ymap-1 : goto 30001 else ymap=ymap-1 : goto 30001
+29982 if ymap/2=int(ymap/2) then xmap=xmap+1 : ymap=ymap+1 : goto 30001 else ymap=ymap+1 : goto 30001
+29983 if ymap/2=int(ymap/2) then ymap=ymap-1 : goto 30001 else xmap=xmap-1 : ymap=ymap-1 : goto 30001 
+29984 if ymap/2=int(ymap/2) then ymap=ymap+1 : goto 30001 else xmap=xmap-1 : ymap=ymap+1 : goto 30001
+29990 xmap=xmap+1 : ymap=ymap-1 : goto 30001
+29991 xmap=xmap+1 : ymap=ymap+1 : goto 30001
+29992 xmap=xmap-1 : ymap=ymap-1 : goto 30001
+29993 xmap=xmap-1 : ymap=ymap+1 : goto 30001
+29994 xmap=xmap-1 : goto 30001
+29995 xmap=xmap+1 : goto 30001
+29996 ymap=ymap-1 : goto 30001
+29997 ymap=ymap+1 : goto 30001
+29998 ymap=ymap-2 : goto 30001
+29999 ymap=ymap+2 : goto 30001
+30000 rem * check map movement *
+30001 X=0 : Y=0 : redrawWin=1
+30002 if xmap<p then xmap=p : redrawWin=0 : return
+30003 if xmap>xsize then xmap=xsize : redrawWin=0 : return
+30004 if ymap<1 then ymap=1 : redrawWin=0 : return
+30005 if ymap>H then ymap=H : redrawWin=0 : return
+30006 X=xmap : Y=ymap
+30010 if (Player$="I" or Player$="H") and (m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255) and vBoat=0 then xmap=oldX : ymap=oldY : redrawWin=0 : return
+30020 if (Player$="I" or Player$="H") and (m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255) and vBoat=1 then Player$="B"
+30030 if Player$="B" and (m(X,Y,1)=64 and m(X,Y,2)=255 and m(X,Y,3)=64) then Player$="I"
+30040 if Player$="B" and (m(X,Y,1)<>128 and m(X,Y,2)<>128 and m(X,Y,3)<>255) then xmap=oldX : ymap=oldY : redrawWin=0 : return
+30051 if Player$="I" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 330,wsin,vol 100,dur .01,fmul 1.0001
+30052 if Player$="H" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 330,wsaw,vol 100,dur .01,fmul 1.0001
+30053 if Player$="B" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 330,wtri,vol 100,dur .01,fmul 1.0001
+30099 return
+39000 rem * check area mouse click *
+39001 if MX>wsize and MY>H then goto 39101 else Mgoto=1
+39002 if MX>wsize then Xgoto=MX : Ygoto=MY
+39003 if MX<wsize then Xgoto=xmap-int(mapw/2)+int(MX/CX)-1 : Ygoto=ymap-int(maph/2)+int(MY/CY)-1
+39015 if Xgoto=xmap and Ygoto=ymap then Mgoto=0 : Xgoto=0 : Ygoto=0 : goto 10005
+39016 if Xgoto=0 and Ygoto=0 then Mgoto=0 : goto 10005
+39025 if Xgoto>0 and Xgoto<xmap then xmap=xmap-1 : gosub 30001 : if X=0 then Xgoto=0 else if xmap=oldX then xmap=xmap-1 : ymap=ymap-1 : gosub 30001
+39026 if Xgoto>0 and Xgoto>xmap then xmap=xmap+1 : gosub 30001 : if X=0 then Xgoto=0 else if xmap=oldX then xmap=xmap+1 : ymap=ymap+1 : gosub 30001
+39027 rem if xmap=Xgoto then Xgoto=0
+39035 if Ygoto>0 and Ygoto<ymap then ymap=ymap-1 : gosub 30001 : if Y=0 then Ygoto=0 else if ymap=oldY then ymap=ymap-1 : xmap=xmap-1 : gosub 30001
+39036 if Ygoto>0 and Ygoto>ymap then ymap=ymap+1 : gosub 30001 : if Y=0 then Ygoto=0 else if ymap=oldY then ymap=ymap+1 : xmap=xmap+1 : gosub 30001
+39037 rem if ymap=Ygoto then Ygoto=0
+39040 redrawWin=1
+39049 goto 8000
+39100 rem * check panel mouse click *
+39101 goto 10005
 40000 rem -= START: SUPPORT =-
 40001 rem 40003,40005,40009
 40002 rem -=_*_=- INPUTS
@@ -303,10 +369,14 @@
 40009 for xi=1 to len(S$)
 40010  X=X+((3*S)*2)
 40011  x$=mid$(S$,xi,1) : if x$=" " then goto 40014
-40012  il=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
+40012  iL=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
 40013  if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 40014 next
 40015 return
+40016 rem -=_*_=- DISPLAYCHAR
+40017 iL=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
+40018 if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
+40019 return
 49998 rem -= END: SUPPORT =-
 49999 rem                                       0123456789
 150000 rem -= START: FONTS =-
