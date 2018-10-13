@@ -7,8 +7,9 @@
 25 waterSeed=2 : islandTweak=5 : contenants=50 : borders=5 : ispeninsula=1
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1
-40 T=7 : S=3
-45 getDrawVars=1 : drawArea=1 : drawMap=1 : redrawWin=0 : drawText=1 : drawLogo=1
+40 T=7 : S=3                                 
+45 getDrawVars=1 : drawArea=1 : drawMap=1 : redrawWin=0 : drawHelp=1
+46 textS=1.5 : textY=H+20
 50 rem ** colors ** Dawnbringer16 **
 51 cP(1,1)=78 : cP(1,2)=78 : cP(1,3)=78 : cP(1,4)=128 : rem  1 - dark gray
 52 cP(2,1)=68 : cP(2,2)=36 : cP(2,3)=52 : cP(2,4)=128 : rem  2 - brown
@@ -31,10 +32,10 @@
 1000 rem * dimension map based on screen size *
 1010 if dmi>0 then goto 1111 else dmi=1
 1011 if xsize=640 then dim m(640,480,8)
-1012 if xsize=800 then dim m(800,600,8)
-1013 if xsize=1024 then dim m(1024,768,8)
-1014 if xsize=1280 then dim m(1280,720,8)
-1015 if xsize=1360 then dim m(1360,768,8)
+1012 if xsize=800 then dim m(800,600,8) : S=4
+1013 if xsize=1024 then dim m(1024,768,8) : S=4
+1014 if xsize=1280 then dim m(1280,720,8) : S=5
+1015 if xsize=1360 then dim m(1360,768,8) : S=5
 1099 goto 2011
 1100 rem * clear map data *
 1111 for Y=1 to H
@@ -135,7 +136,7 @@
 3720 if m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X+1,Y,1)=128 and m(X+1,Y,2)=128 and m(X+1,Y,3)=255 and m(X,Y-1,1)=128 and m(X,Y-1,2)=128 and m(X,Y-1,3)=255 and m(X,Y+1,1)=128 and m(X,Y+1,2)=128 and m(X,Y+1,3)=255 then X=X-2 : Y=Y-2 : goto 3710
 3730 xmap=X : ymap=Y : mapOX=mapx : mapOY=mapy
 3740 m(X,Y,1)=255 : m(X,Y,2)=255 : m(X,Y,3)=255 : ' white dot for city on intro screen, thats our "center"
-3750 Player$="I" : vBoat=1
+3750 Player$="I"
 3799 goto 8010 : ' setup done; jump to main part
 3800 rem * get display area *
 3810 OX=0 : OY=0 : G=(grid*gwidth) : CR=S*5
@@ -206,12 +207,12 @@
 6660 rem X=xsize/2 : Y=ysize/2 : Y=Y+50 : L=150
 6661 rem L=150 : K=25 : X=xsize-L-5 : Y=ysize-K-5
 6662 L=150 : K=25 : X=L+5 : Y=ysize-K-5
-6670 color 0,0,255,128 : box X,Y,L,K round 5 : color 255,255,0,255 : pen 3 : rect X,Y,L,K round 5
-6680 S1$="NietCiv XVIII" : S2$=" NIETCIV  2018" : e=len(S2$) : iR=1 : X=X-L
+6670 rem color 0,0,255,128 : box X,Y,L,K round 5 : color 255,255,0,255 : pen 3 : rect X,Y,L,K round 5
+6680 S1$="NIETCIV  XVIII" : S2$=" NIETCIV  2018" : S$=S1$ : e=len(S$) : iR=1 : X=X-L
 6690 R=255 : G=255 : B=255 : A=255 : ' text color
 6711 for i=1 to e
 6720  X=X+((3*S)*2)
-6730  x$=mid$(S2$,i,1) : if x$=" " then goto 6791
+6730  x$=mid$(S$,i,1) : if x$=" " then goto 6791
 6740  il=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
 6760  R=128 : G=128 : B=128 : A=128 : pen 3 : X=X+4 : Y=Y+3 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 6760  R=255 : G=255 : B=0 : A=255 : pen 3 : X=X-4 : Y=Y-3 : if iR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
@@ -233,16 +234,18 @@
 6910 color 0,0,0,255 : box p+int(W/2),H+int((ysize-H)/2),int(W/2),int((ysize-H)/2) : ' clear mini map
 6999 return
 7000 rem * display key text *
-7010 OS=S : S=1.5 : R=0 : G=128 : B=0 : A=128 : pen 1
-7020 X=p+10 : Y=H+20 :        S$="ARROWS         MOVE" : gosub 40009
-7030 X=p+10 : Y=Y+((3*S)*4) : S$="0             RESET" : gosub 40009
-7040 X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
-7050 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE         CYCLE" : gosub 40009
-7060 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    WIDTH" : gosub 40009
-7070 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
-7080 X=p+10 : Y=Y+((3*S)*4) : S$="ENTER       NEW MAP" : gosub 40009
-7190 S=OS
-7198 drawText=0
+7010 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1
+7011 X=p+10 : Y=textY :        S$="0             RESET" : gosub 40009
+7012 X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
+7013 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    SCALE" : gosub 40009
+7014 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
+7015 X=p+10 : Y=Y+((3*S)*4) : S$="ENTER       NEW MAP" : gosub 40009
+7016 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE        ACTION" : gosub 40009
+7017 X=p+10 : Y=Y+((3*S)*4) : S$="ARROWS         MOVE" : gosub 40009
+7090 S=OS
+7110 X=p+int(W/2) : Y=Y+(3*S) : pen 1 : rect X,Y,int(W/2)-2,3 round 3
+7120 textN=Y+((3*S)*4)
+7198 drawHelp=0
 7199 return
 7200 rem * undraw map window *
 7210 drawX=oldX-int(mapw/2)-1 : drawY=oldY-int(maph/2)-1 : pen 1
@@ -283,25 +286,28 @@
 8010 if redrawWin then gosub 7210
 8020 if getDrawVars then gosub 3810 : ' set display area variables
 8030 if drawArea or redrawWin then if firstPass then gosub 5110 else gosub 5005 : gosub 5110
-8040 if drawText then gosub 6910 : gosub 7010
+8040 if drawHelp then gosub 6910 : gosub 7010
 8050 if drawMap then if firstPass then gosub 6810 : gosub 7510 else gosub 6805 : gosub 7510
 8060 if redrawWin or firstPass then gosub 7510
 9998 firstPass=0
+10000 rem * key capture and assignment *
 10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0
 10010 gosub 40003
-10020 if MB>0 then goto 39001
-10030 if KP then KC=K
-10020 if KC=-1 and Mgoto then goto 39015
-10030 if KC=-1 then goto 10010
-10040 if KC>399 then goto 10200
-10110 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 1000
-10120 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1
-10130 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1
-10140 if KC=45 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0
-10150 if KC=43 or KC=61 then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100
-10160 if KC=48 then gwidth=1 : grid=0 : mapx=mapOX : may=mapOY : getDrawVars=1 : redrawWin=1
-10170 if KC=32 then T=T+1 : getDrawVars=1 : drawArea=1 : if T>7 then T=1
-10180 if KC>48 and KC<56 then T=KC-48 : getDrawVars=1 : redrawWin=1
+10011 if MB>0 then goto 39001
+10012 if KC=-1 and Mgoto then goto 39015
+10013 if KC=-1 then goto 10010
+10014 if KC>399 then goto 10200
+10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 1000
+10112 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1
+10113 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1
+10114 if KC=59 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0
+10115 if KC=39 then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100
+10116 if KC=45 then S=S-1 : getDrawVars=1 : redrawWin=1 : if S<1 then S=10
+10117 if KC=43 or KC=61 then S=S+1 : getDrawVars=1 : redrawWin=1 : if S>10 then S=1
+10118 if KC=48 then S=3 : gwidth=1 : grid=-1 : getDrawVars=1 : redrawWin=1
+10119 if KC>48 and KC<56 then T=KC-48 : getDrawVars=1 : redrawWin=1
+10120 if KC=63 then drawHelp=1
+10121 if KC=32 then goto 15010
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29983,29983,29994,29994,29994
 10201 if KC=401 then on T gosub 29995,29995,29982,29982,29995,29995,29995
@@ -312,8 +318,13 @@
 10206 if KC=406 then on T gosub 29992,29992,29983,29983,29992,29983,29992
 10207 if KC=407 then on T gosub 29993,29993,29984,29984,29993,29984,29993
 10208 K=KC
-10319 rem print @1;KC
+10319 print @1;KC
 10320 goto 8000
+15000 rem * some actions *
+15010 if m(xmap,ymap,1)=255 and m(xmap,ymap,2)=255 and m(xmap,ymap,3)=255 then goto 20010
+20000 rem * city actions *
+20010 
+21999 return
 29980 rem * tile movement *
 29981 if ymap/2=int(ymap/2) then xmap=xmap+1 : ymap=ymap-1 : goto 30001 else ymap=ymap-1 : goto 30001
 29982 if ymap/2=int(ymap/2) then xmap=xmap+1 : ymap=ymap+1 : goto 30001 else ymap=ymap+1 : goto 30001
@@ -458,3 +469,17 @@
 150073 rem *** 9 - nine ***
 150074 color R,G,B,A : move X+(2*S),Y-(2*S) : line X+(2*S),Y+(2*S) : arc X,Y-(1.5*S),2*S,180,360 : arc X,Y+(1.5*S),2*S,180,180 : return
 150075 rem
+200000 rem * city data: name,area,radius,min,max,famous,army,wall,defense,warehouse,library,forge,guild,anti-guild,seen,leader *
+200001 data Methusela,"Panchas Province",5,3,5,market,1,1,0,1000,0,2,merchants,thieves,busy,"a council","Jimmy the Hand"
+200002 data Penicoast,"Canterbury Vale",3,2,10,church,3,1,1,100,2,0,priests,mages,praying,"The Cardinal",""
+200003 data Maniturb,"Footrot Flats",17,.5,1.5,not,0,0,0,10,0,1,farmers,no,working,"Wallace Footrot","Horse and Dog"
+200004 data Bethesda,"Greater Gnomes",3,1,10,games,2,1,0,100,1,2,knights,barbarians,practicing,"Sid Mier","John Madden"
+200005 data Bennethorpe,"Gunnthrop Downs",5,0.5,2.5,"super gran",-1,1,0,10,1,0,heros,"anti-heros",relaxing,"Super Gran","Anti Gran"
+200006 data Xanadu,"Raging Plains",3,5,50,"pleasure dome",10,1,0,100,0,3,weaponsmith,armorers,fighting,"Kubla Khan","Alexanda the Great"
+200007 data Klaxisaur,"Earth Station",4,1,6,klaxisaur,0,2,10,1,1,klaxisaur,antisaur,t,unknown,"also unknown"
+200008 data Erehwon,"The Back of Beyond",2,.1,1,pub,0,0,0,10,0,0,brewers,distillers,drunk,"always drunk","drunk or sleeping"
+200009 data Branchline,"Knowheresville",2,.2,2,"not much at all",1,0,0,10,-1,0,no,deadpool,sullen,dead,dying
+200010 data Lafayette,"Greater Rorytown",7,2.5,7,bread,0,1,0,100,1,0,bakers,masons,eating,"Jamie Oliver","Nigella Lawson"
+200011 data Gintamo,"Hidden Valley",3,1.5,7.5,swords,7,3,3,10,1,3,samurai,ninja,training,"Kusanagi","the rohan"
+200012 data Duskyville,"Texas Holdem",12,2,3,horses,2,0,0,100,0,2,breeders,gamblers,riding,"Marian 'John' Wayne","Billy the Kid"
+
