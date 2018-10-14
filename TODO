@@ -4,6 +4,15 @@ WAVE -- ability to specify the waveform of a tone from an array
 ADSR -- ability to set the amplitude envelope of a tone
 PRINT USING -- not implemented. a$=str$(expr, format$). ".2f" "-10.2f", c-style
 CHAIN -- load and execute another basic program with current variables
+PSET -- pixel set (maybe "point" inline with "spot" but without pen control)
+LOADMUSIC -- use SDL Sound ability to load and play module formats
+LOADMIDI -- use SDL Sound ability to load and play MIDI formats
+LOADWAVE -- use SDL Sound ability to load and play wave formats
+LOADFONT -- use SDL TTF ability to load various font formats
+LOADCHARSET -- load raw bitmap font with H & W settings, or part
+LOCATE -- position text
+GPIO -- access GPIO pins, especially WiringPi and IchijoJam for RPi
+Bitmap font color & background color
 Window resize
 Grab Texture
 Sprites
