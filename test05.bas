@@ -1,6 +1,7 @@
-5 goto 1000
-10 R=0 : G=0 : B=255 : A=128
-20 X=650 : Y=500
+10 cls : print "test 05 - mouse click shapes" : print
+15 goto 1000
+20 R=0 : G=0 : B=255 : A=128
+30 X=650 : Y=500
 100 gosub 10001
 1000 MB=mouseb : X=mousex : Y=mousey
 1001 if MB=1 then R=255 : G=0 : B=0 : A=128 : gosub 20001 : sleep .2

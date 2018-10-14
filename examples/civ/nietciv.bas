@@ -469,17 +469,33 @@
 150073 rem *** 9 - nine ***
 150074 color R,G,B,A : move X+(2*S),Y-(2*S) : line X+(2*S),Y+(2*S) : arc X,Y-(1.5*S),2*S,180,360 : arc X,Y+(1.5*S),2*S,180,180 : return
 150075 rem
-200000 rem * city data: name,area,radius,min,max,famous,army,wall,defense,warehouse,library,forge,guild,anti-guild,seen,leader *
-200001 data Methusela,"Panchas Province",5,3,5,market,1,1,0,1000,0,2,merchants,thieves,busy,"a council","Jimmy the Hand"
-200002 data Penicoast,"Canterbury Vale",3,2,10,church,3,1,1,100,2,0,priests,mages,praying,"The Cardinal",""
-200003 data Maniturb,"Footrot Flats",17,.5,1.5,not,0,0,0,10,0,1,farmers,no,working,"Wallace Footrot","Horse and Dog"
-200004 data Bethesda,"Greater Gnomes",3,1,10,games,2,1,0,100,1,2,knights,barbarians,practicing,"Sid Mier","John Madden"
-200005 data Bennethorpe,"Gunnthrop Downs",5,0.5,2.5,"super gran",-1,1,0,10,1,0,heros,"anti-heros",relaxing,"Super Gran","Anti Gran"
-200006 data Xanadu,"Raging Plains",3,5,50,"pleasure dome",10,1,0,100,0,3,weaponsmith,armorers,fighting,"Kubla Khan","Alexanda the Great"
-200007 data Klaxisaur,"Earth Station",4,1,6,klaxisaur,0,2,10,1,1,klaxisaur,antisaur,t,unknown,"also unknown"
-200008 data Erehwon,"The Back of Beyond",2,.1,1,pub,0,0,0,10,0,0,brewers,distillers,drunk,"always drunk","drunk or sleeping"
-200009 data Branchline,"Knowheresville",2,.2,2,"not much at all",1,0,0,10,-1,0,no,deadpool,sullen,dead,dying
-200010 data Lafayette,"Greater Rorytown",7,2.5,7,bread,0,1,0,100,1,0,bakers,masons,eating,"Jamie Oliver","Nigella Lawson"
-200011 data Gintamo,"Hidden Valley",3,1.5,7.5,swords,7,3,3,10,1,3,samurai,ninja,training,"Kusanagi","the rohan"
-200012 data Duskyville,"Texas Holdem",12,2,3,horses,2,0,0,100,0,2,breeders,gamblers,riding,"Marian 'John' Wayne","Billy the Kid"
-
+200000 rem * city data: name,area,radius,min,max,famous,army,wall,defense,warehouse,library,forge,guild,anti-guild,seen,leader,anti-leader *
+200001 rem data Methusela,"Panchas Province",5,3,5,market,1,1,0,1000,0,2,merchants,thieves,busy,"a council","Jimmy the Hand"
+200002 rem data Penicoast,"Canterbury Vale",3,2,10,church,3,1,1,100,2,0,priests,mages,praying,"The Cardinal",""
+200003 rem data Maniturb,"Footrot Flats",17,.5,1.5,not,0,0,0,10,0,1,farmers,no,working,"Wallace Footrot","Horse and Dog"
+200004 rem data Bethesda,"Greater Gnomes",3,1,10,games,2,1,0,100,1,2,knights,barbarians,practicing,"Sid Mier","John Madden"
+200005 rem data Bennethorpe,"Gunnthrop Downs",5,0.5,2.5,"super gran",-1,1,0,10,1,0,heros,"anti-heros",relaxing,"Super Gran","Anti Gran"
+200006 rem data Xanadu,"Raging Plains",3,5,50,"pleasure dome",10,1,0,100,0,3,weaponsmith,armorers,fighting,"Kubla Khan","Alexanda the Great"
+200007 rem data Klaxisaur,"Earth Station",4,1,6,klaxisaur,0,2,10,1,1,klaxisaur,antisaur,t,unknown,"also unknown"
+200008 rem data Erehwon,"The Back of Beyond",2,.1,1,pub,0,0,0,10,0,0,brewers,distillers,drunk,"always drunk","drunk or sleeping"
+200009 rem data Branchline,"Knowheresville",2,.2,2,"not much at all",1,0,0,10,-1,0,no,deadpool,sullen,dead,dying
+200010 rem data Lafayette,"Greater Rorytown",7,2.5,7,bread,0,1,0,100,1,0,bakers,masons,eating,"Jamie Oliver","Nigella Lawson"
+200011 rem data Gintamo,"Hidden Valley",3,1.5,7.5,swords,7,3,3,10,1,3,samurai,ninja,training,"Kusanagi","the rohan"
+200012 rem data Duskyville,"Texas Holdem",12,2,3,horses,2,0,0,100,0,2,breeders,gamblers,riding,"Marian 'John' Wayne","Billy the Kid"
+200100 rem * data work-around *
+200101 dim city$(16,16)
+200111 for i=1 to 12
+200120  j=rnd(16) : if len(city$(j,1))>0 then goto 200120
+200130  if i=1 then city$(j,1)="Methusela" : city$(j,2)="Panchas Province" : city$(j,3)="5" : city$(j,3)="3"
+200201 rem data Methusela,"Panchas Province",5,3,5,market,1,1,0,1000,0,2,merchants,thieves,busy,"a council","Jimmy the Hand"
+200202 rem data Penicoast,"Canterbury Vale",3,2,10,church,3,1,1,100,2,0,priests,mages,praying,"The Cardinal",""
+200203 rem data Maniturb,"Footrot Flats",17,.5,1.5,not,0,0,0,10,0,1,farmers,no,working,"Wallace Footrot","Horse and Dog"
+200204 rem data Bethesda,"Greater Gnomes",3,1,10,games,2,1,0,100,1,2,knights,barbarians,practicing,"Sid Mier","John Madden"
+200205 rem data Bennethorpe,"Gunnthrop Downs",5,0.5,2.5,"super gran",-1,1,0,10,1,0,heros,"anti-heros",relaxing,"Super Gran","Anti Gran"
+200206 rem data Xanadu,"Raging Plains",3,5,50,"pleasure dome",10,1,0,100,0,3,weaponsmith,armorers,fighting,"Kubla Khan","Alexanda the Great"
+200207 rem data Klaxisaur,"Earth Station",4,1,6,klaxisaur,0,2,10,1,1,klaxisaur,antisaur,t,unknown,"also unknown"
+200208 rem data Erehwon,"The Back of Beyond",2,.1,1,pub,0,0,0,10,0,0,brewers,distillers,drunk,"always drunk","drunk or sleeping"
+200209 rem data Branchline,"Knowheresville",2,.2,2,"not much at all",1,0,0,10,-1,0,no,deadpool,sullen,dead,dying
+200210 rem data Lafayette,"Greater Rorytown",7,2.5,7,bread,0,1,0,100,1,0,bakers,masons,eating,"Jamie Oliver","Nigella Lawson"
+200211 rem data Gintamo,"Hidden Valley",3,1.5,7.5,swords,7,3,3,10,1,3,samurai,ninja,training,"Kusanagi","the rohan"
+200212 rem data Duskyville,"Texas Holdem",12,2,3,horses,2,0,0,100,0,2,breeders,gamblers,riding,"Marian 'John' Wayne","Billy the Kid"

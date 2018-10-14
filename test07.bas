@@ -1,4 +1,4 @@
-10 cls
+10 cls : print "test 07 - icons" : print
 100 X=200:Y=150:S=10
 110 box X,Y,S*5,S*5
 115 color 255,0,0,128

@@ -1,4 +1,5 @@
-10 rem goto 1000
+10 cls : print "test 04 - decode 32 bit number" : print
+15 rem goto 1000
 20 R=255:G=255:B=255:A=255 : print "white:";
 30 rem R=128:G=128:B=128:A=255 : print "gray";
 40 print R,G,B,A
