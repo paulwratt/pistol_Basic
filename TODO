@@ -1,4 +1,5 @@
 RESTORE -- set DATA line for next READ statement
+ASM -- allow VM assember in program code (then HL ASM)
 DEF FN -- functions
 WAVE -- ability to specify the waveform of a tone from an array
 ADSR -- ability to set the amplitude envelope of a tone

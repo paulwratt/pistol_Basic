@@ -22,5 +22,4 @@
 1080 print tab(x)  " test08.bas   data/read (fail)         READ, DATA"
 1090 print tab(x)  " test09.bas   data/read strings (fail) READ, DATA"
 1100 print tab(x)  " test10.bas   string arrays            DIM, RND"
-
 1200 ? : ? : ? : ? : ?

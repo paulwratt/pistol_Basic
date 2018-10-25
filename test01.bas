@@ -1,5 +1,4 @@
 10 cls : print "test 01 - speed test" : print
-20 home
 25 a=0 : b=ticks
 30 for i=1 to 10000
 40  a=a+i
