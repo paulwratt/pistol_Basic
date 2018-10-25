@@ -16,11 +16,11 @@ letter,vehicle,movement,value,variable
  B = sailboat,  sailing    = .5  = vBoat
 
 
-tiles T,description,movement(up,down,left,right)
+tiles T,description,movement(up,down,left,right)(XY)
  1 squares,+1,-1,+1,-1
  2 diamonds,+2,-2,+1,-1
- 3 hex static horizontal,+2,-2,-1-1,+1,+1
- 4 hex vertical squashed static horizontal,+2,-2,-1-1,+1,+1
+ 3 hex static horizontal,+2,-2,-1-1,+1+1
+ 4 hex vertical squashed static horizontal,+2,-2,-1-1,+1+1
  5 circles,+1,-1,+1,-1
  6 compact circles,+2,-2,+1,-1
  7 distorted circles,+1,-1,+1,-1
@@ -29,9 +29,16 @@ tiles T,description,movement(up,down,left,right)
 map
  mapx = xsize = screen/window width
  mapy = ysize = screen/window width
+ xmap = current X position
+ ymap = current Y position
+
+
 mini-map
- mapw = mapx - 200
- maph = 200
+ H    = 200
+ W    = 200
+ p    = mapx - W
+ mapw = draw window width
+ maph = draw window height
 
 
 map data
@@ -42,25 +49,36 @@ map data
  m(X,Y,5) = city #
 
 
+city data
+ cP()    = color palette, Dawnbringer16
+ city$() = name,area,radius,min,max,famous,army,wall,defense,warehouse,library,forge,guild,anti-guild,seen,leader,anti-leader,mapX,mapY,spare
+
+
 resources tiles
  128,128,255 = water (can launch boat)
   64,255,64  = land  (can leave boat)
+
+
 on land tiles
  darker green = plains = +food +production
  green-ish brown = forest = +production +wood
  light brown = hills = +production
  dark brown = mountains
  black-ish = coal for hills
+
+
 on water tiles
  darker green = fish = +food +trade 
  light brown = whales = +food +production
  dark brown = ruins = +trade +knowledge
  black-ish = deep sea oil
 
+
 bonus resources
  birds = +trade +food +production +insulation
  horses = +trade +production 2 +horses
  buffalo = +trade +food +production +leather
+
 
 worked tiles
  irrigation = +food
