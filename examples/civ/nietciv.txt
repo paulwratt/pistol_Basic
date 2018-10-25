@@ -34,11 +34,16 @@ map
 
 
 mini-map
- H    = 200
- W    = 200
- p    = mapx - W
- mapw = draw window width
- maph = draw window height
+ H     = 200
+ W     = 200
+ p     = mapx - W
+
+
+map draw area (play area)
+ mapw  = draw window width
+ maph  = draw window height
+ drawX = ... drawX+mapw
+ drawY = ... drawY+maph
 
 
 map data

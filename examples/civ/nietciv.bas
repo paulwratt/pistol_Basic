@@ -144,7 +144,9 @@
 5000 rem * clear display area *
 5005 color 0,0,0,255 : box int(wsize/2),int(hsize/2),int(wsize/2),int(hsize/2) : ' clear draw area
 5099 return
-5100 rem * display map area *
+5100 rem ************************
+5101 rem *** display map area ***
+5102 rem ************************
 5110 pen 1 
 5201 for i=1 to maph
 5212  for j=1 to mapw
@@ -369,7 +371,7 @@
 30052 if Player$="H" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 330,wsqr,vol 100,dur 1,fmul 1.001
 30053 if Player$="B" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 440,wsaw,vol 100,dur 1,fmul 1.001
 30070 if m(X,Y,4)&256=0 then m(X,Y,4)=m(X,Y,4)+256
-30080 if iMap or iBinoculas or iSurvey then D=iD else D=1
+30080 if iMap or iBinoculas or iSurvey then D=iD else D=1 : ' prelook entry for cities
 30090 on T gosub 30110,30210,30310,30310,30110,30210,30110
 30099 return
 30110 rem * square look radius *
@@ -562,7 +564,7 @@
 203710 if m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255 then X=X+1 : goto 203710
 203715 if m(X,Y,1)=64 and m(X,Y,2)=255 and m(X,Y,3)=64 then goto 203720 else Y=Y+1 : goto 203710
 203720 if m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X+1,Y,1)=128 and m(X+1,Y,2)=128 and m(X+1,Y,3)=255 and m(X,Y-1,1)=128 and m(X,Y-1,2)=128 and m(X,Y-1,3)=255 and m(X,Y+1,1)=128 and m(X,Y+1,2)=128 and m(X,Y+1,3)=255 then X=X-2 : Y=Y-2 : goto 203710
-203730 xmap=X : ymap=Y : mapOX=mapx : mapOY=mapy
+203730 xmap=X : ymap=Y : mapOX=xmap : mapOY=ymap
 203740 m(X,Y,1)=255 : m(X,Y,2)=255 : m(X,Y,3)=255 : ' white dot for city on intro screen, thats our "center"
 203750 Player$="I" : gosub 200101 : C=rnd(12) : city$(C,18)=str$(X) : city$(C,19)=str$(Y) : m(X,Y,4)=m(X,Y,4)+256+512 : m(X,Y,5)=C : gosub 30080
 204700 rem **************************
@@ -572,7 +574,7 @@
 204710 if m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255 then X=X-1 : goto 204710
 204715 if m(X,Y,1)=64 and m(X,Y,2)=255 and m(X,Y,3)=64 then goto 204720 else Y=Y-1 : goto 204710
 204720 if m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X,Y-1,1)=128 and m(X,Y-1,2)=128 and m(X,Y-1,3)=255 and m(X,Y+1,1)=128 and m(X,Y+1,2)=128 and m(X,Y+1,3)=255 then X=X+2 : Y=Y+2 : goto 204710
-204750 CC=rnd(12) : if CC=C then goto 204750 else city$(CC,18)=str$(X) : city$(CC,19)=str$(Y) : m(X,Y,4)=m(X,Y,4)+512 : m(X,Y,5)=CC : gosub 30080
+204750 CC=rnd(12) : if CC=C then goto 204750 else city$(CC,18)=str$(X) : city$(CC,19)=str$(Y) : m(X,Y,4)=m(X,Y,4)+256+512 : m(X,Y,5)=CC : gosub 30080
 205600 rem * generate special resources *
 205611 for Y=1 to H
 205622  for X=p to mapx
