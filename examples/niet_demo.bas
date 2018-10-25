@@ -422,7 +422,7 @@
 150037 rem *** R - nuke ***
 150038 color R,G,B,A : move X-(3*S),Y+(3*S) : line X-(3*S),Y-(3*S) : line X,Y-(3*S) : move X,Y : line X-(3*S),Y : line X+(1*S),Y+(3*S) : arc X,Y-(1.5*S),1.5*S,90,-180 : return
 150039 rem *** S - stop ***
-150040 color R,G,B,A : arc X,Y+(1.5*S),2*S,90,-270 : arc X,Y-(2*S),1.5*S,270,-270 : return
+150040 color R,G,B,A : arc X-(.5*S),Y+(1.5*S),2*S,90,-270 : arc X-(.5*S),Y-(2*S),1.5*S,270,-270 : return
 150041 rem *** T - square ***
 150042 color R,G,B,A : move X-(2.5*S),Y-(3*S) : line X+(2.5*S),Y-(3*S) : move X,Y-(3*S) : line X,Y+(3*S) : return
 150043 rem *** U - square ***
