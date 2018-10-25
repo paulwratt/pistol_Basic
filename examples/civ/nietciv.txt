@@ -91,3 +91,18 @@ worked tiles
  mine = +production 2 +coal
  mill = +production 2 +wood
 
+
+stats
+ s = score
+ t = variable stat
+ p = passion
+ v = vehicle
+ i = item
+ w = weapon skill
+ r = resource
+ m = magic
+ b = bits (pieces of 12)
+ b = building
+ x = maximum
+ g = guild
+

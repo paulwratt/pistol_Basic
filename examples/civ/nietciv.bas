@@ -8,9 +8,11 @@
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1 : iR=1 : fR=1 : ' defaults
 40 T=7 : S=3                                 
-45 getDrawVars=1 : drawArea=1 : drawMap=1 : redrawWin=0 : drawHelp=1
-46 textS=1.5 : textY=H+20
-50 rem ** colors ** Dawnbringer16 **
+45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0 : drawEnd=0 : drawWin=0
+46 textS=1.5 : textY=H+20 : textB=int(xsize/2)-90 : textL=textY-80
+48 rem ******************************
+49 rem *** colors - Dawnbringer16 ***
+50 rem ******************************
 51 cP(1,1)=78 : cP(1,2)=78 : cP(1,3)=78 : cP(1,4)=128 : rem  1 - dark gray
 52 cP(2,1)=68 : cP(2,2)=36 : cP(2,3)=52 : cP(2,4)=128 : rem  2 - brown
 53 cP(3,1)=48 : cP(3,2)=52 : cP(3,3)=109 : cP(3,4)=128 : rem  3 - blue
@@ -27,10 +29,43 @@
 64 cP(14,1)=218 : cP(14,2)=212 : cP(14,3)=94 : cP(14,4)=128 : rem 14 - light yellow
 65 cP(15,1)=20 : cP(15,2)=12 : cP(15,3)=28 : cP(15,4)=128 : rem 15 - near black
 66 cP(16,1)=222 : cP(16,2)=238 : cP(16,3)=212 : cP(16,4)=128 : rem 16 - off white
-100 rem * items *
-110 vBoat=0 : vHorse=0 
-111 iMap=0 : iBinoculas=0 : iSurvey=0
+97 rem *************
+98 rem *** stuff ***
+99 rem *************
+100 sScore=1000 : fScore=0 : sTicks=0 : sDays=0 : tDay=0 : tNight=0 : sActions=0
+101 gBankers=0 : sPlatinum=0 : bPlatinum=0 : sGold=1 : bGold=0 : sSilver=0 : bSilver=0 : sCopper=0 : bCopper=0 : sBits=0
+102 g=0 : sTired=0 : tTired=0 : sCold=0 : tCold=0 : sHot=0 : tHot=0 : sSleep=0 : tSleep=0 : sWeight=0 : tWeight=0 : sNature=0 : tNature=0 : wNature=0 : iNature=0
+103 gMind=0 : sNtelligence=0 : tIntelligence=0 : sKnowledge=0 : tKnowledge=0 : sLaw=0 : tLaw=0 : sDiplomacy=0 : tDiplomacy=0 : sKlaxisaur=0 : tKalxisaur=0 : sHonour=0 : tHonour=0 : bSchool=0 : bUniversity=0 : bZenBudist=0
+104 gBody=0 : sStrength=0 : tStrength=0 : sConstitution=0 : tConstitution=0 : sEndurance=0 : tEndurance=0 : sDexterity=0 : tDexterity=0 : sReflexes=0 : tReflexes=0 : sCharisma=0 : tCharisma=0 : bBeautician=0 : bTaiChi=0
+105 gEvangelists=0 : pCharisma=0 : pIntelligence=0 : pKnowledge=0 : pLaw=0 : pDiplomacy=0 : pKlaxisaur=0 : pStrength=0 : pConstitution=0 : pNdurance=0 : pDexterity=0 : pReflexes=0 : pHonourable=0
+106 gWorkingMans=0 : sWork=0 : sEmployee=0 : sEmployed=0 : sVolunteer=0 : sTrain=0 : sLearn=0 : sTeach=0 : sPractice=0
+110 gTravellers=0 : vShoes=0 : vTrainers=0 : vSprinters=0 : vAnimal=0 : vBullock=0 : vCow=0 : vHorse=0 : vMare=0 : vPony=0 : vKlaxisaur=0
+111 gYachClucb=0 : vFloat=0 : vSafteyFloats=0 : vWetSuit=0 : vDingy=0 : vCanoe=0 : vKayak=0 : vYacht=0 : vSailBoat=0 : vBoat=0 : vShip=0 : bBoatBuilders=0
+112 gAviators=0 : vFly=0 : vWings=0 : vFlyingMachine=0 : vGlider=0 : vKlaxisaur=0 : bScouts=0 : bGuides=0
+120 gProfessionals=0 : iD=0 : iMap=0 : iBinoculas=0 : iSurvey=0 : iDiplomat=0 : iTeacher=0 : iProfessor=0 : iTrainer=0 : iProfessional=0 : iWatch=0 : iStopWatch=0
+121 gRangers=0 : sHunt=0 : wPickAxe=0 : iPickAxe=0 : wSpear=0 : iSpear=0 : wArchery=0 : iBow=0 : iLongBow=0 : iCrossBow=0 : iQuiver=0 : xAnimals=0 : xLeather=0
+122 gWarriors=0 : wKnife=0 : iKnife=0 : wSword=0 : iSword=0 : iKatana=0 : iShirkin=0 : wNinjistu=0 : bBarracks=0
+123 gFisherman=0 : sFishing=0 : iPhishingSpear=0 : iPhishingRod=0 : wRod=0 : iPhishingNet=0 : wNet=0 : iPhishingDynamite=0 : sFish=0 : tFish=0 : xFish=0 : rFish=0 : rShellFish=0 : rWhale=0
+124 gPyro=0 : sDynamite=0 : tDynamite=0 : wDynamite=0 : iDynamite=0 : sExplosions=0 : rSaltPeter=0 : rAsh=0
+130 gMerchants=0 : sBought=0 : sSold=0 : sFound=0 : sMade=0 : sResources=0 : sGems=0 : sActions=0 : sWork=0 : sMine=0 : sForge=0
+140 gAtheletes=0 : bGym=0 : bTraningFacility=0 : sWalk=0 : sRun=0 : sJog=0 : sSprint=0
+141 gBreeders=0 : bCaroull=0 : bStables=0 : sRide=0 : sTrott=0 : sCanter=0 : sRideHard=0
+142 sFloat=0 : sDogPaddle=0 : sSwim=0 : sRow=0 : sPaddle=0 : sSail=0 : rCanvas=0 : iOars=0 : iPaddles=0 : iSail=0 : iMast=0 : bPool=0 : bSeaScouts=0
+143 sFly=0 : sWings=0 : sFlyingMachine=0 : sGlide=0 : sLevitate=0 : sTeleport=0
+150 gCarpenters=0 :sWood=0 : wAxe=0 : iAxe=0 : iSaw=0 : iSandPaper=0 : rTreeSeeds=0 : rWoodSticks=0 : rWoodLogs=0 : rWoodPlanks=0 : rWoodDowel=0 : rWoodPole=0 : bLumberMill=0 : bCarpenters=0
+151 gSmiths=0 :wHammer=0 : iHammer=0 : iBlackSmithHammer=0 : bForge=0 : bBlackSmith=0 : bTools=0 : bMachines=0
+152 gTailers=0 : sCoton=0 : rCoton=0 : rCloth=0 : rSilk=0 : iSilkWork=0 : sClothing=0 : rRubberSeeds=0 : bClothes=0 : bShoes=0 : bRubber=0 : rSap=0 : rGum=0
+153 gMiners=0 : sMetal=0 : rPlatinum=0 : rGold=0 : rSilver=0 : rCopper=0 : rTin=0 : rIron=0 : rSteel=0 : rTunstan=0
+154 gJewelers=0 : iGemSmith=0 : bGemStones=0 : rDiamonds=0 : rZirconias=0 : rRuby=0 : rEmerald=0 : rSaphires=0 : rAmythist=0 : rQuartz=0 : rFoolsGold=0 : bJewelers=0
+160 gMages=0 : sMagic=0 : tMagic=0 : mMagic=0 : mLevitate=0 : mTeleport=0 : mAxe=0 : mHammer=0 : mPickAxe=0 : mFishing=0 : mKlaxisaur=0 : mFire=0 : mExplosion=0 : mRaiseLand=0 : mLowerLand=0 : mIllusions=0
+170 gMasons=0 : sStone=0 : rGrannet=0 : rMarbel=0 : rSandStone=0 : sGravel=0 : rFlake=0 : rShale=0 : rSoapStone=0
+175 gCheifs=0 : rBread=0 : rVegies=0 : rMeat=0 : rCheese=0 : rMilk=0 : rCream=0 : rEggs=0 : rStock=0 : bKitchen=0 : bBakers=0 : bPatiserie=0 : bCafe=0
+176 gRestauranteurs=0 : bRestaurant=0 : gBrewers=0 : bPub=0 : gDistillers=0 : bLiquorStore=0
+180 gArtisans=0 : bArtWorkshop=0 : iPainting=0 : iStatue=0 : iJewelery=0 : iPottery=0 : iIllusion=0 : iGame=0 : rClay=0 : rOcre=0 : rLapisLazuli=0
+185 gFarmers=0 : bStockade=0 : gGrowers=0 : bGranery=0 : bWareHouse=0 : bGenetisist=0
+190 gSuperHeroes=0 : gAntiHeroes=0
 1000 rem * dimension map based on screen size *
+1001 L=1 : gosub 201010
 1010 if dmi>0 then goto 1111 else dmi=1
 1011 if xsize=640 then dim m(640,480,8)
 1012 if xsize=800 then dim m(800,600,8) : S=4
@@ -54,6 +89,7 @@
 2050   m(X,Y,1)=64 : m(X,Y,2)=255 : m(X,Y,3)=64 : m(X,Y,4)=A : if B>251 then gosub 2110
 2082  next X
 2091 next Y
+2098 L=2 : gosub 201010
 2099 goto 203700 : ' map base done; jump to city gen
 2100 rem ****************************
 2101 rem *** the water randomizer ***
@@ -233,22 +269,29 @@
 6898 drawMap=0
 6899 return
 6900 rem * clear text area *
-6910 color 0,0,0,255 : box p+int(W/2),H+int((ysize-H)/2),int(W/2),int((ysize-H)/2) : ' clear mini map
+6910 color 0,0,0,255 : box p+int(W/2),H+int((ysize-H)/2),int(W/2),int((ysize-H)/2) : ' clear text area
 6999 return
 7000 rem *************************
 7001 rem *** display help text ***
 7002 rem *************************
-7010 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1
-7012 X=p+10 : Y=textY :       S$="1 7           TILES" : gosub 40009
-7013 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    SCALE" : gosub 40009
-7014 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
+7005 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1
+7010 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
+7011 X=p+10 : Y=Y+((3*S)*4) : S$="S             SCORE" : gosub 40009
+7012 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+7013 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE        ACTION" : gosub 40009
+7014 X=p+10 : Y=Y+((3*S)*4) : S$="ARROWS         MOVE" : gosub 40009
 7015 X=p+10 : Y=Y+((3*S)*4) : S$="ENTER       NEW MAP" : gosub 40009
-7016 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE        ACTION" : gosub 40009
-7017 X=p+10 : Y=Y+((3*S)*4) : S$="ARROWS         MOVE" : gosub 40009
-7090 S=OS
-7110 X=p+int(W/2) : Y=Y+((3*S)*2) : pen 1 : rect X,Y,int(W/2)-2,3 round 3
+7016 X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
+7017 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    SCALE" : gosub 40009
+7018 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
+7019 X=p+10 : Y=Y+((3*S)*4) : S$="0             RESET" : gosub 40009
+7020 X=p+10 : Y=Y+((3*S)*4) : S$="L       TOGGLE LOGO" : gosub 40009
+7021 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  THIS" : gosub 40009
+7110 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 7120 textN=Y+((3*S)*4)
-7198 drawHelp=0
+7196 S=OS
+7197 drawHelp=0
+7198 drawScore=0
 7199 return
 7200 rem *************************
 7201 rem *** undraw map window ***
@@ -288,37 +331,67 @@
 7721 next
 7798 redrawWin=0
 7799 return
+7800 rem **************************
+7801 rem *** display score text ***
+7802 rem **************************
+7805 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1
+7810 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
+7811 X=p+10 : Y=Y+((3*S)*4) : S$="COUNTDOWN  "+str$(sScore) : gosub 40009
+7812 X=p+10 : Y=Y+((3*S)*4) : S$="ACTIONS    "+str$(sActions) : gosub 40009
+7813 X=p+10 : Y=Y+((3*S)*4) : S$="WALKED     "+str$(sWalk) : gosub 40009
+7814 'X=p+10 : Y=Y+((3*S)*4) : S$="ARROWS         MOVE" : gosub 40009
+7815 'X=p+10 : Y=Y+((3*S)*4) : S$="ENTER       NEW MAP" : gosub 40009
+7816 'X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
+7817 'X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    SCALE" : gosub 40009
+7818 'X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
+7819 'X=p+10 : Y=Y+((3*S)*4) : S$="0             RESET" : gosub 40009
+7821 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
+7822 textN=Y+((3*S)*4)
+7823 drawHelp=0
+7824 drawScore=1
+7830 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="AND SO IT GOES LIKE" : gosub 40009
+7831 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$=" SAND IN HOUR GLASS" : gosub 40009
+7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="    BUT NOT FOR YOU" : gosub 40009 : if fScore=0 then fScore=sScore
+7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="FINAL SCORE "+str$(fScore) : gosub 40009
+7998 S=OS
+7999 return
 8000 rem *****************
 8001 rem *** main loop ***
 8002 rem *****************
 8005 update
+8006 if m(X,Y,4)&1024=1024 or sScore<1 then drawScore=1 : drawEnd=1 : if sScore>0 then drawWin=1
 8010 if redrawWin then gosub 7210
 8020 if getDrawVars then gosub 3810 : ' set display area variables
 8030 if drawArea or redrawWin then if firstPass then gosub 5110 else gosub 5005 : gosub 5110
-8040 if drawHelp then gosub 6910 : gosub 7010
+8040 if drawHelp then gosub 6910 : gosub 7005
+8040 if drawScore then gosub 6910 : gosub 7805
+8040 if drawTileInfo then gosub 6910 : gosub 7005
 8050 if drawMap then if firstPass then gosub 6810 : gosub 7510 else gosub 6805 : gosub 7510
 8060 if redrawWin or firstPass then gosub 7510
+9997 if sActions=0 then L=1 : gosub 201010 : L=2 : gosub 201010 : L=3 : gosub 201010 : L=4 : gosub 201010 : L=5 : gosub 201010
 9998 firstPass=0
 10000 rem **********************************
 10001 rem *** key capture and assignment ***
 10002 rem **********************************
-10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : print @1;xmap;",";ymap;" ";
+10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : REM print @1;xmap;",";ymap;
 10010 gosub 40003
 10011 if MB>0 then goto 39001 : ' mose click
 10012 if KC=-1 and Mgoto then goto 39015 : ' auto move
 10013 if KC=-1 then goto 10010 : ' no keys or mouse
-10014 if KC>399 then goto 10200 : ' arrow keys
-10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 1000 : ' enter new map
-10112 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-2 then grid=-2 : ' [ border
-10113 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>2 then grid=2 : ' ] border
-10114 if KC=59 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0 : ' ; something
-10115 if KC=39 then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100 : ' ' something
+10014 if KC>399 then goto 10200 : ' movement keys
+10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 100 : ' enter new map
+10112 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1 : ' [ border
+10113 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1 : ' ] border
+10114 if KC=59 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0 : ' ; distance
+10115 if KC=39 then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100 : ' ' distance
 10116 if KC=45 then S=S-1 : getDrawVars=1 : redrawWin=1 : if S<1 then S=10 : ' - scale
 10117 if KC=43 or KC=61 then S=S+1 : getDrawVars=1 : redrawWin=1 : if S>10 then S=1 : ' + scale
 10118 if KC=48 then S=3 : gwidth=1 : grid=-1 : getDrawVars=1 : redrawWin=1 : ' 0 reset
 10119 if KC>48 and KC<56 then T=KC-48 : getDrawVars=1 : redrawWin=1 : ' 1 - 7 tiles
-10120 if KC=63 then drawHelp=1 : ' ? help
+10120 if KC=63 or KC=47 then drawHelp=1 : ' ? draw help
 10121 if KC=32 then goto 15010 : ' space actions
+10122 if KC=76 or KC=108 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' L logo toggle
+10122 if KC=83 or KC=115 then drawScore=1 : ' S draw score
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29985,29985,29994,29994,29994 : ' left
 10201 if KC=401 then on T gosub 29995,29995,29984,29984,29995,29995,29995 : ' right
@@ -329,13 +402,30 @@
 10206 if KC=406 then on T gosub 29992,29985,29985,29985,29992,29985,29992 : ' up left
 10207 if KC=407 then on T gosub 29993,29986,29986,29986,29993,29986,29993 : ' down left
 10208 K=KC
-10319 rem print @1;KC;
+10319 print @1;KC;
 10320 goto 8000
 15000 rem * some actions *
 15010 if m(xmap,ymap,1)=255 and m(xmap,ymap,2)=255 and m(xmap,ymap,3)=255 then goto 20010
 20000 rem * city actions *
 20010 rem
 21999 goto 8000
+29000 rem *********************
+29001 rem *** adjust scores ***
+29002 rem *********************
+29005 sScore=sScore+1 : return
+29010 sScore=sScore-1 : return
+29011 sWalk=sWalk+1 : gosub 29010 : sActions=sActions+.1 : return
+29012 sRun=sRun+1 : gosub 29010 : sActions=sActions+.2 : return
+29013 sJog=sJog+1 : gosub 29010 : sActions=sActions+.3 : return
+29014 sRide=sRide+1 : gosub 29010 : sActions=sActions+.3 : return
+29015 sRide=sRide+1 : gosub 29010 : sActions=sActions+.4 : return
+29016 sRow=sRow+1 : gosub 29010 : sActions=sActions+.2 : return
+29017 sPaddle=sPaddle+1 : gosub 29010 : sActions=sActions+.3 : return
+29018 sSail=sSail+1 : gosub 29010 : sActions=sActions+.5 : return
+29020 sWork=sWork+1 : gosub 29005 : sActions=sActions+1: return
+29021 sEmployed=sEmployed+1 : gosub 29005 : sActions=sActions+2: return
+29022 sVolunteer=sVolunteer+1 : gosub 29005 : sActions=sActions+3: return
+29031 rem if 
 29980 rem *********************
 29981 rem *** tile movement ***
 29982 rem *********************
@@ -366,65 +456,63 @@
 30020 if (Player$="I" or Player$="H") and (m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255) and vBoat=1 then Player$="B"
 30030 if Player$="B" and (m(X,Y,1)=64 and m(X,Y,2)=255 and m(X,Y,3)=64) then Player$="I"
 30040 if Player$="B" and (m(X,Y,1)<>128 and m(X,Y,2)<>128 and m(X,Y,3)<>255) then xmap=oldX : ymap=oldY : redrawWin=0 : return
-30051 if Player$="I" and (xmap<>oldX or ymap<>oldY) then tone 29,freq 1,wsaw,vol 100,dur 1,fmul 1.001
-30052 if Player$="H" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 330,wsqr,vol 100,dur 1,fmul 1.001
-30053 if Player$="B" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 440,wsaw,vol 100,dur 1,fmul 1.001
+30051 if Player$="I" and (xmap<>oldX or ymap<>oldY) then tone 29,freq 1,wsaw,vol 100,dur 1,fmul 1.001 : gosub 29011
+30052 if Player$="H" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 330,wsqr,vol 100,dur 1,fmul 1.001 : gosub 29015
+30053 if Player$="B" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 440,wsaw,vol 100,dur 1,fmul 1.001 : gosub 29018
 30070 if m(X,Y,4)&256=0 then m(X,Y,4)=m(X,Y,4)+256
 30080 if iMap or iBinoculas or iSurvey then D=iD else D=1 : ' prelook entry for cities
 30090 on T gosub 30110,30210,30310,30310,30110,30210,30110
 30099 return
 30110 rem * square look radius *
-30111 ' print "D=";D
-30112 for i=1 to D
-30113 if X-D>0 then if m(X-D,Y,4)<256 then m(X-D,Y,4)=m(X-D,Y,4)+256
-30114 if X+D<=mapx then if m(X+D,Y,4)<256 then m(X+D,Y,4)=m(X+D,Y,4)+256
-30115 if Y-D>0 then if m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30116 if Y+D<=mapy then if m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
-30121 next i
-30122 ' print "i=";i
-30123 return
+30112 if D>1 then for i=1 to D
+30113 if X-D>0 then if m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
+30114 if X+D<=mapx then if m(X+D,Y,4)&256=0 then m(X+D,Y,4)=m(X+D,Y,4)+256
+30115 if Y-D>0 then if m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30116 if Y+D<=mapy then if m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30121 if D>1 then next i
+30122 return
 30210 rem * diamond look radius *
 30211 if Y/2=int(Y/2) then goto 30232
 30212 if D>1 then for i=1 to D
-30213 if X-D>0 and m(X-D,Y,4)<256 then m(X-D,Y,4)=m(X-D,Y,4)+256
-30214 if X+D<mapx and m(X+D,Y,4)<256 then m(X+D,Y,4)=m(X+D,Y,4)+256
-30215 if Y-(2*D)>0 and m(X,Y-(2*D),4)<256 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
-30216 if Y+(2*D)<mapy and m(X,Y+(2*D),4)<256 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30217 if Y-D>0 and X-D>0 and m(X-D,Y-D,4)<256 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
-30218 if Y+D<mapy and X-D>0 and m(X-D,Y+D,4)<256 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
-30219 if Y-D>0 and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30220 if Y+D<mapy and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30213 if X-D>0 and m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
+30214 if X+D<mapx and m(X+D,Y,4)&256=0 then m(X+D,Y,4)=m(X+D,Y,4)+256
+30215 if Y-(2*D)>0 and m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30216 if Y+(2*D)<mapy and m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30217 if Y-D>0 and X-D>0 and m(X-D,Y-D,4)&256=0 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
+30218 if Y+D<mapy and X-D>0 and m(X-D,Y+D,4)&256=0 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
+30219 if Y-D>0 and m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30220 if Y+D<mapy and m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30221 if D>1 then next i
 30222 return
 30232 if D>1 then for i=1 to D
-30233 if X-D>0 and m(X-D,Y,4)<256 then m(X-D,Y,4)=m(X-D,Y,4)+256
-30234 if X+D<mapx and m(X+D,Y,4)<256 then m(X+D,Y,4)=m(X+D,Y,4)+256
-30235 if Y-(2*D)>0 and m(X,Y-(2*D),4)<256 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
-30236 if Y+(2*D)<mapy and m(X,Y+(2*D),4)<256 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30237 if Y-D>0 and X+D<mapx and m(X+D,Y-D,4)<256 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
-30238 if Y+D<mapy and X+D<mapx and m(X+D,Y+D,4)<256 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
-30239 if Y-D>0 and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30240 if Y+D<mapy and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30233 if X-D>0 and m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
+30234 if X+D<mapx and m(X+D,Y,4)&256=0 then m(X+D,Y,4)=m(X+D,Y,4)+256
+30235 if Y-(2*D)>0 and m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30236 if Y+(2*D)<mapy and m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30237 if Y-D>0 and X+D<mapx and m(X+D,Y-D,4)&256=0 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
+30238 if Y+D<mapy and X+D<mapx and m(X+D,Y+D,4)&256=0 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
+30239 if Y-D>0 and m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30240 if Y+D<mapy and m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30241 if D>1 then next i
 30242 return
 30310 rem * hex look radius *
 30311 if Y/2=int(Y/2) then goto 30332
 30312 if D>1 then for i=1 to D
-30313 if Y-(2*D)>0 and m(X,Y-(2*D),4)<256 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
-30314 if Y+(2*D)<mapy and m(X,Y+(2*D),4)<256 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30315 if Y-D>0 and X-D>0 and m(X-D,Y-D,4)<256 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
-30316 if Y+D<mapy and X-D>0 and m(X-D,Y+D,4)<256 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
-30317 if Y-D>0 and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30318 if Y+D<mapy and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30313 if Y-(2*D)>0 and m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30314 if Y+(2*D)<mapy and m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30315 if Y-D>0 and X-D>0 and m(X-D,Y-D,4)&256=0 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
+30316 if Y+D<mapy and X-D>0 and m(X-D,Y+D,4)&256=0 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
+30317 if Y-D>0 and m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30318 if Y+D<mapy and m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30321 if D>1 then next i
 30322 return
 30332 if D>1 then for i=1 to D
-30333 if Y-(2*D)>0 and m(X,Y-(2*D),4)<256 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
-30334 if Y+(2*D)<mapy and m(X,Y+(2*D),4)<256 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30335 if Y-D>0 and X+D<mapx and m(X+D,Y-D,4)<256 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
-30336 if Y+D<mapy and X+D<mapx and m(X+D,Y+D,4)<256 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
-30337 if Y-D>0 and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30338 if Y+D<mapy and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30333 if Y-(2*D)>0 and m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30334 if Y+(2*D)<mapy and m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30335 if Y-D>0 and X+D<mapx and m(X+D,Y-D,4)&256=0 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
+30336 if Y+D<mapy and X+D<mapx and m(X+D,Y+D,4)&256=0 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
+30337 if Y-D>0 and m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30338 if Y+D<mapy and m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30341 if D>1 then next i
 30342 return
 39000 rem ******************************
@@ -582,6 +670,16 @@
 200212  if i=12 then city$(j,1)="Duskyville" : city$(j,2)="Texas Holdem" : city$(j,3)="12" : city$(j,4)="2" : city$(j,5)="3" : city$(j,6)="horses" : city$(j,7)="2" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="100" : city$(j,11)="1" : city$(j,12)="2" : city$(j,13)="breeders" : city$(j,14)="gamblers" : city$(j,15)="riding" : city$(j,16)="Marion Morrison aka 'John Wayne'" : city$(j,17)="Billy the Kid" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200291 next
 200299 return
+201000 rem ********************
+201001 rem *** pregame text ***
+201002 rem ********************
+201010 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1 : X=textB : Y=textL+((3*S)*(4*L))
+201011 on L goto 201012,201013,201014,201015,201016
+201012 S$="YOU WAKE UP        " : gosub 40009 : S=OS : return
+201013 S$="  IT IS DARK       " : gosub 40009 : S=OS : return
+201014 S$="    YOU FIND A COIN" : gosub 40009 : S=OS : return
+201015 S$="       YOU PASS OUT" : gosub 40009 : S=OS : return
+201016 S$="          WAKE UP  " : gosub 40009 : S=OS : return
 203700 rem **************************
 203701 rem *** preload start city ***
 203702 rem **************************
@@ -591,7 +689,7 @@
 203720 if m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X+1,Y,1)=128 and m(X+1,Y,2)=128 and m(X+1,Y,3)=255 and m(X,Y-1,1)=128 and m(X,Y-1,2)=128 and m(X,Y-1,3)=255 and m(X,Y+1,1)=128 and m(X,Y+1,2)=128 and m(X,Y+1,3)=255 then X=X-2 : Y=Y-2 : goto 203710
 203730 xmap=X : ymap=Y : mapOX=xmap : mapOY=ymap
 203740 m(X,Y,1)=255 : m(X,Y,2)=255 : m(X,Y,3)=255 : ' white dot for city on intro screen, thats our "center"
-203750 Player$="I" : gosub 200101 : C=rnd(12) : city$(C,18)=str$(X) : city$(C,19)=str$(Y) : m(X,Y,4)=m(X,Y,4)+256+512 : m(X,Y,5)=C : gosub 30080
+203750 Player$="I" : gosub 200101 : C=rnd(12) : city$(C,18)=str$(X) : city$(C,19)=str$(Y) : m(X,Y,4)=m(X,Y,4)+512 : m(X,Y,5)=C : gosub 30070
 204700 rem **************************
 204701 rem *** preload other city ***
 204702 rem **************************
@@ -599,12 +697,15 @@
 204710 if m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255 then X=X-1 : goto 204710
 204715 if m(X,Y,1)=64 and m(X,Y,2)=255 and m(X,Y,3)=64 then goto 204720 else Y=Y-1 : goto 204710
 204720 if m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X-1,Y,1)=128 and m(X-1,Y,2)=128 and m(X-1,Y,3)=255 and m(X,Y-1,1)=128 and m(X,Y-1,2)=128 and m(X,Y-1,3)=255 and m(X,Y+1,1)=128 and m(X,Y+1,2)=128 and m(X,Y+1,3)=255 then X=X+2 : Y=Y+2 : goto 204710
-204750 CC=rnd(12) : if CC=C then goto 204750 else city$(CC,18)=str$(X) : city$(CC,19)=str$(Y) : m(X,Y,4)=m(X,Y,4)+256+512 : m(X,Y,5)=CC : gosub 30080
+204750 CC=rnd(12) : if CC=C then goto 204750 else city$(CC,18)=str$(X) : city$(CC,19)=str$(Y) : m(X,Y,4)=m(X,Y,4)+512+1024 : m(X,Y,5)=CC : gosub 30070
+204798 L=3 : gosub 201010
 205600 rem * generate special resources *
 205611 for Y=1 to H
 205622  for X=p to mapx
 205630   R=rnd(255) : G=rnd(255) : B=rnd(255) : A=rnd(255)
-205650   if (m(X,Y,4)&512)=0 and B<60 then m(X,Y,1)=R : m(X,Y,2)=G : m(X,Y,3)=B : m(X,Y,4)=A
+205650   if (m(X,Y,4)&512)=0 and B<60 then m(X,Y,1)=R : m(X,Y,2)=G : m(X,Y,3)=B
+205655   if (m(X,Y,4)&256)=0 then m(X,Y,4)=A else m(X,Y,4)=A+256
 205682  next X
 205691 next Y
-209999 goto 8000 : ' setup done; jump to main part
+204798 L=4 : gosub 201010
+209999 goto 8005 : ' setup done; jump to main part
