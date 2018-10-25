@@ -8,7 +8,7 @@
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1 : iR=1 : fR=1 : ' defaults
 40 T=7 : S=3                                 
-45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0 : drawEnd=0 : drawWin=0
+45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0
 46 textS=1.5 : textY=H+20 : textB=int(xsize/2)-90 : textL=textY-80
 48 rem ******************************
 49 rem *** colors - Dawnbringer16 ***
@@ -32,7 +32,7 @@
 97 rem *************
 98 rem *** stuff ***
 99 rem *************
-100 sScore=1000 : fScore=0 : sTicks=0 : sDays=0 : tDay=0 : tNight=0 : sActions=0
+100 sScore=1000 : fScore=0 : sTicks=0 : sDays=0 : tDay=0 : tNight=0 : sActions=0 : drawEnd=0 : drawWin=0
 101 gBankers=0 : sPlatinum=0 : bPlatinum=0 : sGold=1 : bGold=0 : sSilver=0 : bSilver=0 : sCopper=0 : bCopper=0 : sBits=0
 102 g=0 : sTired=0 : tTired=0 : sCold=0 : tCold=0 : sHot=0 : tHot=0 : sSleep=0 : tSleep=0 : sWeight=0 : tWeight=0 : sNature=0 : tNature=0 : wNature=0 : iNature=0
 103 gMind=0 : sNtelligence=0 : tIntelligence=0 : sKnowledge=0 : tKnowledge=0 : sLaw=0 : tLaw=0 : sDiplomacy=0 : tDiplomacy=0 : sKlaxisaur=0 : tKalxisaur=0 : sHonour=0 : tHonour=0 : bSchool=0 : bUniversity=0 : bZenBudist=0
@@ -78,7 +78,7 @@
 1100 rem **********************
 1111 for Y=1 to H
 1122  for X=p to mapx
-1150   m(X,Y,1)=0 : m(X,Y,2)=0 : m(X,Y,3)=0 : m(X,Y,4)=0
+1150   m(X,Y,1)=0 : m(X,Y,2)=0 : m(X,Y,3)=0 : m(X,Y,4)=0 : m(X,Y,5)=0
 1182  next X
 1191 next Y
 2000 rem * generate land and water *
@@ -359,21 +359,21 @@
 8001 rem *** main loop ***
 8002 rem *****************
 8005 update
-8006 if m(X,Y,4)&1024=1024 or sScore<1 then drawScore=1 : drawEnd=1 : if sScore>0 then drawWin=1
+8006 if m(xmap,ymap,4)&1024>0 or sScore<1 then drawScore=1 : drawEnd=1 : if sScore>0 then drawWin=1
 8010 if redrawWin then gosub 7210
 8020 if getDrawVars then gosub 3810 : ' set display area variables
 8030 if drawArea or redrawWin then if firstPass then gosub 5110 else gosub 5005 : gosub 5110
 8040 if drawHelp then gosub 6910 : gosub 7005
-8040 if drawScore then gosub 6910 : gosub 7805
-8040 if drawTileInfo then gosub 6910 : gosub 7005
-8050 if drawMap then if firstPass then gosub 6810 : gosub 7510 else gosub 6805 : gosub 7510
-8060 if redrawWin or firstPass then gosub 7510
+8050 if drawScore then gosub 6910 : gosub 7805
+8060 if drawTileInfo then gosub 6910 : gosub 7005
+8070 if drawMap then if firstPass then gosub 6810 : gosub 7510 else gosub 6805 : gosub 7510
+8080 if redrawWin or firstPass then gosub 7510
 9997 if sActions=0 then L=1 : gosub 201010 : L=2 : gosub 201010 : L=3 : gosub 201010 : L=4 : gosub 201010 : L=5 : gosub 201010
 9998 firstPass=0
 10000 rem **********************************
 10001 rem *** key capture and assignment ***
 10002 rem **********************************
-10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : REM print @1;xmap;",";ymap;
+10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : print @1;xmap;",";ymap;"-";m(Xmap,Ymap,4);";";m(Xmap,Ymap,5)
 10010 gosub 40003
 10011 if MB>0 then goto 39001 : ' mose click
 10012 if KC=-1 and Mgoto then goto 39015 : ' auto move
@@ -704,7 +704,7 @@
 205622  for X=p to mapx
 205630   R=rnd(255) : G=rnd(255) : B=rnd(255) : A=rnd(255)
 205650   if (m(X,Y,4)&512)=0 and B<60 then m(X,Y,1)=R : m(X,Y,2)=G : m(X,Y,3)=B
-205655   if (m(X,Y,4)&256)=0 then m(X,Y,4)=A else m(X,Y,4)=A+256
+205655   if (m(X,Y,4)&256)=0 then m(X,Y,4)=A else if (m(X,Y,4)&512)=0 then m(X,Y,4)=A+256 else if (m(X,Y,4)&1024)=0 then m(X,Y,4)=A+256+512 else m(X,Y,4)=A+256+512+1024
 205682  next X
 205691 next Y
 204798 L=4 : gosub 201010
