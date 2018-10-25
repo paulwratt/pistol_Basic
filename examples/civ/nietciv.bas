@@ -239,8 +239,7 @@
 7001 rem *** display help text ***
 7002 rem *************************
 7010 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1
-7011 X=p+10 : Y=textY :        S$="0             RESET" : gosub 40009
-7012 X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
+7012 X=p+10 : Y=textY :       S$="1 7           TILES" : gosub 40009
 7013 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    SCALE" : gosub 40009
 7014 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
 7015 X=p+10 : Y=Y+((3*S)*4) : S$="ENTER       NEW MAP" : gosub 40009
@@ -303,23 +302,23 @@
 10000 rem **********************************
 10001 rem *** key capture and assignment ***
 10002 rem **********************************
-10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0
+10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : print @1;xmap;",";ymap;" ";
 10010 gosub 40003
-10011 if MB>0 then goto 39001
-10012 if KC=-1 and Mgoto then goto 39015
-10013 if KC=-1 then goto 10010
-10014 if KC>399 then goto 10200
-10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 1000
-10112 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1
-10113 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1
-10114 if KC=59 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0
-10115 if KC=39 then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100
-10116 if KC=45 then S=S-1 : getDrawVars=1 : redrawWin=1 : if S<1 then S=10
-10117 if KC=43 or KC=61 then S=S+1 : getDrawVars=1 : redrawWin=1 : if S>10 then S=1
-10118 if KC=48 then S=3 : gwidth=1 : grid=-1 : getDrawVars=1 : redrawWin=1
-10119 if KC>48 and KC<56 then T=KC-48 : getDrawVars=1 : redrawWin=1
-10120 if KC=63 then drawHelp=1
-10121 if KC=32 then goto 15010
+10011 if MB>0 then goto 39001 : ' mose click
+10012 if KC=-1 and Mgoto then goto 39015 : ' auto move
+10013 if KC=-1 then goto 10010 : ' no keys or mouse
+10014 if KC>399 then goto 10200 : ' arrow keys
+10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 1000 : ' enter new map
+10112 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-2 then grid=-2 : ' [ border
+10113 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>2 then grid=2 : ' ] border
+10114 if KC=59 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0 : ' ; something
+10115 if KC=39 then gwidth=gwidth+1 : getDrawVars=1 : redrawWin=1 : if gwidth>100 then gwidth=100 : ' ' something
+10116 if KC=45 then S=S-1 : getDrawVars=1 : redrawWin=1 : if S<1 then S=10 : ' - scale
+10117 if KC=43 or KC=61 then S=S+1 : getDrawVars=1 : redrawWin=1 : if S>10 then S=1 : ' + scale
+10118 if KC=48 then S=3 : gwidth=1 : grid=-1 : getDrawVars=1 : redrawWin=1 : ' 0 reset
+10119 if KC>48 and KC<56 then T=KC-48 : getDrawVars=1 : redrawWin=1 : ' 1 - 7 tiles
+10120 if KC=63 then drawHelp=1 : ' ? help
+10121 if KC=32 then goto 15010 : ' space actions
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29985,29985,29994,29994,29994 : ' left
 10201 if KC=401 then on T gosub 29995,29995,29984,29984,29995,29995,29995 : ' right
@@ -330,7 +329,7 @@
 10206 if KC=406 then on T gosub 29992,29985,29985,29985,29992,29985,29992 : ' up left
 10207 if KC=407 then on T gosub 29993,29986,29986,29986,29993,29986,29993 : ' down left
 10208 K=KC
-10319 rem print @1;KC
+10319 rem print @1;KC;
 10320 goto 8000
 15000 rem * some actions *
 15010 if m(xmap,ymap,1)=255 and m(xmap,ymap,2)=255 and m(xmap,ymap,3)=255 then goto 20010
@@ -385,23 +384,49 @@
 30122 ' print "i=";i
 30123 return
 30210 rem * diamond look radius *
+30211 if Y/2=int(Y/2) then goto 30232
 30212 if D>1 then for i=1 to D
 30213 if X-D>0 and m(X-D,Y,4)<256 then m(X-D,Y,4)=m(X-D,Y,4)+256
 30214 if X+D<mapx and m(X+D,Y,4)<256 then m(X+D,Y,4)=m(X+D,Y,4)+256
 30215 if Y-(2*D)>0 and m(X,Y-(2*D),4)<256 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
 30216 if Y+(2*D)<mapy and m(X,Y+(2*D),4)<256 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30217 if Y-D>0 and X-D>0 and m(X-D,Y-D,4)<256 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
+30218 if Y+D<mapy and X-D>0 and m(X-D,Y+D,4)<256 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
+30219 if Y-D>0 and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30220 if Y+D<mapy and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30221 if D>1 then next i
 30222 return
+30232 if D>1 then for i=1 to D
+30233 if X-D>0 and m(X-D,Y,4)<256 then m(X-D,Y,4)=m(X-D,Y,4)+256
+30234 if X+D<mapx and m(X+D,Y,4)<256 then m(X+D,Y,4)=m(X+D,Y,4)+256
+30235 if Y-(2*D)>0 and m(X,Y-(2*D),4)<256 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30236 if Y+(2*D)<mapy and m(X,Y+(2*D),4)<256 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30237 if Y-D>0 and X+D<mapx and m(X+D,Y-D,4)<256 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
+30238 if Y+D<mapy and X+D<mapx and m(X+D,Y+D,4)<256 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
+30239 if Y-D>0 and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30240 if Y+D<mapy and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30241 if D>1 then next i
+30242 return
 30310 rem * hex look radius *
+30311 if Y/2=int(Y/2) then goto 30332
 30312 if D>1 then for i=1 to D
 30313 if Y-(2*D)>0 and m(X,Y-(2*D),4)<256 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
 30314 if Y+(2*D)<mapy and m(X,Y+(2*D),4)<256 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30315 if Y-D>0 and X+D<mapx and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30316 if Y+D<mapy and X+D<mapx and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30315 if Y-D>0 and X-D>0 and m(X-D,Y-D,4)<256 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
+30316 if Y+D<mapy and X-D>0 and m(X-D,Y+D,4)<256 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
 30317 if Y-D>0 and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
 30318 if Y+D<mapy and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30321 if D>1 then next i
 30322 return
+30332 if D>1 then for i=1 to D
+30333 if Y-(2*D)>0 and m(X,Y-(2*D),4)<256 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30334 if Y+(2*D)<mapy and m(X,Y+(2*D),4)<256 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30335 if Y-D>0 and X+D<mapx and m(X+D,Y-D,4)<256 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
+30336 if Y+D<mapy and X+D<mapx and m(X+D,Y+D,4)<256 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
+30337 if Y-D>0 and m(X,Y-D,4)<256 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30338 if Y+D<mapy and m(X,Y+D,4)<256 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30341 if D>1 then next i
+30342 return
 39000 rem ******************************
 39001 rem *** check area mouse click ***
 39002 rem ******************************
