@@ -3,7 +3,7 @@
 3 rem we generate a minimap first so its always random
 10 cls : dim cP(16,4)
 15 rem * predefines *
-20 firstPass=1 : dmi=0 : ' var dmi = dim map initialized
+20 firstPass=1 : dci=0 : dmi=0 : ' var dmi = dim map initialized
 25 waterSeed=2 : islandTweak=5 : contenants=50 : borders=5 : ispeninsula=1
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1 : iR=1 : fR=1 : ' defaults
@@ -338,8 +338,8 @@
 7805 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1
 7810 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
 7811 X=p+10 : Y=Y+((3*S)*4) : S$="COUNTDOWN  "+str$(sScore) : gosub 40009
-7812 X=p+10 : Y=Y+((3*S)*4) : S$="ACTIONS    "+str$(sActions) : gosub 40009
-7813 X=p+10 : Y=Y+((3*S)*4) : S$="WALKED     "+str$(sWalk) : gosub 40009
+7812 if sActions then X=p+10 : Y=Y+((3*S)*4) : S$="ACTIONS    "+str$(sActions) : gosub 40009
+7813 if sWalk then X=p+10 : Y=Y+((3*S)*4) : S$="WALKED     "+str$(sWalk) : gosub 40009
 7814 'X=p+10 : Y=Y+((3*S)*4) : S$="ARROWS         MOVE" : gosub 40009
 7815 'X=p+10 : Y=Y+((3*S)*4) : S$="ENTER       NEW MAP" : gosub 40009
 7816 'X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
@@ -380,7 +380,7 @@
 10012 if KC=-1 and Mgoto then goto 39015 : ' auto move
 10013 if KC=-1 then goto 10010 : ' no keys or mouse
 10014 if KC>399 then goto 10200 : ' movement keys
-10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : goto 100 : ' enter new map
+10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : firstPass=1 : gosub 5005 : goto 100 : ' enter new map
 10112 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1 : ' [ border
 10113 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1 : ' ] border
 10114 if KC=59 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0 : ' ; distance
@@ -393,7 +393,7 @@
 10121 if KC=32 then goto 15010 : ' space actions
 10122 if KC=76 or KC=108 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' L logo toggle
 10123 if KC=83 or KC=115 then drawScore=1 : ' S draw score
-10124 if KC=75 or KC=107 then if TC=128 then TC=255 else TC=128 : ' K toggle brightness
+10124 if KC=75 or KC=107 then if TC=128 then TC=192 else TC=128 : ' K toggle brightness
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29985,29985,29994,29994,29994 : ' left
 10201 if KC=401 then on T gosub 29995,29995,29984,29984,29995,29995,29995 : ' right
@@ -655,7 +655,7 @@
 200011 rem data Gintamo,"Hidden Valley",3,1.5,7.5,swords,7,3,3,10,1,3,samurai,ninja,training,"Kusanagi","the rohan"
 200012 rem data Duskyville,"Texas Holdem",12,2,3,horses,2,0,0,100,0,2,breeders,gamblers,riding,"Marian 'John' Wayne","Billy the Kid"
 200100 rem * data work-around *
-200101 if firstPass then dim city$(20,20) else for i=1 to 16 : city$(i,1)="" : next
+200101 if firstPass and dci=0 then dim city$(20,20) : dci=1 else for i=1 to 16 : city$(i,1)="" : next
 200111 for i=1 to 12
 200120  j=rnd(16) : if len(city$(j,1))>0 then goto 200120
 200201  if i=1 then city$(j,1)="Methusela" : city$(j,2)="Panchas Province" : city$(j,3)="5" : city$(j,4)="3" : city$(j,5)="5" : city$(j,6)="market" : city$(j,7)="1" : city$(j,8)="1" : city$(j,9)="0" : city$(j,10)="1000" : city$(j,11)="0" : city$(j,12)="2" : city$(j,13)="merchants" : city$(j,14)="theives" : city$(j,15)="busy" : city$(j,16)="a council" : city$(j,17)="Jimmy the Hand" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
@@ -680,8 +680,8 @@
 201012 S$="YOU WAKE UP        " : gosub 40009 : S=OS : return
 201013 S$="  IT IS DARK       " : gosub 40009 : S=OS : return
 201014 S$="    YOU FIND A COIN" : gosub 40009 : S=OS : return
-201015 S$="       YOU PASS OUT" : gosub 40009 : S=OS : return
-201016 S$="          WAKE UP  " : gosub 40009 : S=OS : return
+201015 S$="      YOU PASS OUT " : gosub 40009 : S=OS : return
+201016 S$="        NOW WAKE UP" : gosub 40009 : S=OS : return
 203700 rem **************************
 203701 rem *** preload start city ***
 203702 rem **************************
