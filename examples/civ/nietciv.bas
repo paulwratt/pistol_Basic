@@ -9,7 +9,7 @@
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1 : iR=1 : fR=1 : ' defaults
 40 T=7 : S=3                                 
 45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0
-46 textS=1.5 : textY=H+20 : textB=int(xsize/2)-90 : textL=textY-80
+46 textS=1.5 : textY=H+20 : textB=int(xsize/2)-90 : textL=textY-80 : TC=128
 48 rem ******************************
 49 rem *** colors - Dawnbringer16 ***
 50 rem ******************************
@@ -274,7 +274,7 @@
 7000 rem *************************
 7001 rem *** display help text ***
 7002 rem *************************
-7005 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1
+7005 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1
 7010 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
 7011 X=p+10 : Y=Y+((3*S)*4) : S$="S             SCORE" : gosub 40009
 7012 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
@@ -286,7 +286,8 @@
 7018 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
 7019 X=p+10 : Y=Y+((3*S)*4) : S$="0             RESET" : gosub 40009
 7020 X=p+10 : Y=Y+((3*S)*4) : S$="L       TOGGLE LOGO" : gosub 40009
-7021 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  THIS" : gosub 40009
+7021 X=p+10 : Y=Y+((3*S)*4) : S$="K   TEXT BRIGHTNESS" : gosub 40009
+7022 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  THIS" : gosub 40009
 7110 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 7120 textN=Y+((3*S)*4)
 7196 S=OS
@@ -334,7 +335,7 @@
 7800 rem **************************
 7801 rem *** display score text ***
 7802 rem **************************
-7805 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1
+7805 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1
 7810 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
 7811 X=p+10 : Y=Y+((3*S)*4) : S$="COUNTDOWN  "+str$(sScore) : gosub 40009
 7812 X=p+10 : Y=Y+((3*S)*4) : S$="ACTIONS    "+str$(sActions) : gosub 40009
@@ -351,7 +352,7 @@
 7824 drawScore=1
 7830 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="AND SO IT GOES LIKE" : gosub 40009
 7831 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$=" SAND IN HOUR GLASS" : gosub 40009
-7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="    BUT NOT FOR YOU" : gosub 40009 : if fScore=0 then fScore=sScore
+7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="  BUT NOT FOR YOU  " : gosub 40009 : if fScore=0 then fScore=sScore
 7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="FINAL SCORE "+str$(fScore) : gosub 40009
 7998 S=OS
 7999 return
@@ -391,7 +392,8 @@
 10120 if KC=63 or KC=47 then drawHelp=1 : ' ? draw help
 10121 if KC=32 then goto 15010 : ' space actions
 10122 if KC=76 or KC=108 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' L logo toggle
-10122 if KC=83 or KC=115 then drawScore=1 : ' S draw score
+10123 if KC=83 or KC=115 then drawScore=1 : ' S draw score
+10124 if KC=75 or KC=107 then if TC=128 then TC=255 else TC=128 : ' K toggle brightness
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29985,29985,29994,29994,29994 : ' left
 10201 if KC=401 then on T gosub 29995,29995,29984,29984,29995,29995,29995 : ' right
@@ -474,45 +476,45 @@
 30210 rem * diamond look radius *
 30211 if Y/2=int(Y/2) then goto 30232
 30212 if D>1 then for i=1 to D
-30213 if X-D>0 and m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
-30214 if X+D<mapx and m(X+D,Y,4)&256=0 then m(X+D,Y,4)=m(X+D,Y,4)+256
-30215 if Y-(2*D)>0 and m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
-30216 if Y+(2*D)<mapy and m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30217 if Y-D>0 and X-D>0 and m(X-D,Y-D,4)&256=0 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
-30218 if Y+D<mapy and X-D>0 and m(X-D,Y+D,4)&256=0 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
-30219 if Y-D>0 and m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30220 if Y+D<mapy and m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30213 if X-D>0 then if m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
+30214 if X+D<mapx then if m(X+D,Y,4)&256=0 then m(X+D,Y,4)=m(X+D,Y,4)+256
+30215 if Y-(2*D)>0 then if m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30216 if Y+(2*D)<mapy then if m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30217 if Y-D>0 and X-D>0 then if m(X-D,Y-D,4)&256=0 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
+30218 if Y+D<mapy and X-D>0 then if m(X-D,Y+D,4)&256=0 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
+30219 if Y-D>0 then if m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30220 if Y+D<mapy then if m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30221 if D>1 then next i
 30222 return
 30232 if D>1 then for i=1 to D
-30233 if X-D>0 and m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
-30234 if X+D<mapx and m(X+D,Y,4)&256=0 then m(X+D,Y,4)=m(X+D,Y,4)+256
-30235 if Y-(2*D)>0 and m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
-30236 if Y+(2*D)<mapy and m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30237 if Y-D>0 and X+D<mapx and m(X+D,Y-D,4)&256=0 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
-30238 if Y+D<mapy and X+D<mapx and m(X+D,Y+D,4)&256=0 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
-30239 if Y-D>0 and m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30240 if Y+D<mapy and m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30233 if X-D>0 then if m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
+30234 if X+D<mapx then if m(X+D,Y,4)&256=0 then m(X+D,Y,4)=m(X+D,Y,4)+256
+30235 if Y-(2*D)>0 then if m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30236 if Y+(2*D)<mapy then if m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30237 if Y-D>0 and X+D<mapx then if m(X+D,Y-D,4)&256=0 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
+30238 if Y+D<mapy and X+D<mapx then if m(X+D,Y+D,4)&256=0 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
+30239 if Y-D>0 then if m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30240 if Y+D<mapy then if m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30241 if D>1 then next i
 30242 return
 30310 rem * hex look radius *
 30311 if Y/2=int(Y/2) then goto 30332
 30312 if D>1 then for i=1 to D
-30313 if Y-(2*D)>0 and m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
-30314 if Y+(2*D)<mapy and m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30315 if Y-D>0 and X-D>0 and m(X-D,Y-D,4)&256=0 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
-30316 if Y+D<mapy and X-D>0 and m(X-D,Y+D,4)&256=0 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
-30317 if Y-D>0 and m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30318 if Y+D<mapy and m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30313 if Y-(2*D)>0 then if m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30314 if Y+(2*D)<mapy then if m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30315 if Y-D>0 and X-D>0 then if m(X-D,Y-D,4)&256=0 then m(X-D,Y-D,4)=m(X-D,Y-D,4)+256
+30316 if Y+D<mapy and X-D>0 then if m(X-D,Y+D,4)&256=0 then m(X-D,Y+D,4)=m(X-D,Y+D,4)+256
+30317 if Y-D>0 then if m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30318 if Y+D<mapy then if m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30321 if D>1 then next i
 30322 return
 30332 if D>1 then for i=1 to D
-30333 if Y-(2*D)>0 and m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
-30334 if Y+(2*D)<mapy and m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
-30335 if Y-D>0 and X+D<mapx and m(X+D,Y-D,4)&256=0 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
-30336 if Y+D<mapy and X+D<mapx and m(X+D,Y+D,4)&256=0 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
-30337 if Y-D>0 and m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
-30338 if Y+D<mapy and m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
+30333 if Y-(2*D)>0 then if m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
+30334 if Y+(2*D)<mapy then if m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
+30335 if Y-D>0 and X+D<mapx then if m(X+D,Y-D,4)&256=0 then m(X+D,Y-D,4)=m(X+D,Y-D,4)+256
+30336 if Y+D<mapy and X+D<mapx then if m(X+D,Y+D,4)&256=0 then m(X+D,Y+D,4)=m(X+D,Y+D,4)+256
+30337 if Y-D>0 then if m(X,Y-D,4)&256=0 then m(X,Y-D,4)=m(X,Y-D,4)+256
+30338 if Y+D<mapy then if m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30341 if D>1 then next i
 30342 return
 39000 rem ******************************
@@ -673,7 +675,7 @@
 201000 rem ********************
 201001 rem *** pregame text ***
 201002 rem ********************
-201010 OS=S : S=textS : R=0 : G=128 : B=0 : A=128 : pen 1 : X=textB : Y=textL+((3*S)*(4*L))
+201010 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1 : X=textB : Y=textL+((3*S)*(4*L))
 201011 on L goto 201012,201013,201014,201015,201016
 201012 S$="YOU WAKE UP        " : gosub 40009 : S=OS : return
 201013 S$="  IT IS DARK       " : gosub 40009 : S=OS : return
