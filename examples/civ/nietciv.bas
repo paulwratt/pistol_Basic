@@ -32,7 +32,7 @@
 97 rem *************
 98 rem *** stuff ***
 99 rem *************
-100 sScore=1000 : fScore=0 : sTicks=0 : sDays=0 : tDay=0 : tNight=0 : sActions=0 : drawEnd=0 : drawWin=0
+100 sScore=1000 : fScore=0 : sActions=0 : fActions=0 : sMouse=0 : fMouse=0 : sTicks=0 : sDays=0 : tDay=0 : tNight=0 : drawEnd=0 : drawWin=0
 101 gBankers=0 : sPlatinum=0 : bPlatinum=0 : sGold=1 : bGold=0 : sSilver=0 : bSilver=0 : sCopper=0 : bCopper=0 : sBits=0
 102 g=0 : sTired=0 : tTired=0 : sCold=0 : tCold=0 : sHot=0 : tHot=0 : sSleep=0 : tSleep=0 : sWeight=0 : tWeight=0 : sNature=0 : tNature=0 : wNature=0 : iNature=0
 103 gMind=0 : sNtelligence=0 : tIntelligence=0 : sKnowledge=0 : tKnowledge=0 : sLaw=0 : tLaw=0 : sDiplomacy=0 : tDiplomacy=0 : sKlaxisaur=0 : tKalxisaur=0 : sHonour=0 : tHonour=0 : bSchool=0 : bUniversity=0 : bZenBudist=0
@@ -351,9 +351,12 @@
 7823 drawHelp=0
 7824 drawScore=1
 7830 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="AND SO IT GOES LIKE" : gosub 40009
-7831 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$=" SAND IN HOUR GLASS" : gosub 40009
-7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="  BUT NOT FOR YOU  " : gosub 40009 : if fScore=0 then fScore=sScore
-7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="FINAL SCORE "+str$(fScore) : gosub 40009
+7831 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="SAND IN A HOURGLASS" : gosub 40009 : if fMouse=0 then fMouse=sMouse
+7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="  BUT NOT FOR YOU  " : gosub 40009 : if fScore=0 then fScore=sScore : fActions=sActions
+7833 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="USEFULNESS "+str$(fActions) : gosub 40009
+7833 if drawEnd then if sMouse>0 then X=p+10 : Y=Y+((3*S)*4) : S$="  LAZYNESS "+str$(fMouse) : gosub 40009
+7834 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="FINAL SCORE "+str$(fScore) : gosub 40009
+7835 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="BEST EVER SCORE 677" : gosub 40009
 7998 S=OS
 7999 return
 8000 rem *****************
@@ -367,7 +370,7 @@
 8040 if drawHelp then gosub 6910 : gosub 7005
 8050 if drawScore then gosub 6910 : gosub 7805
 8060 if drawTileInfo then gosub 6910 : gosub 7005
-8070 if drawMap then if firstPass then gosub 6810 : gosub 7510 else gosub 6805 : gosub 7510
+8070 if drawMap then gosub 6805 : gosub 7510
 8080 if redrawWin or firstPass then gosub 7510
 9997 if sActions=0 then L=1 : gosub 201010 : L=2 : gosub 201010 : L=3 : gosub 201010 : L=4 : gosub 201010 : L=5 : gosub 201010
 9998 firstPass=0
@@ -376,7 +379,7 @@
 10002 rem **********************************
 10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : print @1;xmap;",";ymap;"-";m(Xmap,Ymap,4);";";m(Xmap,Ymap,5)
 10010 gosub 40003
-10011 if MB>0 then goto 39001 : ' mose click
+10011 if MB>0 then goto 39003 : ' mouse click
 10012 if KC=-1 and Mgoto then goto 39015 : ' auto move
 10013 if KC=-1 then goto 10010 : ' no keys or mouse
 10014 if KC>399 then goto 10200 : ' movement keys
@@ -393,7 +396,7 @@
 10121 if KC=32 then goto 15010 : ' space actions
 10122 if KC=76 or KC=108 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' L logo toggle
 10123 if KC=83 or KC=115 then drawScore=1 : ' S draw score
-10124 if KC=75 or KC=107 then if TC=128 then TC=192 else TC=128 : ' K toggle brightness
+10124 if KC=75 or KC=107 then if TC=128 then TC=192 else if TC=255 then TC=128 else TC=255 : ' K toggle brightness
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29985,29985,29994,29994,29994 : ' left
 10201 if KC=401 then on T gosub 29995,29995,29984,29984,29995,29995,29995 : ' right
@@ -520,9 +523,10 @@
 39000 rem ******************************
 39001 rem *** check area mouse click ***
 39002 rem ******************************
-39003 if MX>wsize and MY>H then goto 39101 else Mgoto=1
-39004 if MX>wsize then Xgoto=MX : Ygoto=MY
-39005 if MX<wsize then Xgoto=xmap-int(mapw/2)+int(MX/CX)-1 : Ygoto=ymap-int(maph/2)+int(MY/CY)-1
+39003 sMouse=sMouse+1
+39004 if MX>wsize and MY>H then goto 39101 else Mgoto=1
+39005 if MX>wsize then Xgoto=MX : Ygoto=MY
+39006 if MX<wsize then Xgoto=xmap-int(mapw/2)+int(MX/CX)-1 : Ygoto=ymap-int(maph/2)+int(MY/CY)-1
 39015 if Xgoto=xmap and Ygoto=ymap then Mgoto=0 : Xgoto=0 : Ygoto=0 : goto 10005
 39016 if Xgoto=0 and Ygoto=0 then Mgoto=0 : goto 10005
 39025 if Xgoto>0 and Xgoto<xmap then xmap=xmap-1 : gosub 30001 : if X=0 then Xgoto=0 else if xmap=oldX then xmap=xmap-1 : ymap=ymap-1 : gosub 30001
@@ -677,11 +681,11 @@
 201002 rem ********************
 201010 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1 : X=textB : Y=textL+((3*S)*(4*L))
 201011 on L goto 201012,201013,201014,201015,201016
-201012 S$="YOU WAKE UP        " : gosub 40009 : S=OS : return
+201012 S$="YOU OPEN YOUR EYES " : gosub 40009 : S=OS : return
 201013 S$="  IT IS DARK       " : gosub 40009 : S=OS : return
 201014 S$="    YOU FIND A COIN" : gosub 40009 : S=OS : return
 201015 S$="      YOU PASS OUT " : gosub 40009 : S=OS : return
-201016 S$="        NOW WAKE UP" : gosub 40009 : S=OS : return
+201016 S$="        YOU WAKE UP" : gosub 40009 : S=OS : return
 203700 rem **************************
 203701 rem *** preload start city ***
 203702 rem **************************
