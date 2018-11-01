@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>PistolBASIC - the future</title>
+</head>
+<body>
+<table width=100% hight=100% align=center>
+<tr><td width=100% hight=100% align=center valign=middle>
+<table>
+<tr><td><font face=sans-serif>
+<h1>PistolBASIC</h1>
+Raspberry Pi SDL, PiSDL, Pistol, BASIC.<br>
+&nbsp;<br>
+<h2>BASIC</h2>
+<p>PistolBASIC is based on SDL_Basic (not sdlBasic), which now uses SDL2 at its core, and a very simplified subset of ANSI BASIC commands.</p>
+&nbsp;<br>
+<p>SDL_Basic does not support any filesystem functions, including file access. It can load <i>textures</i>, but that was one of the last things added, and when looking at the keywords you can tell is was not part of the original concept. I want to extend that to allow creating (GRAB) textures, not just loading them.</p>
+&nbsp;<br>
+<p>You might ask <i>why</i>? Well, the simplified design means, like most original BASIC home computers, you have to create the resources your program uses, in the program itself. This kind of thinking, or program design principle, is almost unheard of in todays <i>programming paradigm</i>.</p>
+&nbsp;<br>
+<p>But this does mean that one piece of program code contains <i>ALL</i> the resources required to run that program, and that makes distributiion and examples easy to publish. If I were then to modify the binary so that it automatically looks for a file appended to itself, you end up with a single <i>package</i>. And if you know how to (because the binary does not do it by default) you can easily extract that appended file. And that is the main reason I will use the <i>onefile-1f</i> support code, to simplify the extraction, as any OS can append one file to another, right back to the days of CP/M.</p>
+&nbsp;<br>
+<p>For big projects, it makes sense to simply concatenate (join) textfiles together, which allows simpler editing, using a script file. If you look in the examples, especially the icons and fonts, you can see that they are designed to include multiple sets, not just one set, and each set is (ATM) 26 characters and 10 numbers. Already that means the code for one set is 52 lines + 20 lines, each. When combined, this is the main reason for using the old skool 3 row <b>rem ***</b> block style, just so you can see the divisions more easily, especially when printed. However because every program uses different <i>includes</i>, it does not make sense to create a <i>make</i>, when a simple hard coded script file, with a concatenate and multiple appends, would be simpler and easier to maintain or modify. Plus it will continue to work when your development toolchain changes, unlike most software post 2010.</p>
+&nbsp;<br>
+<h2>SDL Support</h2>
+<p>I have re-instated the use of SDL 1.2 because I intend to use PistolBASIC on as many retro platforms as possible, and for practical reasons they only support SDL 1.2, mostly because of binary size and resource availablity.</p>
+&nbsp;<br>
+<p>It also means that there is much better resource support for fonts, graphics, and sound or music. A fully maxed out build of SDL 1.2 can support around 100 different file formats out of the box, including about 20+ font formats. SDL 2 can't do that, and will probably never support most of them, including most of the bitmap font formats still in use today, outside of BDF, even then, today that is mostly an intermediary format, used to convert fonts to a more common bitmap file format (like PNG).</p>
+&nbsp;<br>
+<p>Anyway, there are plenty of older resources available, with lots of untapped retro format resources that have not been over-used yet, copius amounts to say the least. However SDL_Basic requires some creative design techniques to include most of them into a piece of program code in a usable way. Because of that I thought that it would make sense to allow the creation of <i>textures</i>, not just the loading of them, which can then be controlled as a variable. This will also make coding of sprites much simpler later on, something the creator of SDL_Basic wanted to do anyway. So if you can do that with graphgics, then why not sound, music, and any other resource SDL 1.2 can already manage for you.</p>
+&nbsp;<br>
+<h2></h2>
+<p>Programable I/O</p>
+<p>The other main reason for YAVOB (<i>Yet Another Version Of Basic</i>), and the main reason for the Pi part of Pistol, is direct I/O access to the pin headers. There is one BASIC, which actually looks on the surface to be based on SDL_Basic, which has pin header I/O access built in, one which actually spawned the WiringPi library, and that is <i>Return To Basics</i></p> by Gordon Henderson of Drogon Systems. This BASIC is used as the basis for Fuze Basic, part of the Fuze educational OS for classrooms, which targets electronics and programming.
+&nbsp;<br>
+<p>There is now, on the Raspberry Pi at least, another from Japan based on the popular IchigoJam BASIC, but it is standalone self contained bare metal        only, and because of its hardware target, it is limited to 64k and text only. So as far as open source and extensible BASIC with SBC (Small Board Computer) pin header I/O access, there is nothing. I use my RPi2 (armv7) as a main PC, plus I have a couple of them, and I have some RPi1 series B+ (armv6). I might get a RPi3 (aarch64), but I like the RockPro64 better. There are also some chinese RK3288 (4Gb armv7) based SBC's that I need to source, and these are equal to most 32bit ARM based ChromeOS platforms in terms of hardware, plus they have a pin header for I/O access, often RPi compatible, like the MiQi.</p>
+&nbsp;<br>
+<p>As you can see, on top of the fact that there are now some nice x86 SBC's with pin header I/O access as well, there are lots of applications for a BASIC with programmable I/O commands. I also maintain a version of BASIC (bas-2.5+) that has been around for a long time, 1998 I think, and I wanted to add I/O support to that, but it also lacks any graphics or sound, outside SHELLing to the system and what can be done there. BAS also extends its ANSI BASIC with matrices and matrix functions, which would be nice to have for sound and graphics manipulations.</p>
+&nbsp;<br>
+<p>So overall, there actually is a need for YAVOB, which is kind of surpising since RPi had its 1st birthday in 2012, you would have thought someone would have done something. And there is nothing, not even one thing, that will run standalone on bare metal, as an interpreter with file access. Because of this reason, I am really loath to add any other file format access outside of what is already there, as it would really help promote creative and self contained program design. In this respect though, the editor is really lacking, even the creator wants to add a fullscreen editor, and for large programs its an absolute nessecity.</p>
+&nbsp;<br>
+<h2>Full Screen Editor</h2>
+<p>The line editor works well, could use a few tweaks, but it is not practical for large programs. BAS shell's out to the EDITOR or anything else suitable it can find. On bare metal this is not practical either. And then there is the font issue and the way SDL_Basic prints to screen and handles text. Its quite advanced, but does not sit well with the graphics programming side at all. Then there is the issue of font per resolution size, there is no way to increase it or even change it. Again the creator wants to add TTF handling, but this implys loosing the base pixel font, and for monospaced programming, that is unacceptable.</p>
+&nbsp;<br>
+<p>The solution is to include a customized fullscreen editor that can already do font changes, with pixel based fonts. This may seem like a tall order, but it turns out there is already one available. A Finish programmer by the name of <i>bisqwit</i> with a YouTube channel since 2010, supplies the version of his modified editor that is used in each video. Its based on Joe, which is ancient by todays standards, updated for modern editing needs, and outfitted with dynamic bitmap font usage, that can be changed on the fly.</p>
+&nbsp;<br>
+<p>So my plan is to integrate his editor into a standalone version of PistolBASIC, that works on bare metal, and impliment a way to both programitcally and from the filesystem, change the screen pixel fonts at will, while adding mouse selection and copy/paste that is so common today, and a default part of using SDL_Basic.</p>
+&nbsp;<br>
+<p>Another alternative is to create a fullscreen editor around a <i>readline</i> type library, like <i>linenoise</i> (C) or replxx (linenose compatible, C++ & Unicode). I'd really like to modify the line editor to be fully (not just partially) REPL, like most BASIC home computers. ATM its not, only some things can be done in <i>intermediate mode</i>. Any fullscreen editor should also have access to current program variables, and any variables from the system that are usable.</p>
+&nbsp;<br>
+<h2>Inline Assembler</h2>
+<p>This is a little bit more complicated, mostly because I want PistolBASIC to run on any system, not only ARM or x86/i64. SDL_Basic already has its own assembly language that is used in its VM (Virtual Machine), it seems quite flexible, needs some tweaks in the runtime compiler, but appears more than adequite for cross platform use.</p>
+&nbsp;<br>
+<p>Alternatively these is generic assembler, or cross platform assembler (which is only available on x86 ATM, sic :). I would like to steer clear of anything that requires a backend to be implimented and before it can be used on a different architecture. That is probably an unreasonable request considering what is being asked for. The SDL_Basic VM assembler seems to be the better idea here, so then how to make it more usable, more generic, and more cross platform, all while not bloating the VM or the runtime compiler.</p>
+&nbsp;<br>
+<p>Again <i>bisqwit</i> provides a solution here, with his series on making a compiler, which although overly complicated for the requirements of SDB_Basic, may allow easier proto-typing of the required assembly language extension. However I would first have to impliment both an armv6 and armv7 (if not an aarch64) backend as well. This might be better in the long run, as we are not talking about a modern toolchain replacement, or requiring a linking phase compatible with current implimentations.</p>
+&nbsp;<br>
+<p>Another completely different approach, one which I have considered when implimenting graphics and sound into BAS, is to impliment specific CPU's, like a Z80, 6502 and 6809 or for sound a YM chip as used in MSX, Commodore C64 and Atari ST. The CPU's only need 64k each, don't need bank swapping, because we are not doing an emulator, and they also don't have to have restricted clock speeds. The only issue with this is time spliting and syncronization with the SDL_Basic VM. It is usually differcult to integrate these sorts of processes with existing projects, especially when they are not design for it from the ground up, unlike emulators.</p>
+&nbsp;<br>
+<p>In defence of the last proposition, I do have access to everything I need, and I would really like to see someone, anyone, impliment a theoretical machine that has hardware compatibility with the majority of retro architecture, all accessible from BASIC and inline assembler. If the BBC can fit BASIC and an assembler into 32K and still allow room for useful and complex programs with the left over RAM, a modern VM should easily be able to do the same, but with 10 architectures at the same time, especially if you program with threads and multiple cores in mind.</p>
+&nbsp;<br>
+<p>What may be practicle in the long run, especially if I do really want to ad multiple chips, is impliment the SDL_Basic VM as a core for MAME or MESS. Doing it that way would greatly simplify the development, as all the required chips are already in place, along with the required syncronization. It would obviously require some re-engineering of the SDL based graphics part, and the BASIC engine, but the VM could be easily done, as (ATM) it is very simple. Note that even in its current form, SDL_Basic has some performance differences based on the underlying platform, especially where SLEEP and TICKS is concerned.</p>
+&nbsp;<br>
+<h2>Performance</h2>
+<p>At the end of the day, like most language projects I work on, PistolBASIC <i>must</i> be able to show its roots and run SDL_Basic code and examples without modification. Some things, like the READ strings bug, GRABTEXTURE and CREATETEXTURE, LOADWAVE and LOADMUSIC, will be pushed to the original (which I keep an updated version of), and if the creator ever comes back online, will be pushed to the master. But the rest of it, underscore in variable names, pixel/bitmap font manipulation and I/O commands for example, will be a PistolBASIC only, at least to begin with.</p>
+&nbsp;<br>
+<p>I may also look at getting SDL_Basic to compile standalone <i>AND</i> on bare metal, in both its SDL2 and SDL1.2 flavours, as I do have an SDL2 bare metal development environment for RPi. I will definitely push some tweaks to the line editor, and maybe the ability to load and run a file from command line, or the ability to execute an AUTOEXEC.BAS in the working directory.</p>
+&nbsp;<br>
+<p>As far as actual peformance goes, there is one COOL.BAS example that will not run properly, even on a RPi2 (1Ghz), which I think is a timing issue, something to do with UPDATE and SLEEP and the debug output from a SLEEP underrun. Also the use of SLEEP on Linux on a RPi is not a consistant thing, with the same amount of SLEEP time period suffering from interferance due to periodic Linux Kernel or System tasks being performed.</p>
+&nbsp;<br>
+<p>You may notice too, if you looked throught the code, that I use the UPDATE command differently from the COOL.BAS examples, placing it first before ALL graphics processing, and without SLEEP padding. The main reason for this is that there is a period of time where nothing on the screen gets updated <i>after</i> an UPDATE command, and that translates to more processing performance. So I try to chunk out all graphics work as quick as possible, with as little runtime descision making as possible. This allows some faily heafty performance throughput, which translates to smooth <i>game play</i> that would otherwise suffer from tearing at least.</p>
+&nbsp;<br>
+<p>Unfortunately my current development OS suffers from a problem with the Pulse sound system and SDL integration, meaning it just about always hangs on exit. However because of this, I often don't EXIT SDL_Basic, and that has lead to finding an <i>Out of memory</i> bug/error. Every time you run a basic program, it does NOT release the memory used to store variables before requesting memory for variable space. This may actually be limited to variable that are DIMed, but I doubt that, I will know more when I finally stop producing code examples for SDL_Basic, and get into the code itself.</p>
+&nbsp;<br>
+<p></p>
+</font></td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>

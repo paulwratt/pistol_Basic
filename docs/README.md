@@ -1,0 +1,2 @@
+* PistolBASIC
+A blog-ish about a standalone version of SDL_Basic (not sdlBasic) for distributing programs (using onefile-1f principles), and also running as self contained on bare metal, primeraly on Raspberry Pi, but any SBC, particularly ARM and anything with a programmable IO interface.
