@@ -55,7 +55,7 @@
 150 gCarpenters=0 :sWood=0 : wAxe=0 : iAxe=0 : iSaw=0 : iSandPaper=0 : rTreeSeeds=0 : rWoodSticks=0 : rWoodLogs=0 : rWoodPlanks=0 : rWoodDowel=0 : rWoodPole=0 : bLumberMill=0 : bCarpenters=0
 151 gSmiths=0 :wHammer=0 : iHammer=0 : iBlackSmithHammer=0 : bForge=0 : bBlackSmith=0 : bTools=0 : bMachines=0
 152 gTailers=0 : sCoton=0 : rCoton=0 : rCloth=0 : rSilk=0 : iSilkWork=0 : sClothing=0 : rRubberSeeds=0 : bClothes=0 : bShoes=0 : bRubber=0 : rSap=0 : rGum=0
-153 gMiners=0 : sMetal=0 : rPlatinum=0 : rGold=0 : rSilver=0 : rCopper=0 : rTin=0 : rIron=0 : rSteel=0 : rTunstan=0
+153 gMiners=0 : sMetal=0 : rPlatinum=0 : rGold=0 : rSilver=0 : rCopper=0 : rTin=0 : rIron=0 : rSteel=0 : rTunstan=0 : rCoal=0 : rCoke=0
 154 gJewelers=0 : iGemSmith=0 : bGemStones=0 : rDiamonds=0 : rZirconias=0 : rRuby=0 : rEmerald=0 : rSaphires=0 : rAmythist=0 : rQuartz=0 : rFoolsGold=0 : bJewelers=0
 160 gMages=0 : sMagic=0 : tMagic=0 : mMagic=0 : mLevitate=0 : mTeleport=0 : mAxe=0 : mHammer=0 : mPickAxe=0 : mFishing=0 : mKlaxisaur=0 : mFire=0 : mExplosion=0 : mRaiseLand=0 : mLowerLand=0 : mIllusions=0
 170 gMasons=0 : sStone=0 : rGrannet=0 : rMarbel=0 : rSandStone=0 : sGravel=0 : rFlake=0 : rShale=0 : rSoapStone=0
@@ -64,8 +64,10 @@
 180 gArtisans=0 : bArtWorkshop=0 : iPainting=0 : iStatue=0 : iJewelery=0 : iPottery=0 : iIllusion=0 : iGame=0 : rClay=0 : rOcre=0 : rLapisLazuli=0
 185 gFarmers=0 : bStockade=0 : gGrowers=0 : bGranery=0 : bWareHouse=0 : bGenetisist=0
 190 gSuperHeroes=0 : gAntiHeroes=0
-1000 rem * dimension map based on screen size *
-1001 L=1 : gosub 201010
+1000 rem ******************************************
+1001 rem *** dimension map based on screen size ***
+1002 rem ******************************************
+1005 L=1 : gosub 201010
 1010 if dmi>0 then goto 1111 else dmi=1
 1011 if xsize=640 then dim m(640,480,8)
 1012 if xsize=800 then dim m(800,600,8) : S=4

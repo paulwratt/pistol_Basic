@@ -9,9 +9,12 @@ movement
 
 letter,vehicle,movement,value,variable
  I = indiviual, walking    = .1
- H = horse,     travelling = .25 = vHorse
+                jogging    = .2
+                running    = .3
+                sprinting  = .4
+ H = horse,     travelling = .35 = vHorse
  C = canoe,     paddling   = .25 = vBoat
- K = canoe,     paddling   = .25 = vBoat
+ K = kayak,     paddling   = .25 = vBoat
  B = boat,      rowing     = .25 = vBoat
  B = sailboat,  sailing    = .5  = vBoat
 
