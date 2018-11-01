@@ -61,12 +61,12 @@
 3720      ya = y1a + (x-x1) * (y2a-y1a) / (x2-x1)
 3730      yb = y1b + (x-x1) * (y2b-y1b) / (x2-x1)
 3740      '
-3750      'LINE (50 + x,       0) - (50 + x, 50 + -ya), 8
-3751      gosub 7008 : move rx+50+x,ry+0 : line rx+50+x,ry+50+ya
-3760      'LINE (50 + x, 50 + yb) - (50 + x, 140), 1
-3761      gosub 7001 : move rx+50+x,ry+50+yb : line rx+50+x,ry+140
+3750      'LINE (50 + x,       0) - (50 + x, 50 + -ya), 8 'sky
+3751      gosub 7001 : move rx+50+x,ry+0 : line rx+50+x,ry+50+ya
+3760      'LINE (50 + x, 50 + yb) - (50 + x, 140), 1 'floor
+3761      gosub 7008 : move rx+50+x,ry+50+yb : line rx+50+x,ry+140
 3770      '
-3780      'LINE (50 + x, 50 + ya) - (50 + x, 50 + yb), 14
+3780      'LINE (50 + x, 50 + ya) - (50 + x, 50 + yb), 14 'wall
 3781      gosub 7014 : move rx+50+x,ry+50+ya : line rx+50+x,ry+50+yb
 3790    NEXT
 3810    'LINE(50+x1,50+y1a)-(50+x1,50+y1b),6 'left (1)
