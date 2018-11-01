@@ -16,3 +16,6 @@ worry about certain details of the program structure.
 They are part of a video presentaion done by a Finnish programmer whose nickname 
 is bisqwit. The original code and a link to the YouTube video can be found here:
 https://bisqwit.iki.fi/jutut/kuvat/programming_examples/portalrendering.html
+
+I added a block (7000-7100) that allow the use of the exact palette used in 
+QBASIC, QuickBasic and QB64.
