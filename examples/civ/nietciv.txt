@@ -50,16 +50,16 @@ map draw area (play area)
 
 
 map data
- m(X,Y,1) = red
- m(X,Y,2) = green
- m(X,Y,3) = blue
- m(X,Y,4) = alpha + seen (256) + city (512)
+ m(X,Y,1) = red   (resource - hills)
+ m(X,Y,2) = green (resource - plains)
+ m(X,Y,3) = blue  (resource - water)
+ m(X,Y,4) = alpha (structures) + seen (256) + city (512)
  m(X,Y,5) = city #
 
 
 city data
  cP()    = color palette, Dawnbringer16
- city$() = name,area,radius,min,max,famous,army,wall,defense,warehouse,library,forge,guild,anti-guild,seen,leader,anti-leader,mapX,mapY,spare
+ city$() = name(1),area,radius,min,max,famous(6),army,wall,defense,warehouse,library(11),forge,guild,anti-guild,seen(15),leader,anti-leader,mapX,mapY,spare(20)
 
 
 resources tiles

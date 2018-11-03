@@ -1,9 +1,9 @@
 1 rem CIV_INTRO.BAS - nietCiv Intro
 2 rem uses buildings icons to generate a background with 2 cities
 3 rem we generate a minimap first so its always random
-10 cls : dim cP(16,4)
+10 cls : dim cP(16,4) : dim fH$(9,3) : dim fS$(9,3)
 15 rem * predefines *
-20 firstPass=1 : dci=0 : dmi=0 : ' var dmi = dim map initialized
+20 firstPass=1 : dfi=0 : dci=0 : dmi=0 : ' var dmi = dim map initialized
 25 waterSeed=2 : islandTweak=5 : contenants=50 : borders=5 : ispeninsula=1
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1 : iR=1 : fR=1 : ' defaults
@@ -64,6 +64,29 @@
 180 gArtisans=0 : bArtWorkshop=0 : iPainting=0 : iStatue=0 : iJewelery=0 : iPottery=0 : iIllusion=0 : iGame=0 : rClay=0 : rOcre=0 : rLapisLazuli=0
 185 gFarmers=0 : bStockade=0 : gGrowers=0 : bGranery=0 : bWareHouse=0 : bGenetisist=0
 190 gSuperHeroes=0 : gAntiHeroes=0
+900 rem ****************************
+901 rem *** feelings & happiness ***
+902 rem ****************************
+910 if dhi>0 then goto 1005 else dhi=1
+911 fS$(1,1)="0"  : fS$(1,2)="not saying much"    : fS$(1,3)="indifferent"
+912 fS$(2,1)="-1" : fS$(2,2)="whispering"         : fS$(2,3)="apprihensive"
+913 fS$(3,1)="-2" : fS$(3,2)="making complaints"  : fS$(3,3)="disengenuos"
+914 fS$(4,1)="-3" : fS$(4,2)="talking rudely"     : fS$(4,3)="rude"
+915 fS$(5,1)="-4" : fS$(5,2)="being slanderous"   : fS$(5,3)="sullen"
+916 fS$(6,1)="-5" : fS$(6,2)="cursing loudly"     : fS$(6,3)="fiesty"
+917 fS$(7,1)="-6" : fS$(7,2)="being blasphomous"  : fS$(7,3)="threatening"
+918 fS$(8,1)="-7" : fS$(8,2)="yelling angrily"    : fS$(8,3)="aggressive"
+919 fS$(9,1)="-8" : fS$(9,2)="openly challenging" : fS$(9,3)="psychpathic"
+922 fH$(1,1)="0"  : fH$(1,2)="chatting quietly"   : fH$(1,3)="mild mannered"
+922 fH$(2,1)="1"  : fH$(2,2)="being graceous"     : fH$(2,3)="gentle"
+923 fH$(3,1)="2"  : fH$(3,2)="talking openly"     : fH$(3,3)="upbeat"
+924 fH$(4,1)="3"  : fH$(4,2)="making compliments" : fH$(4,3)="generous"
+925 fH$(5,1)="4"  : fH$(5,2)="speaking praises"   : fH$(5,3)="happy"
+926 fH$(6,1)="5"  : fH$(6,2)="singing praises"    : fH$(6,3)="euphoric"
+927 fH$(7,1)="6"  : fH$(7,2)="glorifying things"  : fH$(7,3)="simple minded"
+928 fH$(8,1)="7"  : fH$(8,2)="babbling on"        : fH$(8,3)="crazy"
+929 fH$(9,1)="8"  : fH$(9,2)="being incoherant"   : fH$(9,3)="schitzophenic"
+999 '                     S$="S             SCORE" : gosub 40009
 1000 rem ******************************************
 1001 rem *** dimension map based on screen size ***
 1002 rem ******************************************
@@ -244,7 +267,7 @@
 6661 rem L=150 : K=25 : X=xsize-L-5 : Y=ysize-K-5
 6662 L=150 : K=25 : X=L+5 : Y=ysize-K-5
 6670 rem color 0,0,255,128 : box X,Y,L,K round 5 : color 255,255,0,255 : pen 3 : rect X,Y,L,K round 5
-6680 S1$="NIETCIV  XVIII" : S2$=" NIETCIV  2018" : S$=S1$ : e=len(S$) : X=X-L
+6680 S1$="NIETCIV  XVIII" : S2$=" NIETCIV  2018" : S3$="NIETCIV MMXVIII" : S$=S3$ : e=len(S$) : X=X-L
 6690 R=255 : G=255 : B=255 : A=255 : ' text color
 6711 for i=1 to e
 6720  X=X+((3*S)*2)
@@ -371,7 +394,7 @@
 8030 if drawArea or redrawWin then if firstPass then gosub 5110 else gosub 5005 : gosub 5110
 8040 if drawHelp then gosub 6910 : gosub 7005
 8050 if drawScore then gosub 6910 : gosub 7805
-8060 if drawTileInfo then gosub 6910 : gosub 7005
+8060 if drawTileInfo then gosub 6910 : gosub 12010
 8070 if drawMap then gosub 6805 : gosub 7510
 8080 if redrawWin or firstPass then gosub 7510
 9997 if sActions=0 then L=1 : gosub 201010 : L=2 : gosub 201010 : L=3 : gosub 201010 : L=4 : gosub 201010 : L=5 : gosub 201010
@@ -379,7 +402,7 @@
 10000 rem **********************************
 10001 rem *** key capture and assignment ***
 10002 rem **********************************
-10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : print @1;xmap;",";ymap;"-";m(Xmap,Ymap,4);";";m(Xmap,Ymap,5)
+10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : print @1;xmap;",";ymap;"-";m(Xmap,Ymap,4);";";m(Xmap,Ymap,5); : if m(Xmap,Ymap,5)>0 then print city$(m(Xmap,Ymap,5),1);"                    " else print "                   "
 10010 gosub 40003
 10011 if MB>0 then goto 39003 : ' mouse click
 10012 if KC=-1 and Mgoto then goto 39015 : ' auto move
@@ -397,8 +420,10 @@
 10120 if KC=63 or KC=47 then drawHelp=1 : ' ? draw help
 10121 if KC=32 then goto 15010 : ' space actions
 10122 if KC=76 or KC=108 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' L logo toggle
-10123 if KC=83 or KC=115 then drawScore=1 : ' S draw score
-10124 if KC=75 or KC=107 then if TC=128 then TC=192 else if TC=255 then TC=128 else TC=255 : ' K toggle brightness
+10123 if KC=75 or KC=107 then if TC=128 then TC=192 else if TC=255 then TC=128 else TC=255 : ' K toggle brightness
+10124 if KC=83 or KC=115 then drawScore=1 : ' S draw score
+10125 if KC=384 then drawTileInfo=1 : ' F1 draw tile info
+10126 if KC=68 then gosub 10330
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29985,29985,29994,29994,29994 : ' left
 10201 if KC=401 then on T gosub 29995,29995,29984,29984,29995,29995,29995 : ' right
@@ -411,6 +436,43 @@
 10208 K=KC
 10319 print @1;KC;
 10320 goto 8000
+10330 rem * debug *
+10410 for i=1 to 20
+10415  print "city$(";str$(i);", .. )=";
+10420  for j=1 to 20
+10430   print city$(i,j)",";
+10440  next j
+10450  print
+10460 next i
+10490 x$=inkey$ : if x$="" then goto 10490
+10498 drawMap=1 : drawArea=1 : drawHelp=1
+10499 return
+12000 rem **********************
+12001 rem *** draw tile info ***
+12002 rem **********************
+12010 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1
+12015 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
+12020 C=m(xmap,ymap,5) : if C>0 then goto 13020
+12021 X=p+10 : Y=Y+((3*S)*4) : S$=" RED           "+str$(m(xmap,ymap,1)) : gosub 40009
+12022 X=p+10 : Y=Y+((3*S)*4) : S$=" GREEN         "+str$(m(xmap,ymap,2)) : gosub 40009
+12023 X=p+10 : Y=Y+((3*S)*4) : S$=" BLUE          "+str$(m(xmap,ymap,3)) : gosub 40009
+12024 X=p+10 : Y=Y+((3*S)*4) : S$=" ALPHA         "+str$(m(xmap,ymap,4)) : gosub 40009
+12030 '
+12999 goto 14910
+13000 rem **********************
+13001 rem *** draw city info ***
+13002 rem **********************
+13020 if len(city$(C,1))=0 then gosub 209010
+13030 X=p+10 : Y=Y+((3*S)*4) : S$=city$(C,1) : S$=S$+" IN" : gosub 40009
+13031 X=p+10 : Y=Y+((3*S)*4) : S$=" "+city$(C,2) : gosub 40009
+13032 X=p+10 : Y=Y+((3*S)*4) : S$="WHICH IS FAMOUS FOR" : gosub 40009
+13033 X=p+10 : Y=Y+((3*S)*4) : S$=" ITS "+city$(C,6) : gosub 40009
+13034 X=p+10 : Y=Y+((3*S)*4) : S$="PEOPLE CAN OFTEN BE" : gosub 40009
+13035 X=p+10 : Y=Y+((3*S)*4) : S$=" SEEN "+city$(C,15) : gosub 40009
+14910 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
+14997 S=OS
+14998 drawTileInfo=0 : drawScore=0 : drawHelp=0
+14999 return
 15000 rem * some actions *
 15010 if m(xmap,ymap,1)=255 and m(xmap,ymap,2)=255 and m(xmap,ymap,3)=255 then goto 20010
 20000 rem * city actions *
@@ -552,7 +614,7 @@
 40008 rem -=_*_=- DISPLAYTEXT
 40009 for xi=1 to len(S$)
 40010  X=X+((3*S)*2)
-40011  x$=mid$(S$,xi,1) : if x$=" " then goto 40014
+40011  x$=mid$(S$,xi,1) : if x$=" " then goto 40014 else if asc(x$)>96 and asc(x$)<123 then x$=chr$(asc(x$)-32)
 40012  iL=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
 40013  if fR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 40014 next
@@ -661,21 +723,21 @@
 200011 rem data Gintamo,"Hidden Valley",3,1.5,7.5,swords,7,3,3,10,1,3,samurai,ninja,training,"Kusanagi","the rohan"
 200012 rem data Duskyville,"Texas Holdem",12,2,3,horses,2,0,0,100,0,2,breeders,gamblers,riding,"Marian 'John' Wayne","Billy the Kid"
 200100 rem * data work-around *
-200101 if firstPass and dci=0 then dim city$(20,20) : dci=1 else for i=1 to 16 : city$(i,1)="" : next
+200101 if firstPass and dci=0 then dim city$(20,20) : dci=1 else for i=1 to 16 : for j=1 to 20 : city$(i,j)="" : next : next
 200111 for i=1 to 12
 200120  j=rnd(16) : if len(city$(j,1))>0 then goto 200120
-200201  if i=1 then city$(j,1)="Methusela" : city$(j,2)="Panchas Province" : city$(j,3)="5" : city$(j,4)="3" : city$(j,5)="5" : city$(j,6)="market" : city$(j,7)="1" : city$(j,8)="1" : city$(j,9)="0" : city$(j,10)="1000" : city$(j,11)="0" : city$(j,12)="2" : city$(j,13)="merchants" : city$(j,14)="theives" : city$(j,15)="busy" : city$(j,16)="a council" : city$(j,17)="Jimmy the Hand" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
-200202  if i=2 then city$(j,1)="Penicoast" : city$(j,2)="Canterbury Vale" : city$(j,3)="3" : city$(j,4)="2" : city$(j,5)="10" : city$(j,6)="church" : city$(j,7)="3" : city$(j,8)="1" : city$(j,9)="1" : city$(j,10)="100" : city$(j,11)="2" : city$(j,12)="0" : city$(j,13)="priests" : city$(j,14)="mages" : city$(j,15)="praying" : city$(j,16)="The Cardinal" : city$(j,17)="Fistandantilas" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
-200203  if i=3 then city$(j,1)="Maniturb" : city$(j,2)="Footrot Flats" : city$(j,3)="17" : city$(j,4)=".5" : city$(j,5)="1.5" : city$(j,6)="not" : city$(j,7)="0" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="0" : city$(j,12)="1" : city$(j,13)="farmers" : city$(j,14)="no" : city$(j,15)="working" : city$(j,16)="Wallace Footrot" : city$(j,17)="Horse and Dog" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200201  if i=1 then city$(j,1)="Methusela" : city$(j,2)="a small province" : city$(j,3)="5" : city$(j,4)="3" : city$(j,5)="5" : city$(j,6)="market" : city$(j,7)="1" : city$(j,8)="1" : city$(j,9)="0" : city$(j,10)="1000" : city$(j,11)="0" : city$(j,12)="2" : city$(j,13)="merchants" : city$(j,14)="theives" : city$(j,15)="busy" : city$(j,16)="a council" : city$(j,17)="Jimmy the Hand" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200202  if i=2 then city$(j,1)="Penicoast" : city$(j,2)="Canterbury Vale" : city$(j,3)="3" : city$(j,4)="2" : city$(j,5)="10" : city$(j,6)="churchs" : city$(j,7)="3" : city$(j,8)="1" : city$(j,9)="1" : city$(j,10)="100" : city$(j,11)="2" : city$(j,12)="0" : city$(j,13)="priests" : city$(j,14)="mages" : city$(j,15)="praying" : city$(j,16)="The Cardinal" : city$(j,17)="Fistandantilas" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200203  if i=3 then city$(j,1)="Footrot Flats" : city$(j,2)="a farming district" : city$(j,3)="17" : city$(j,4)=".5" : city$(j,5)="1.5" : city$(j,6)="Dog and Horse" : city$(j,7)="0" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="0" : city$(j,12)="1" : city$(j,13)="farmers" : city$(j,14)="no" : city$(j,15)="working" : city$(j,16)="Wallace Footrot" : city$(j,17)="Horse and Dog" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200204  if i=4 then city$(j,1)="Bethesda" : city$(j,2)="Greater Gnomes" : city$(j,3)="3" : city$(j,4)="1" : city$(j,5)="10" : city$(j,6)="games" : city$(j,7)="2" : city$(j,8)="1" : city$(j,9)="0" : city$(i,10)="100" : city$(j,11)="1" : city$(j,12)="2" : city$(j,13)="knights" : city$(j,14)="barbarians" : city$(j,15)="practicing" : city$(j,16)="Sid Mier" : city$(j,17)="John Madden" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200205  if i=5 then city$(j,1)="Bennethorpe" : city$(j,2)="Gunnthrop Downs" : city$(j,3)="5" : city$(j,4)="0.5" : city$(j,5)="2.5" : city$(j,6)="super gran" : city$(j,7)="-1" : city$(j,8)="1" : city$(j,9)="0" : city$(i,10)="10" : city$(j,11)="1" : city$(j,12)="0" : city$(j,13)="heros" : city$(j,14)="anti-heros" : city$(j,15)="relaxing" : city$(j,16)="Super Gran" : city$(j,17)="Anti Gran" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200206  if i=6 then city$(j,1)="Xanadu" : city$(j,2)="Raging Plains" : city$(j,3)="3" : city$(j,4)="5" : city$(j,5)="50" : city$(j,6)="pleasure dome" : city$(j,7)="10" : city$(j,8)="1" : city$(j,9)="0" : city$(j,10)="100" : city$(j,11)="0" : city$(j,12)="3" : city$(j,13)="weaponsmith" : city$(j,14)="armorers" : city$(j,15)="fighting" : city$(j,16)="Kubla Khan" : city$(j,17)="Alexanda the Great" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
-200207  if i=7 then city$(j,1)="Klaxisaur" : city$(j,2)="Earth Station" : city$(j,3)="4" : city$(j,4)="1" : city$(j,5)="6" : city$(j,6)="klaxisaur" : city$(j,7)="4" : city$(j,7)="0" : city$(j,8)="2" : city$(j,9)="10" : city$(j,10)="1" : city$(j,11)="1" : city$(j,13)="klaxisaur" : city$(j,14)="antisaur" : city$(j,15)="t" : city$(j,16)="unknown" : city$(j,17)="also unknown" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200207  if i=7 then city$(j,1)="Klaxisaur" : city$(j,2)="Earth Station" : city$(j,3)="4" : city$(j,4)="1" : city$(j,5)="6" : city$(j,6)="klaxisaur" : city$(j,7)="4" : city$(j,7)="0" : city$(j,8)="2" : city$(j,9)="10" : city$(j,10)="1" : city$(j,11)="1" : city$(j,13)="klaxisaur" : city$(j,14)="antisaur" : city$(j,15)="running away" : city$(j,16)="unknown" : city$(j,17)="also unknown" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200208  if i=8 then city$(j,1)="Erehwon" : city$(j,2)="The Back of Beyond" : city$(j,3)="2" : city$(j,4)=".1" : city$(j,5)="1" : city$(j,6)="pub" : city$(j,7)="0" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="0" : city$(j,12)="0" : city$(j,13)="brewers" : city$(j,14)="distillers" : city$(j,15)="drunk" : city$(j,16)="always drunk" : city$(j,17)="drunk or sleeping" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
-200209  if i=9 then city$(j,1)="Branchline" : city$(j,2)="Knowheresville" : city$(j,3)="2" : city$(j,4)=".2" : city$(j,5)="2" : city$(j,6)="not being famous" : city$(j,7)="1" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="-1" : city$(j,12)="0" : city$(j,13)="no" : city$(j,14)="deadpool" : city$(j,15)="sullen" : city$(j,16)="dead" : city$(j,17)="dying" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200209  if i=9 then city$(j,1)="Branchline" : city$(j,2)="Knowheresville" : city$(j,3)="2" : city$(j,4)=".2" : city$(j,5)="2" : city$(j,6)="umm not much" : city$(j,7)="1" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="-1" : city$(j,12)="0" : city$(j,13)="no" : city$(j,14)="deadpool" : city$(j,15)="sullen" : city$(j,16)="dead" : city$(j,17)="dying" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200210  if i=10 then city$(j,1)="Lafayette" : city$(j,2)="Greater Rorytown" : city$(j,3)="7" : city$(j,4)="2.5" : city$(j,5)="7" : city$(j,6)="bread" : city$(j,7)="0" : city$(j,8)="1" : city$(j,9)="0" : city$(j,10)="100" : city$(j,11)="1" : city$(j,12)="0" : city$(j,13)="bakers" : city$(j,14)="masons" : city$(j,15)="eating" : city$(j,16)="Jamie Oliver" : city$(j,17)="Nigella Lawson" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
-200211  if i=11 then city$(j,1)="Gintamo" : city$(j,2)="Hidden Valley" : city$(j,3)="3" : city$(j,4)="1.5" : city$(j,5)="7.5" : city$(j,6)="swords" : city$(j,7)="7" : city$(j,8)="3" : city$(j,9)="3" : city$(j,10)="10" : city$(j,11)="1" : city$(j,12)="3" : city$(j,13)="samurai" : city$(j,14)="ninja" : city$(j,15)="training" : city$(j,16)="Kusanagi" : city$(j,17)="the rohan" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
-200212  if i=12 then city$(j,1)="Duskyville" : city$(j,2)="Texas Holdem" : city$(j,3)="12" : city$(j,4)="2" : city$(j,5)="3" : city$(j,6)="horses" : city$(j,7)="2" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="100" : city$(j,11)="1" : city$(j,12)="2" : city$(j,13)="breeders" : city$(j,14)="gamblers" : city$(j,15)="riding" : city$(j,16)="Marion Morrison aka 'John Wayne'" : city$(j,17)="Billy the Kid" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200211  if i=11 then city$(j,1)="Gintamo" : city$(j,2)="A Hidden Valley" : city$(j,3)="3" : city$(j,4)="1.5" : city$(j,5)="7.5" : city$(j,6)="swords" : city$(j,7)="7" : city$(j,8)="3" : city$(j,9)="3" : city$(j,10)="10" : city$(j,11)="1" : city$(j,12)="3" : city$(j,13)="samurai" : city$(j,14)="ninja" : city$(j,15)="training" : city$(j,16)="Kusanagi" : city$(j,17)="the rohan" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200212  if i=12 then city$(j,1)="Duskyville" : city$(j,2)="Rancheros Provincio" : city$(j,3)="12" : city$(j,4)="2" : city$(j,5)="3" : city$(j,6)="horses" : city$(j,7)="2" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="100" : city$(j,11)="1" : city$(j,12)="2" : city$(j,13)="breeders" : city$(j,14)="gamblers" : city$(j,15)="riding" : city$(j,16)="Marion Morrison aka 'John Wayne'" : city$(j,17)="Billy the Kid" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200291 next
 200299 return
 201000 rem ********************
@@ -684,7 +746,7 @@
 201010 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1 : X=textB : Y=textL+((3*S)*(4*L))
 201011 on L goto 201012,201013,201014,201015,201016
 201012 S$="YOU OPEN YOUR EYES " : gosub 40009 : S=OS : return
-201013 S$="  IT IS DARK       " : gosub 40009 : S=OS : return
+201013 S$="  YOU SEE ITS NIGHT" : gosub 40009 : S=OS : return
 201014 S$="    YOU FIND A COIN" : gosub 40009 : S=OS : return
 201015 S$="      YOU PASS OUT " : gosub 40009 : S=OS : return
 201016 S$="        YOU WAKE UP" : gosub 40009 : S=OS : return
@@ -715,5 +777,73 @@
 205655   if (m(X,Y,4)&256)=0 then m(X,Y,4)=A else if (m(X,Y,4)&512)=0 then m(X,Y,4)=A+256 else if (m(X,Y,4)&1024)=0 then m(X,Y,4)=A+256+512 else m(X,Y,4)=A+256+512+1024
 205682  next X
 205691 next Y
-204798 L=4 : gosub 201010
-209999 goto 8005 : ' setup done; jump to main part
+205798 L=4 : gosub 201010
+205999 goto 8005 : ' setup done; jump to main part
+209000 rem ***************************
+209001 rem *** set up random place ***
+209002 rem ***************************
+209010 iL=rnd(11) : if iL=5 or iL=10 then goto 210201 else if iL/2=int(iL/2) then goto 210101
+209999 '         ="S             SCORE"
+210001 city$(C,1)="You are" : iL=rnd(16)
+210002 city$(C,2)="an abandoned ruins"
+210003 city$(C,3)="1"
+210004 city$(C,4)="0"
+210005 city$(C,5)="1"
+210006 city$(C,6)="falling stones"
+210007 city$(C,7)="0" : if iL/4=int(iL/4) then city$(C,7)="1"
+210008 city$(C,8)="1"
+210009 city$(C,9)="1"
+210010 city$(C,10)="0" : if iL/4=int(iL/4) then city$(C,7)="0"
+210011 city$(C,11)="0"
+210012 city$(C,12)="1"
+210013 city$(C,13)="old"
+210014 city$(C,14)="no"
+210015 city$(C,15)="nowhere" : if iL/4=int(iL/4) then city$(C,15)="entering"
+210016 city$(C,16)=""
+210017 city$(C,17)=""
+210018 city$(C,18)=str$(X)
+210019 city$(C,19)=str$(Y)
+210020 city$(C,20)=str$(1) : if iL/4=int(iL/4) then city$(C,20)="0" else if iL/2=int(iL/2) then city$(C,20)="0"
+210099 return : '="S             SCORE"
+210101 city$(C,1)="A burnt building" : iL=rnd(16)
+210102 city$(C,2)="an old ruins"
+210103 city$(C,3)="1"
+210104 city$(C,4)="0"
+210105 city$(C,5)="1"
+210106 city$(C,6)="falling timber"
+210107 city$(C,7)="0" : if iL/4=int(iL/4) then city$(C,7)="1"
+210108 city$(C,8)="0"
+210109 city$(C,9)="0"
+210110 city$(C,10)="1"
+210111 city$(C,11)="0"
+210112 city$(C,12)="0" : if iL/4=int(iL/4) then city$(C,12)="1"
+210113 city$(C,13)="no"
+210114 city$(C,14)="no"
+210115 city$(C,15)="nowhere" : if iL/4=int(iL/4) then city$(C,15)="leaving"
+210116 city$(C,16)=""
+210117 city$(C,17)=""
+210118 city$(C,18)=str$(X)
+210119 city$(C,19)=str$(Y)
+210120 city$(C,20)=str$(1) : if iL/4=int(iL/4) then city$(C,20)="0" else if iL/2=int(iL/2) then city$(C,20)="0"
+210199 return : '="S             SCORE"
+210201 city$(C,1)="You appear" : iL=rnd(16)
+210202 city$(C,2)="a strange place"
+210203 city$(C,3)="3"
+210204 city$(C,4)="1"
+210205 city$(C,5)="1"
+210206 city$(C,6)="ancient ruins"
+210207 city$(C,7)="0" : if iL/4=int(iL/4) then city$(C,7)="1"
+210208 city$(C,8)="1"
+210209 city$(C,9)="1"
+210210 city$(C,10)="1" : if iL/4=int(iL/4) then city$(C,15)="3" : if iL/2=int(iL/2) then city$(C,10)="2"
+210211 city$(C,11)="1" : if iL/4=int(iL/4) then city$(C,11)="3" : if iL/2=int(iL/2) then city$(C,11)="2"
+210212 city$(C,12)="1" : if iL/4=int(iL/4) then city$(C,12)="3" : if iL/2=int(iL/2) then city$(C,12)="2"
+210213 city$(C,13)="old"
+210214 city$(C,14)="ancient"
+210215 city$(C,15)="nowhere" : if iL/4=int(iL/4) then city$(C,15)="haunting" : if iL/2=int(iL/2) then city$(C,15)="floating"
+210216 city$(C,16)=""
+210217 city$(C,17)=""
+210218 city$(C,18)=str$(X)
+210219 city$(C,19)=str$(Y)
+210220 city$(C,20)=str$(1)
+210299 return : '="S             SCORE"
