@@ -8,7 +8,7 @@
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1 : iR=1 : fR=1 : ' defaults
 40 T=7 : S=3                                 
-45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0 : drawActions=0 : moreActions=0 : showingHelp=0 : showingInfo=0 : showingActions=0
+45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0 : drawActions=0 : moreActions=1 : showingHelp=0 : showingInfo=0 : showingActions=0
 46 textS=1.5 : textY=H+20 : textB=int(xsize/2)-90 : textL=textY-80 : TC=128
 48 rem ******************************
 49 rem *** colors - Dawnbringer16 ***
@@ -317,7 +317,7 @@
 7110 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 7120 textN=Y+((3*S)*4)
 7196 S=OS
-7198 drawHelp=0 : drawScore=0 : showingHelp=1
+7198 drawHelp=0 : drawScore=0 : showingInfo=0 : showingActions=0 : showingHelp=1
 7199 return
 7200 rem *************************
 7201 rem *** undraw map window ***
@@ -373,8 +373,6 @@
 7819 'X=p+10 : Y=Y+((3*S)*4) : S$="0             RESET" : gosub 40009
 7821 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 7822 textN=Y+((3*S)*4)
-7823 drawHelp=0
-7824 drawScore=1
 7830 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="AND SO IT GOES LIKE" : gosub 40009
 7831 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="SAND IN A HOURGLASS" : gosub 40009 : if fMouse=0 then fMouse=sMouse
 7832 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="  BUT NOT FOR YOU  " : gosub 40009 : if fScore=0 then fScore=sScore : fActions=sActions
@@ -382,7 +380,8 @@
 7833 if drawEnd then if sMouse>0 then X=p+10 : Y=Y+((3*S)*4) : S$="  LAZYNESS "+str$(fMouse) : gosub 40009
 7834 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="FINAL SCORE "+str$(fScore) : gosub 40009
 7835 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="BEST EVER SCORE 677" : gosub 40009
-7998 S=OS
+7997 S=OS
+7998 drawScore=1 : showingInfo=0 : showingActions=0 : showingHelp=0
 7999 return
 8000 rem *****************
 8001 rem *** main loop ***
@@ -420,10 +419,10 @@
 10118 if KC=48 then S=3 : gwidth=1 : grid=-1 : getDrawVars=1 : redrawWin=1 : ' 0 reset
 10119 if KC>48 and KC<56 then T=KC-48 : getDrawVars=1 : redrawWin=1 : ' 1 - 7 tiles
 10120 if KC=63 or KC=47 then drawHelp=1 : ' ? draw help
-10122 if KC=76 or KC=108 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' L logo toggle
-10123 if KC=75 or KC=107 then if TC=128 then TC=192 else if TC=255 then TC=128 else TC=255 : ' K toggle brightness
+10122 if KC=92 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' \ logo toggle
+10123 if KC=8 then if TC=128 then TC=192 else if TC=255 then TC=128 else TC=255 : ' BACKSPACE toggle brightness
 10124 if KC=68 then gosub 10330 : ' D dump city$()
-10125 if KC=83 or KC=115 then drawScore=1 : ' S draw scores
+10125 if KC=9 then drawScore=1 : ' TAB draw scores
 10126 if KC=384 then drawTileInfo=1 : ' F1 draw tile info
 10127 if KC=32 then drawActions=1 : if showingActions then moreActions=moreActions+1 : if moreActions>4 then moreActions=0 : ' SPACE draw actions
 10199 rem * direction keys *
@@ -473,7 +472,7 @@
 13035 X=p+10 : Y=Y+((3*S)*4) : S$=" SEEN "+city$(C,15) : gosub 40009
 14910 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 14997 S=OS
-14998 drawTileInfo=0 : drawScore=0 : showingInfo=1
+14998 drawTileInfo=0 : drawScore=0 : showingActions=0 : showingInfo=0 : showingHelp=1
 14999 return
 15000 rem ********************
 15001 rem *** draw actions ***
@@ -481,80 +480,81 @@
 15010 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1
 15015 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
 15020 if moreActions>0 then goto 15050
-15031 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
-15032 X=p+10 : Y=Y+((3*S)*4) : S$="S         SACRIFICE" : gosub 40009
-15033 X=p+10 : Y=Y+((3*S)*4) : S$="T        TRAUMATIZE" : gosub 40009
-15034 X=p+10 : Y=Y+((3*S)*4) : S$="A            ATTACK" : gosub 40009
-15035 X=p+10 : Y=Y+((3*S)*4) : S$="L          LASERATE" : gosub 40009
-15036 X=p+10 : Y=Y+((3*S)*4) : S$="K              KILL" : gosub 40009
-15037 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENRAGE" : gosub 40009
-15038 X=p+10 : Y=Y+((3*S)*4) : S$="R              REND" : gosub 40009
-15039 X=p+10 : Y=Y+((3*S)*4) : S$="P         PERSECUTE" : gosub 40009
-15040 X=p+10 : Y=Y+((3*S)*4) : S$="H              HURT" : gosub 40009
-15041 X=p+10 : Y=Y+((3*S)*4) : S$="D         DISMEMBER" : gosub 40009
-15042 if ysize>480 then goto 15051
+15031 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  HELP" : gosub 40009
+15032 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15033 X=p+10 : Y=Y+((3*S)*4) : S$="S         SACRIFICE" : gosub 40009
+15034 X=p+10 : Y=Y+((3*S)*4) : S$="T        TRAUMATIZE" : gosub 40009
+15035 X=p+10 : Y=Y+((3*S)*4) : S$="A            ATTACK" : gosub 40009
+15036 X=p+10 : Y=Y+((3*S)*4) : S$="L          LASERATE" : gosub 40009
+15037 X=p+10 : Y=Y+((3*S)*4) : S$="K              KILL" : gosub 40009
+15038 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENRAGE" : gosub 40009
+15039 X=p+10 : Y=Y+((3*S)*4) : S$="R              REND" : gosub 40009
+15040 X=p+10 : Y=Y+((3*S)*4) : S$="P         PERSECUTE" : gosub 40009
+15041 X=p+10 : Y=Y+((3*S)*4) : S$="H              HURT" : gosub 40009
+15042 X=p+10 : Y=Y+((3*S)*4) : S$="D         DISMEMBER" : gosub 40009
 15043 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  LESS ACTIONS" : gosub 40009
 15045 goto 15990
 15050 if moreActions>1 then goto 15070
-15051 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
-15052 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
-15053 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENGAGE" : gosub 40009
-15054 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
-15055 X=p+10 : Y=Y+((3*S)*4) : S$="D       DISASSEMBLE" : gosub 40009
-15056 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
-15057 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
-15058 X=p+10 : Y=Y+((3*S)*4) : S$="B         BUILDINGS" : gosub 40009
-15059 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
-15060 X=p+10 : Y=Y+((3*S)*4) : S$="Z             SLEEP" : gosub 40009
-15061 X=p+10 : Y=Y+((3*S)*4) : S$="M            MODIFY" : gosub 40009
-15062 if ysize>768 then goto 15070
+15051 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  HELP" : gosub 40009
+15052 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15053 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
+15054 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENGAGE" : gosub 40009
+15055 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
+15056 X=p+10 : Y=Y+((3*S)*4) : S$="D       DISASSEMBLE" : gosub 40009
+15057 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
+15058 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
+15059 X=p+10 : Y=Y+((3*S)*4) : S$="B         BUILDINGS" : gosub 40009
+15060 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15061 X=p+10 : Y=Y+((3*S)*4) : S$="Z             SLEEP" : gosub 40009
+15062 X=p+10 : Y=Y+((3*S)*4) : S$="M            MODIFY" : gosub 40009
 15063 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
 15065 goto 15990
 15070 if moreActions>2 then goto 15090
-15071 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
-15072 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
-15073 X=p+10 : Y=Y+((3*S)*4) : S$="P          PRACTICE" : gosub 40009
-15074 X=p+10 : Y=Y+((3*S)*4) : S$="A               ARM" : gosub 40009
-15075 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
-15076 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
-15077 X=p+10 : Y=Y+((3*S)*4) : S$="H              HUNT" : gosub 40009
-15078 X=p+10 : Y=Y+((3*S)*4) : S$="W              WORK" : gosub 40009
-15079 X=p+10 : Y=Y+((3*S)*4) : S$="O             ORATE" : gosub 40009
-15080 X=p+10 : Y=Y+((3*S)*4) : S$="R        REMUNERATE" : gosub 40009
-15081 X=p+10 : Y=Y+((3*S)*4) : S$="K              KILL" : gosub 40009
-15082 if ysize>480 then goto 15091
+15071 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  HELP" : gosub 40009
+15072 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15073 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15074 X=p+10 : Y=Y+((3*S)*4) : S$="P          PRACTICE" : gosub 40009
+15075 X=p+10 : Y=Y+((3*S)*4) : S$="A               ARM" : gosub 40009
+15076 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
+15077 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
+15078 X=p+10 : Y=Y+((3*S)*4) : S$="H              HUNT" : gosub 40009
+15079 X=p+10 : Y=Y+((3*S)*4) : S$="W              WORK" : gosub 40009
+15080 X=p+10 : Y=Y+((3*S)*4) : S$="O             ORATE" : gosub 40009
+15081 X=p+10 : Y=Y+((3*S)*4) : S$="R        REMUNERATE" : gosub 40009
+15082 X=p+10 : Y=Y+((3*S)*4) : S$="K              KILL" : gosub 40009
 15083 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
 15085 goto 15990
 15090 if moreActions>3 then goto 15111
-15091 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
-15092 X=p+10 : Y=Y+((3*S)*4) : S$="P          PRACTICE" : gosub 40009
-15093 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
-15094 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
-15095 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
-15096 X=p+10 : Y=Y+((3*S)*4) : S$="S            SEARCH" : gosub 40009
-15097 X=p+10 : Y=Y+((3*S)*4) : S$="F             FIGHT" : gosub 40009
-15098 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
-15099 X=p+10 : Y=Y+((3*S)*4) : S$="G            GATHER" : gosub 40009
-15100 X=p+10 : Y=Y+((3*S)*4) : S$="H              HUNT" : gosub 40009
-15101 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
-15102 if ysize>768 then goto 15111
+15091 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  HELP" : gosub 40009
+15092 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15093 X=p+10 : Y=Y+((3*S)*4) : S$="P          PRACTICE" : gosub 40009
+15094 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
+15095 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
+15096 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
+15097 X=p+10 : Y=Y+((3*S)*4) : S$="S            SEARCH" : gosub 40009
+15098 X=p+10 : Y=Y+((3*S)*4) : S$="F             FIGHT" : gosub 40009
+15099 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15100 X=p+10 : Y=Y+((3*S)*4) : S$="G            GATHER" : gosub 40009
+15101 X=p+10 : Y=Y+((3*S)*4) : S$="H              HUNT" : gosub 40009
+15102 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
 15103 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
 15105 goto 15990
-15111 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
-15112 X=p+10 : Y=Y+((3*S)*4) : S$="R        REMUNERATE" : gosub 40009 
-15113 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENGAGE" : gosub 40009
-15114 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
-15115 X=p+10 : Y=Y+((3*S)*4) : S$="D       DISASSEMBLE" : gosub 40009
-15116 X=p+10 : Y=Y+((3*S)*4) : S$="Y            YODDLE" : gosub 40009
-15117 X=p+10 : Y=Y+((3*S)*4) : S$="B         BUILDINGS" : gosub 40009
-15118 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
-15119 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
-15120 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
-15121 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
+15111 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  HELP" : gosub 40009
+15112 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15113 X=p+10 : Y=Y+((3*S)*4) : S$="R        REMUNERATE" : gosub 40009 
+15114 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENGAGE" : gosub 40009
+15115 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
+15116 X=p+10 : Y=Y+((3*S)*4) : S$="D       DISASSEMBLE" : gosub 40009
+15117 X=p+10 : Y=Y+((3*S)*4) : S$="Y            YODDLE" : gosub 40009
+15118 X=p+10 : Y=Y+((3*S)*4) : S$="B         BUILDINGS" : gosub 40009
+15119 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
+15120 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15121 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
+15122 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
 15123 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
 15990 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 15997 S=OS
-15998 drawActions=0 : drawScore=0 : showingActions=1
+15998 drawActions=0 : drawScore=0 : showingActions=1  : showingInfo=0 : showingHelp=0
 15999 return
 17030 if m(xmap,ymap,1)=255 and m(xmap,ymap,2)=255 and m(xmap,ymap,3)=255 then goto 20010
 17012 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
@@ -881,7 +881,7 @@
 210012 city$(C,12)="1"
 210013 city$(C,13)="old"
 210014 city$(C,14)="no"
-210015 city$(C,15)="nowhere" : if iL/4=int(iL/4) then city$(C,15)="entering"
+210015 city$(C,15)="but not here" : if iL/4=int(iL/4) then city$(C,15)="entering"
 210016 city$(C,16)=""
 210017 city$(C,17)=""
 210018 city$(C,18)=str$(X)
@@ -902,7 +902,7 @@
 210112 city$(C,12)="0" : if iL/4=int(iL/4) then city$(C,12)="1"
 210113 city$(C,13)="no"
 210114 city$(C,14)="no"
-210115 city$(C,15)="nowhere" : if iL/4=int(iL/4) then city$(C,15)="leaving"
+210115 city$(C,15)="but not here" : if iL/4=int(iL/4) then city$(C,15)="leaving"
 210116 city$(C,16)=""
 210117 city$(C,17)=""
 210118 city$(C,18)=str$(X)
@@ -923,7 +923,7 @@
 210212 city$(C,12)="1" : if iL/4=int(iL/4) then city$(C,12)="3" : if iL/2=int(iL/2) then city$(C,12)="2"
 210213 city$(C,13)="old"
 210214 city$(C,14)="ancient"
-210215 city$(C,15)="nowhere" : if iL/4=int(iL/4) then city$(C,15)="haunting" : if iL/2=int(iL/2) then city$(C,15)="floating"
+210215 city$(C,15)="but not heard" : if iL/4=int(iL/4) then city$(C,15)="coming at you" : if iL/2=int(iL/2) then city$(C,15)="floating near by"
 210216 city$(C,16)=""
 210217 city$(C,17)=""
 210218 city$(C,18)=str$(X)
