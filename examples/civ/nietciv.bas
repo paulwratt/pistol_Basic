@@ -8,7 +8,7 @@
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1 : iR=1 : fR=1 : ' defaults
 40 T=7 : S=3                                 
-45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0
+45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0 : drawActions=0 : moreActions=0 : showingHelp=0 : showingInfo=0 : showingActions=0
 46 textS=1.5 : textY=H+20 : textB=int(xsize/2)-90 : textL=textY-80 : TC=128
 48 rem ******************************
 49 rem *** colors - Dawnbringer16 ***
@@ -90,7 +90,8 @@
 1000 rem ******************************************
 1001 rem *** dimension map based on screen size ***
 1002 rem ******************************************
-1005 L=1 : gosub 201010
+1005 L=1 : gosub 201010 : L=2 : gosub 201010
+1007 R=rnd(11) : G=rnd(12) : B=rnd(16) : A=rnd(255) : x$=inkey$ : if x$="" then goto 1007 else KC=asc(x$)
 1010 if dmi>0 then goto 1111 else dmi=1
 1011 if xsize=640 then dim m(640,480,8)
 1012 if xsize=800 then dim m(800,600,8) : S=4
@@ -114,7 +115,7 @@
 2050   m(X,Y,1)=64 : m(X,Y,2)=255 : m(X,Y,3)=64 : m(X,Y,4)=A : if B>251 then gosub 2110
 2082  next X
 2091 next Y
-2098 L=2 : gosub 201010
+2098 ' L=2 : gosub 201010
 2099 goto 203700 : ' map base done; jump to city gen
 2100 rem ****************************
 2101 rem *** the water randomizer ***
@@ -301,23 +302,22 @@
 7002 rem *************************
 7005 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1
 7010 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
-7011 X=p+10 : Y=Y+((3*S)*4) : S$="S             SCORE" : gosub 40009
-7012 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
-7013 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE        ACTION" : gosub 40009
-7014 X=p+10 : Y=Y+((3*S)*4) : S$="ARROWS         MOVE" : gosub 40009
-7015 X=p+10 : Y=Y+((3*S)*4) : S$="ENTER       NEW MAP" : gosub 40009
-7016 X=p+10 : Y=Y+((3*S)*4) : S$="1 7           TILES" : gosub 40009
-7017 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS    SCALE" : gosub 40009
-7018 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     BORDER" : gosub 40009
-7019 X=p+10 : Y=Y+((3*S)*4) : S$="0             RESET" : gosub 40009
+7011 X=p+10 : Y=Y+((3*S)*4) : S$="TAB          SCORES" : gosub 40009
+7012 X=p+10 : Y=Y+((3*S)*4) : S$="ARROW        MOTIVE" : gosub 40009
+7013 X=p+10 : Y=Y+((3*S)*4) : S$="MOUSE        WANDER" : gosub 40009
+7014 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE        ACTION" : gosub 40009
+7015 X=p+10 : Y=Y+((3*S)*4) : S$="ENTER        SUBUKU" : gosub 40009
+7016 X=p+10 : Y=Y+((3*S)*4) : S$="1 7            VIEW" : gosub 40009
+7017 X=p+10 : Y=Y+((3*S)*4) : S$="PLUS MINUS     ZOOM" : gosub 40009
+7018 X=p+10 : Y=Y+((3*S)*4) : S$="BRACKETS     SPREAD" : gosub 40009
+7019 X=p+10 : Y=Y+((3*S)*4) : S$="0              ZERO" : gosub 40009
 7020 X=p+10 : Y=Y+((3*S)*4) : S$="L       TOGGLE LOGO" : gosub 40009
 7021 X=p+10 : Y=Y+((3*S)*4) : S$="K   TEXT BRIGHTNESS" : gosub 40009
 7022 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  THIS" : gosub 40009
 7110 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 7120 textN=Y+((3*S)*4)
 7196 S=OS
-7197 drawHelp=0
-7198 drawScore=0
+7198 drawHelp=0 : drawScore=0 : showingHelp=1
 7199 return
 7200 rem *************************
 7201 rem *** undraw map window ***
@@ -395,10 +395,12 @@
 8040 if drawHelp then gosub 6910 : gosub 7005
 8050 if drawScore then gosub 6910 : gosub 7805
 8060 if drawTileInfo then gosub 6910 : gosub 12010
-8070 if drawMap then gosub 6805 : gosub 7510
-8080 if redrawWin or firstPass then gosub 7510
+8070 if drawActions then gosub 6910 : gosub 15010
+8080 if drawMap then gosub 6805 : gosub 7510
+8090 if redrawWin or firstPass then gosub 7510
 9997 if sActions=0 then L=1 : gosub 201010 : L=2 : gosub 201010 : L=3 : gosub 201010 : L=4 : gosub 201010 : L=5 : gosub 201010
 9998 firstPass=0
+9999 for i=-1 to KC : C=rnd(i) : R=rnd(11) : G=rnd(12) : B=rnd(16) : A=rnd(255) : next : ' randomizer
 10000 rem **********************************
 10001 rem *** key capture and assignment ***
 10002 rem **********************************
@@ -406,9 +408,9 @@
 10010 gosub 40003
 10011 if MB>0 then goto 39003 : ' mouse click
 10012 if KC=-1 and Mgoto then goto 39015 : ' auto move
-10013 if KC=-1 then goto 10010 : ' no keys or mouse
+10013 if KC=-1 then goto 9999 : ' no keys or mouse
 10014 if KC>399 then goto 10200 : ' movement keys
-10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : firstPass=1 : gosub 5005 : goto 100 : ' enter new map
+10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : firstPass=1 : drawHelp=showingHelp : drawTileInfo=showingInfo : drawActions=showingActions : cls : goto 100 : ' enter new map
 10112 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1 : ' [ border
 10113 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1 : ' ] border
 10114 if KC=59 then gwidth=gwidth-1 : getDrawVars=1 : redrawWin=1 : if gwidth<0 then gwidth=0 : ' ; distance
@@ -418,12 +420,12 @@
 10118 if KC=48 then S=3 : gwidth=1 : grid=-1 : getDrawVars=1 : redrawWin=1 : ' 0 reset
 10119 if KC>48 and KC<56 then T=KC-48 : getDrawVars=1 : redrawWin=1 : ' 1 - 7 tiles
 10120 if KC=63 or KC=47 then drawHelp=1 : ' ? draw help
-10121 if KC=32 then goto 15010 : ' space actions
 10122 if KC=76 or KC=108 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' L logo toggle
 10123 if KC=75 or KC=107 then if TC=128 then TC=192 else if TC=255 then TC=128 else TC=255 : ' K toggle brightness
-10124 if KC=83 or KC=115 then drawScore=1 : ' S draw score
-10125 if KC=384 then drawTileInfo=1 : ' F1 draw tile info
-10126 if KC=68 then gosub 10330
+10124 if KC=68 then gosub 10330 : ' D dump city$()
+10125 if KC=83 or KC=115 then drawScore=1 : ' S draw scores
+10126 if KC=384 then drawTileInfo=1 : ' F1 draw tile info
+10127 if KC=32 then drawActions=1 : if showingActions then moreActions=moreActions+1 : if moreActions>4 then moreActions=0 : ' SPACE draw actions
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29985,29985,29994,29994,29994 : ' left
 10201 if KC=401 then on T gosub 29995,29995,29984,29984,29995,29995,29995 : ' right
@@ -471,10 +473,91 @@
 13035 X=p+10 : Y=Y+((3*S)*4) : S$=" SEEN "+city$(C,15) : gosub 40009
 14910 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 14997 S=OS
-14998 drawTileInfo=0 : drawScore=0 : drawHelp=0
+14998 drawTileInfo=0 : drawScore=0 : showingInfo=1
 14999 return
-15000 rem * some actions *
-15010 if m(xmap,ymap,1)=255 and m(xmap,ymap,2)=255 and m(xmap,ymap,3)=255 then goto 20010
+15000 rem ********************
+15001 rem *** draw actions ***
+15002 rem ********************
+15010 OS=S : S=textS : R=0 : G=128 : B=0 : A=TC : pen 1
+15015 X=p+int(W/2) : Y=textY : color R,G,B,A : rect X,Y,int(W/2)-4,3 round 3
+15020 if moreActions>0 then goto 15050
+15031 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15032 X=p+10 : Y=Y+((3*S)*4) : S$="S         SACRIFICE" : gosub 40009
+15033 X=p+10 : Y=Y+((3*S)*4) : S$="T        TRAUMATIZE" : gosub 40009
+15034 X=p+10 : Y=Y+((3*S)*4) : S$="A            ATTACK" : gosub 40009
+15035 X=p+10 : Y=Y+((3*S)*4) : S$="L          LASERATE" : gosub 40009
+15036 X=p+10 : Y=Y+((3*S)*4) : S$="K              KILL" : gosub 40009
+15037 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENRAGE" : gosub 40009
+15038 X=p+10 : Y=Y+((3*S)*4) : S$="R              REND" : gosub 40009
+15039 X=p+10 : Y=Y+((3*S)*4) : S$="P         PERSECUTE" : gosub 40009
+15040 X=p+10 : Y=Y+((3*S)*4) : S$="H              HURT" : gosub 40009
+15041 X=p+10 : Y=Y+((3*S)*4) : S$="D         DISMEMBER" : gosub 40009
+15042 if ysize>480 then goto 15051
+15043 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  LESS ACTIONS" : gosub 40009
+15045 goto 15990
+15050 if moreActions>1 then goto 15070
+15051 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15052 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
+15053 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENGAGE" : gosub 40009
+15054 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
+15055 X=p+10 : Y=Y+((3*S)*4) : S$="D       DISASSEMBLE" : gosub 40009
+15056 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
+15057 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
+15058 X=p+10 : Y=Y+((3*S)*4) : S$="B         BUILDINGS" : gosub 40009
+15059 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15060 X=p+10 : Y=Y+((3*S)*4) : S$="Z             SLEEP" : gosub 40009
+15061 X=p+10 : Y=Y+((3*S)*4) : S$="M            MODIFY" : gosub 40009
+15062 if ysize>768 then goto 15070
+15063 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
+15065 goto 15990
+15070 if moreActions>2 then goto 15090
+15071 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15072 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15073 X=p+10 : Y=Y+((3*S)*4) : S$="P          PRACTICE" : gosub 40009
+15074 X=p+10 : Y=Y+((3*S)*4) : S$="A               ARM" : gosub 40009
+15075 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
+15076 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
+15077 X=p+10 : Y=Y+((3*S)*4) : S$="H              HUNT" : gosub 40009
+15078 X=p+10 : Y=Y+((3*S)*4) : S$="W              WORK" : gosub 40009
+15079 X=p+10 : Y=Y+((3*S)*4) : S$="O             ORATE" : gosub 40009
+15080 X=p+10 : Y=Y+((3*S)*4) : S$="R        REMUNERATE" : gosub 40009
+15081 X=p+10 : Y=Y+((3*S)*4) : S$="K              KILL" : gosub 40009
+15082 if ysize>480 then goto 15091
+15083 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
+15085 goto 15990
+15090 if moreActions>3 then goto 15111
+15091 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15092 X=p+10 : Y=Y+((3*S)*4) : S$="P          PRACTICE" : gosub 40009
+15093 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
+15094 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
+15095 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
+15096 X=p+10 : Y=Y+((3*S)*4) : S$="S            SEARCH" : gosub 40009
+15097 X=p+10 : Y=Y+((3*S)*4) : S$="F             FIGHT" : gosub 40009
+15098 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15099 X=p+10 : Y=Y+((3*S)*4) : S$="G            GATHER" : gosub 40009
+15100 X=p+10 : Y=Y+((3*S)*4) : S$="H              HUNT" : gosub 40009
+15101 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
+15102 if ysize>768 then goto 15111
+15103 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
+15105 goto 15990
+15111 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15112 X=p+10 : Y=Y+((3*S)*4) : S$="R        REMUNERATE" : gosub 40009 
+15113 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENGAGE" : gosub 40009
+15114 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
+15115 X=p+10 : Y=Y+((3*S)*4) : S$="D       DISASSEMBLE" : gosub 40009
+15116 X=p+10 : Y=Y+((3*S)*4) : S$="Y            YODDLE" : gosub 40009
+15117 X=p+10 : Y=Y+((3*S)*4) : S$="B         BUILDINGS" : gosub 40009
+15118 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
+15119 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15120 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
+15121 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
+15123 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
+15990 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
+15997 S=OS
+15998 drawActions=0 : drawScore=0 : showingActions=1
+15999 return
+17030 if m(xmap,ymap,1)=255 and m(xmap,ymap,2)=255 and m(xmap,ymap,3)=255 then goto 20010
+17012 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
 20000 rem * city actions *
 20010 rem
 21999 goto 8000
