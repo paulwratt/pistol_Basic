@@ -379,7 +379,7 @@
 7833 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="USEFULNESS "+str$(fActions) : gosub 40009
 7833 if drawEnd then if sMouse>0 then X=p+10 : Y=Y+((3*S)*4) : S$="  LAZYNESS "+str$(fMouse) : gosub 40009
 7834 if drawWin then X=p+10 : Y=Y+((3*S)*4) : S$="FINAL SCORE "+str$(fScore) : gosub 40009
-7835 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="BEST EVER SCORE 677" : gosub 40009
+7835 if drawEnd then X=p+10 : Y=Y+((3*S)*4) : S$="BEST EVER SCORE 837" : gosub 40009
 7997 S=OS
 7998 drawScore=1 : showingInfo=0 : showingActions=0 : showingHelp=0
 7999 return
