@@ -1,0 +1,10 @@
+* Guild details
+- Rangers - discount on Tools and Archery items
+- Rangers - Law: improve Nature Knowledge
+- Rangers - Fletchers: produce Bows and Arrows
+- Rangers + Masons = WatchTower: improves Hunting, adds to Defences 
+- Rangers + Priests = Beekeepers: produces Honey
+- Rangers + Priests + Farmers = Vinyard: produce Grapes
+- Rangers + Miners = Survey: allows detailed and better investigation
+- Rangers + Miners + Masons = Waterpump: produce water without a tile
+- Rangers + Mages = Naturalists: produce Potion ingredience, improves Law

@@ -1,0 +1,7 @@
+* Schools of Learning
+
+* School Buildings
+School = Mage + Priests + Masons
+Library = Mage + Priests + Masons
+University = Mages + Priests + Masons
+Engineers = Mages + Rangers + Miners + Weaponsmiths + Armoursmiths + Masons

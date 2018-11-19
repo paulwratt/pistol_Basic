@@ -1,0 +1,61 @@
+* Mages Schools of Learning
+(Mage) adds to Mages Guild Level and Magic Learning
+(Monk) adds to Priests Guild Level and Physical Learning
+(Mage) + (Monk) adds to Transcendance Level and Spirtual Learning
+
+NOTE: You dont NEED to be a Mage to learn Magical Arts, but it helps, and there are some things you cant learn, like any Specialist Path. Also to be a Ninja, you have to have "allegence to a House". And If you are a Samurai without "allegence to a House", you can still continue as a Rohan if you get a Horse.
+
+Magus = (Mage)
+Magician = (Mage) + Priest
+Transcendist = (Mage) + (Monk)
+Transindentalist = (Mage) + Mages + Priests + (Monk)
+KungFu Mage = Mages + (Monk)
+Illutionist = Mages + Priests
+Naturalist = Mages + Rangers
+Alchemist = Mages + Miners
+Stone Mage = Mages + Masons
+Art Theif = Mages + Thieves
+Pyromancer = (Mage) + Mages + Miners + Weaponsmith
+Samurai Mage = Mages + Samurai + (Monk)
+Rohan Mage = Mages + Samurai + (Monk) + (Horse)
+Sword Mage = (Mage) + Mages + Weaponsmiths + Samurai + (Monk)
+Rohan Sword Mage = (Mage) + Mages + Weaponsmiths + Samurai + (Monk) + (Horse)
+Ninja Mage = Mages + Ninja + (Monk)
+Ninja Assasin Mage = Mages + Weaponsmiths + Ninja + Thieves + (Monk)
+Attack Mage = Mages + Weaponsmiths
+Ranged Attack Mage = Mages + Weaponsmiths + Ranger
+Shield Mage = Mages + Armoursmiths
+Ranged Shield Mage = (Mage) + Mages + Weaponsmiths + Armoursmiths + Ranger
+Battle Mage I = Mages + Weaponsmiths + (Monk)
+Battle Mage II = Mages + Knights + (Monk)
+Battle Mage III = (Mage) + Mages + Knights + (Monk)
+Battle Mage IV = Mages + Weaponsmiths + Armoursmiths + Knights + (Monk)
+Battle Mage V = (Mage) + Mages + Weaponsmiths + Armoursmiths + Knights + (Monk)
+Manna Thief= Mages + Rangers + Thieves
+Manna Leech= (Mage) + Mages + Rangers + Thieves
+Manna Vampire= (Mage) + Mages + Priests + Rangers + Thieves
+Vampire Lord = (Mage) + Mages + Priests + Rangers + Thieves + Kights
+Vampire King = (Mage) + Mages + Priests + Rangers + Thieves + Kights + (Monk)
+Cleric I = Priests + Rangers + Mages
+Cleric II = (Monk) + Priests + Rangers + Mages
+Cleric II = Priests + Rangers + Mages + (Mage)
+Cleric III = (Monk) + Priests + Rangers + Mages + (Mage)
+Paladin I = Priests + Mages + Knights
+Paladin II = (Monk) + Priests + Knights + Mages
+Paladin II = Priests + Knights + Mages + (Mage)
+Paladin III= (Monk) + Priests + Knights + Mages + (Mage)
+Beast Master = Mages + Farmers
+Summoner = (Mage) + Mages + Rangers + Farmers
+Golum Mage = (Mage) + Mages + Miners + Farmers
+Lycanthrope = (Mage) + Mages + Priest + Farmers
+Shape Shifter = Mages + Miners + Rangers + Farmers
+Necromancer = (Mage) + Mages + Priests + Rangers + Thieves 
+Skeleton Mage =(Mage) +  Mages + Priests + Miners + Rangers + Farmers
+Zombie Mage = Mages + Priests + Miners + Thieves + Farmers
+Liche Lord = (Mage) + Mages + Priests + Miners + Thieves + Farmers
+Death Mage = (Mage) + Mages + Priests + Rangers + Ninja + Thieves 
+Earth Mage = Mages + Miners + Rangers + Masons
+Earth Shield Mage = (Mage) + Mages + Miners + Rangers + Masons + Armoursmiths
+Demon Lord = (Mage) + Mages + Miners + Rangers + Masons + Priests + Thieves
+Cthulu = (Mage) + Mages + Miners + Rangers + Masons + Priests + Thieves + Armoursmiths  + Weaponsmiths
+

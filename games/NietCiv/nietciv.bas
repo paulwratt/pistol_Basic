@@ -1,13 +1,13 @@
-1 rem CIV_INTRO.BAS - nietCiv Intro
-2 rem uses buildings icons to generate a background with 2 cities
-3 rem we generate a minimap first so its always random
-10 cls : dim cP(16,4) : dim fH$(9,3) : dim fS$(9,3)
+1 rem NIETCIV.BAS - nietCiv Game
+2 rem uses "icons shapes" to generate a background with 2 cities
+3 rem we use a key bound randomizer to start so its always random
+10 cls : dim cP(16,4) : dim fH$(9,3) : dim fS$(9,3) : debug=1
 15 rem * predefines *
 20 firstPass=1 : dfi=0 : dci=0 : dmi=0 : ' var dmi = dim map initialized
 25 waterSeed=2 : islandTweak=5 : contenants=50 : borders=5 : ispeninsula=1
 30 W=200 : H=200 : p=xsize-W : mapx=xsize : mapy=ysize : ' minimap
 35 wsize=xsize-200 : hsize=ysize : grid=-1 : gwidth=1 : iR=1 : fR=1 : ' defaults
-40 T=7 : S=3                                 
+40 tMove=1 : T=7 : S=3                                 
 45 getDrawVars=1 : drawArea=1 : drawLogo=1 : drawMap=1 : redrawWin=0 : drawHelp=1 : drawScore=0 : drawActions=0 : moreActions=1 : showingHelp=0 : showingInfo=0 : showingActions=0
 46 textS=1.5 : textY=H+20 : textB=int(xsize/2)-90 : textL=textY-80 : TC=128
 48 rem ******************************
@@ -403,12 +403,16 @@
 10000 rem **********************************
 10001 rem *** key capture and assignment ***
 10002 rem **********************************
-10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : print @1;xmap;",";ymap;"-";m(Xmap,Ymap,4);";";m(Xmap,Ymap,5); : if m(Xmap,Ymap,5)>0 then print city$(m(Xmap,Ymap,5),1);"                    " else print "                   "
+10005 oldX=xmap : oldY=ymap : move 1,1 : KC=0 : if debug then print @1;xmap;",";ymap;"-";m(Xmap,Ymap,4);";";m(Xmap,Ymap,5); : if m(Xmap,Ymap,5)>0 then print city$(m(Xmap,Ymap,5),1);"                    " else print "                   "
 10010 gosub 40003
 10011 if MB>0 then goto 39003 : ' mouse click
 10012 if KC=-1 and Mgoto then goto 39015 : ' auto move
 10013 if KC=-1 then goto 9999 : ' no keys or mouse
 10014 if KC>399 then goto 10200 : ' movement keys
+10051 if debug and KC=68 then gosub 10410 : ' D dump city$()
+10052 if debug and KC=67 then gosub 10510 : ' C dump character
+10053 if debug and KC=73 then gosub 10510 : ' I dump inventory
+10054 if debug and KC=75 then gosub 10510 : ' K dump knowledge
 10111 if KC=13 then getDrawVars=1 : drawArea=1 : drawText=1 : drawMap=1 : firstPass=1 : drawHelp=showingHelp : drawTileInfo=showingInfo : drawActions=showingActions : cls : goto 100 : ' enter new map
 10112 if KC=91 then grid=grid-1 : getDrawVars=1 : redrawWin=1 : if grid<-1 then grid=-1 : ' [ border
 10113 if KC=93 then grid=grid+1 : getDrawVars=1 : redrawWin=1 : if grid>1 then grid=1 : ' ] border
@@ -421,10 +425,9 @@
 10120 if KC=63 or KC=47 then drawHelp=1 : ' ? draw help
 10122 if KC=92 then drawArea=1 : if drawLogo then drawLogo=0 else drawLogo=1 : ' \ logo toggle
 10123 if KC=8 then if TC=128 then TC=192 else if TC=255 then TC=128 else TC=255 : ' BACKSPACE toggle brightness
-10124 if KC=68 then gosub 10330 : ' D dump city$()
-10125 if KC=9 then drawScore=1 : ' TAB draw scores
-10126 if KC=384 then drawTileInfo=1 : ' F1 draw tile info
-10127 if KC=32 then drawActions=1 : if showingActions then moreActions=moreActions+1 : if moreActions>4 then moreActions=0 : ' SPACE draw actions
+10124 if KC=9 then drawScore=1 : ' TAB draw scores
+10125 if KC=384 then drawTileInfo=1 : ' F1 draw tile info
+10126 if KC=32 then drawActions=1 : if showingActions then moreActions=moreActions+1 : if moreActions>4 then moreActions=0 : ' SPACE draw actions
 10199 rem * direction keys *
 10200 if KC=400 then on T gosub 29994,29994,29985,29985,29994,29994,29994 : ' left
 10201 if KC=401 then on T gosub 29995,29995,29984,29984,29995,29995,29995 : ' right
@@ -437,7 +440,10 @@
 10208 K=KC
 10319 print @1;KC;
 10320 goto 8000
-10330 rem * debug *
+10400 rem *************
+10401 rem *** debug ***
+10402 rem *************
+10403 rem * dump city$() *
 10410 for i=1 to 20
 10415  print "city$(";str$(i);", .. )=";
 10420  for j=1 to 20
@@ -448,6 +454,30 @@
 10490 x$=inkey$ : if x$="" then goto 10490
 10498 drawMap=1 : drawArea=1 : drawHelp=1
 10499 return
+10503 rem * dump character *
+10510 print "Human =";tHuman
+10511 print "Klax  =";tKlax
+10512 print "Ghost =";tGhost
+10513 print "Leader=";tLeader; : if tHome and tLeader and tNti=0 then print city$(tHome,16) else print
+10514 print "Anti  =";tNti; : if tHome and tNti then print city$(tHome,17) else print
+10515 print "Guild =";tGuild; : if tGuild then print city$(tGuild,13) else print
+10516 print "AGuild=";tNtiGuild; : if tNtiGuild then print city$(tNtiGuild,14) else print
+10517 print "Monk  =";tMonk
+10518 print "Mage  =";tMage
+10519 print "Trnslt=";tTranslator
+10520 print "Memory=";tMemory
+10521 print "Rememb=";tRemember
+10522 print "Wounds=";tWounded
+10523 print "Agro  =";tAggresive
+10524 print "Trans =";tTranscend
+10525 print "Hibrn =";tHibernate
+10526 print "Hell  =";tHell
+10527 print "Hit   =";tHit
+10528 print "Home  =";tHome; : if tHome then print city$(tHome,1) else print
+10529 print "Lucky =";tLucky
+10590 x$=inkey$ : if x$="" then goto 10590
+10598 drawMap=1 : drawArea=1 : drawHelp=1
+10599 return
 12000 rem **********************
 12001 rem *** draw tile info ***
 12002 rem **********************
@@ -470,6 +500,14 @@
 13033 X=p+10 : Y=Y+((3*S)*4) : S$=" ITS "+city$(C,6) : gosub 40009
 13034 X=p+10 : Y=Y+((3*S)*4) : S$="PEOPLE CAN OFTEN BE" : gosub 40009
 13035 X=p+10 : Y=Y+((3*S)*4) : S$=" SEEN "+city$(C,15) : gosub 40009
+13036 RR=R : if tHit=0 and mid$(city$(C,6),1,7)="falling" then R=rnd(255) : if R/2=int(R/2) then tWounded=tWounded+1 : tHit=1
+13037 if R=RR then R=rnd(255)
+13038 if tHit then X=p+10 : Y=Y+((3*S)*4) : S$="YOU WHERE HIT BY" : gosub 40009 : X=p+10 : Y=Y+((3*S)*4) : S$=" "+city$(C,6) : gosub 40009 : tHit=0
+13039 R=RR
+13040 if tMage then X=m(xmap,ymap,5) : if city$(X,1)="Penicoast" then X=p+10 : Y=Y+((3*S)*4) : S$="YOU RECOGNIZE A" : gosub 40009 : X=p+10 : Y=Y+((3*S)*4) : S$=" PRESENCE NEAR BY" : gosub 40009
+13041 if tMonk then X=m(xmap,ymap,5) : if city$(X,1)="Penicoast" then X=p+10 : Y=Y+((3*S)*4) : S$="YOU FEEL A SERENE" : gosub 40009 : X=p+10 : Y=Y+((3*S)*4) : S$=" PRESENCE NEAR BY" : gosub 40009
+13042 if tLucky then X=m(xmap,ymap,5) : if city$(X,1)="Bethesda" then X=p+10 : Y=Y+((3*S)*4) : S$="YOU FEEL LUCK WILL" : gosub 40009 : X=p+10 : Y=Y+((3*S)*4) : S$=" BE ON YOUR SIDE" : gosub 40009
+13043 if tNti then if city$(tNtiGuild,1)="Footrot Flats" then X=p+10 : Y=Y+((3*S)*4) : S$="YOU FEEL THAT YOU" : gosub 40009 : X=p+10 : Y=Y+((3*S)*4) : S$=" ARE IGNORED" : gosub 40009
 14910 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 14997 S=OS
 14998 drawTileInfo=0 : drawScore=0 : showingActions=0 : showingInfo=0 : showingHelp=1
@@ -497,16 +535,16 @@
 15050 if moreActions>1 then goto 15070
 15051 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  HELP" : gosub 40009
 15052 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
-15053 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
-15054 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENGAGE" : gosub 40009
-15055 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
-15056 X=p+10 : Y=Y+((3*S)*4) : S$="D       DISASSEMBLE" : gosub 40009
-15057 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
-15058 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
-15059 X=p+10 : Y=Y+((3*S)*4) : S$="B         BUILDINGS" : gosub 40009
-15060 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
-15061 X=p+10 : Y=Y+((3*S)*4) : S$="Z             SLEEP" : gosub 40009
-15062 X=p+10 : Y=Y+((3*S)*4) : S$="M            MODIFY" : gosub 40009
+15053 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
+15054 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
+15055 X=p+10 : Y=Y+((3*S)*4) : S$="B         BUILDINGS" : gosub 40009
+15056 X=p+10 : Y=Y+((3*S)*4) : S$="I         INVENTORY" : gosub 40009
+15057 X=p+10 : Y=Y+((3*S)*4) : S$="Z             SLEEP" : gosub 40009
+15058 X=p+10 : Y=Y+((3*S)*4) : S$="M            MODIFY" : gosub 40009
+15059 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
+15060 X=p+10 : Y=Y+((3*S)*4) : S$="E            ENGAGE" : gosub 40009
+15061 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
+15062 X=p+10 : Y=Y+((3*S)*4) : S$="D       DISASSEMBLE" : gosub 40009
 15063 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
 15065 goto 15990
 15070 if moreActions>2 then goto 15090
@@ -552,6 +590,21 @@
 15121 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
 15122 X=p+10 : Y=Y+((3*S)*4) : S$="T             TRAIN" : gosub 40009
 15123 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
+15125 goto 15990
+15131 X=p+10 : Y=Y+((3*S)*4) : S$="QUESTION MARK  HELP" : gosub 40009
+15132 X=p+10 : Y=Y+((3*S)*4) : S$="F1      INVESTIGATE" : gosub 40009
+15133 X=p+10 : Y=Y+((3*S)*4) : S$="K         KLAXISAUR" : gosub 40009
+15134 X=p+10 : Y=Y+((3*S)*4) : S$="L            LISTEN" : gosub 40009
+15135 X=p+10 : Y=Y+((3*S)*4) : S$="A          ASSEMBLE" : gosub 40009
+15136 X=p+10 : Y=Y+((3*S)*4) : S$="X       EXTRAPOLATE" : gosub 40009
+15137 X=p+10 : Y=Y+((3*S)*4) : S$="S            SEARCH" : gosub 40009
+15138 X=p+10 : Y=Y+((3*S)*4) : S$="O             ORATE" : gosub 40009
+15139 X=p+10 : Y=Y+((3*S)*4) : S$="U               USE" : gosub 40009
+15140 X=p+10 : Y=Y+((3*S)*4) : S$="R       RECONISANCE" : gosub 40009
+15141 X=p+10 : Y=Y+((3*S)*4) : S$="C           COLLECT" : gosub 40009
+15142 X=p+10 : Y=Y+((3*S)*4) : S$="E          EVALUATE" : gosub 40009
+15143 X=p+10 : Y=Y+((3*S)*4) : S$="SPACE  MORE ACTIONS" : gosub 40009
+15145 goto 15990
 15990 X=p+int(W/2) : Y=Y+((3*S)*4) : rect X,Y,int(W/2)-4,3 round 3
 15997 S=OS
 15998 drawActions=0 : drawScore=0 : showingActions=1  : showingInfo=0 : showingHelp=0
@@ -569,7 +622,7 @@
 29011 sWalk=sWalk+1 : gosub 29010 : sActions=sActions+.1 : return
 29012 sRun=sRun+1 : gosub 29010 : sActions=sActions+.2 : return
 29013 sJog=sJog+1 : gosub 29010 : sActions=sActions+.3 : return
-29014 sRide=sRide+1 : gosub 29010 : sActions=sActions+.3 : return
+29014 sSprint=sSprint+1 : gosub 29010 : sActions=sActions+.4 : return
 29015 sRide=sRide+1 : gosub 29010 : sActions=sActions+.4 : return
 29016 sRow=sRow+1 : gosub 29010 : sActions=sActions+.2 : return
 29017 sPaddle=sPaddle+1 : gosub 29010 : sActions=sActions+.3 : return
@@ -605,16 +658,19 @@
 30007 if ymap>H then ymap=H : redrawWin=0 : return
 30008 X=xmap : Y=ymap
 30010 if (Player$="I" or Player$="H") and (m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255) and vBoat=0 then xmap=oldX : ymap=oldY : redrawWin=0 : return
-30020 if (Player$="I" or Player$="H") and (m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255) and vBoat=1 then Player$="B"
-30030 if Player$="B" and (m(X,Y,1)=64 and m(X,Y,2)=255 and m(X,Y,3)=64) then Player$="I"
-30040 if Player$="B" and (m(X,Y,1)<>128 and m(X,Y,2)<>128 and m(X,Y,3)<>255) then xmap=oldX : ymap=oldY : redrawWin=0 : return
-30051 if Player$="I" and (xmap<>oldX or ymap<>oldY) then tone 29,freq 1,wsaw,vol 100,dur 1,fmul 1.001 : gosub 29011
+30011 if (Player$="I" or Player$="H") and (m(X,Y,1)=128 and m(X,Y,2)=128 and m(X,Y,3)=255) and vBoat=1 then Player$="B"
+30020 if Player$="B" and (m(X,Y,1)=64 and m(X,Y,2)=255 and m(X,Y,3)=64) then Player$="I"
+30021 if Player$="B" and (m(X,Y,1)<>128 and m(X,Y,2)<>128 and m(X,Y,3)<>255) then xmap=oldX : ymap=oldY : redrawWin=0 : return
+30051 if Player$="I" and (xmap<>oldX or ymap<>oldY) then gosub 29011 : if tMove=0 then tMove=1 : tone 29,freq 30,wsaw,vol 30,dur .1,fmul 2.1 else tMove=0 : tone 29,freq 10,wsin,vol 30,dur .1,fmul 2.1
 30052 if Player$="H" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 330,wsqr,vol 100,dur 1,fmul 1.001 : gosub 29015
 30053 if Player$="B" and (xmap<>oldX or ymap<>oldY) then tone 28,freq 440,wsaw,vol 100,dur 1,fmul 1.001 : gosub 29018
 30070 if m(X,Y,4)&256=0 then m(X,Y,4)=m(X,Y,4)+256
 30080 if iMap or iBinoculas or iSurvey then D=iD else D=1 : ' prelook entry for cities
 30090 on T gosub 30110,30210,30310,30310,30110,30210,30110
 30099 return
+30100 rem **********************
+30101 rem *** do look radius ***
+30102 rem **********************
 30110 rem * square look radius *
 30112 if D>1 then for i=1 to D
 30113 if X-D>0 then if m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
@@ -636,6 +692,7 @@
 30220 if Y+D<mapy then if m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30221 if D>1 then next i
 30222 return
+30230 rem * diamond even look radius *
 30232 if D>1 then for i=1 to D
 30233 if X-D>0 then if m(X-D,Y,4)&256=0 then m(X-D,Y,4)=m(X-D,Y,4)+256
 30234 if X+D<mapx then if m(X+D,Y,4)&256=0 then m(X+D,Y,4)=m(X+D,Y,4)+256
@@ -658,6 +715,7 @@
 30318 if Y+D<mapy then if m(X,Y+D,4)&256=0 then m(X,Y+D,4)=m(X,Y+D,4)+256
 30321 if D>1 then next i
 30322 return
+30330 rem * hex even look radius *
 30332 if D>1 then for i=1 to D
 30333 if Y-(2*D)>0 then if m(X,Y-(2*D),4)&256=0 then m(X,Y-(2*D),4)=m(X,Y-(2*D),4)+256
 30334 if Y+(2*D)<mapy then if m(X,Y+(2*D),4)&256=0 then m(X,Y+(2*D),4)=m(X,Y+(2*D),4)+256
@@ -811,10 +869,10 @@
 200120  j=rnd(16) : if len(city$(j,1))>0 then goto 200120
 200201  if i=1 then city$(j,1)="Methusela" : city$(j,2)="a small province" : city$(j,3)="5" : city$(j,4)="3" : city$(j,5)="5" : city$(j,6)="market" : city$(j,7)="1" : city$(j,8)="1" : city$(j,9)="0" : city$(j,10)="1000" : city$(j,11)="0" : city$(j,12)="2" : city$(j,13)="merchants" : city$(j,14)="theives" : city$(j,15)="busy" : city$(j,16)="a council" : city$(j,17)="Jimmy the Hand" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200202  if i=2 then city$(j,1)="Penicoast" : city$(j,2)="Canterbury Vale" : city$(j,3)="3" : city$(j,4)="2" : city$(j,5)="10" : city$(j,6)="churchs" : city$(j,7)="3" : city$(j,8)="1" : city$(j,9)="1" : city$(j,10)="100" : city$(j,11)="2" : city$(j,12)="0" : city$(j,13)="priests" : city$(j,14)="mages" : city$(j,15)="praying" : city$(j,16)="The Cardinal" : city$(j,17)="Fistandantilas" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
-200203  if i=3 then city$(j,1)="Footrot Flats" : city$(j,2)="a farming district" : city$(j,3)="17" : city$(j,4)=".5" : city$(j,5)="1.5" : city$(j,6)="Dog and Horse" : city$(j,7)="0" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="0" : city$(j,12)="1" : city$(j,13)="farmers" : city$(j,14)="no" : city$(j,15)="working" : city$(j,16)="Wallace Footrot" : city$(j,17)="Horse and Dog" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200203  if i=3 then city$(j,1)="Footrot Flats" : city$(j,2)="a farming district" : city$(j,3)="17" : city$(j,4)=".5" : city$(j,5)="1.5" : city$(j,6)="Dog and Horse" : city$(j,7)="0" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="0" : city$(j,12)="1" : city$(j,13)="farmers" : city$(j,14)="rangers" : city$(j,15)="working" : city$(j,16)="Wallace Footrot" : city$(j,17)="Horse and Dog" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200204  if i=4 then city$(j,1)="Bethesda" : city$(j,2)="Greater Gnomes" : city$(j,3)="3" : city$(j,4)="1" : city$(j,5)="10" : city$(j,6)="games" : city$(j,7)="2" : city$(j,8)="1" : city$(j,9)="0" : city$(i,10)="100" : city$(j,11)="1" : city$(j,12)="2" : city$(j,13)="knights" : city$(j,14)="barbarians" : city$(j,15)="practicing" : city$(j,16)="Sid Mier" : city$(j,17)="John Madden" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200205  if i=5 then city$(j,1)="Bennethorpe" : city$(j,2)="Gunnthrop Downs" : city$(j,3)="5" : city$(j,4)="0.5" : city$(j,5)="2.5" : city$(j,6)="super gran" : city$(j,7)="-1" : city$(j,8)="1" : city$(j,9)="0" : city$(i,10)="10" : city$(j,11)="1" : city$(j,12)="0" : city$(j,13)="heros" : city$(j,14)="anti-heros" : city$(j,15)="relaxing" : city$(j,16)="Super Gran" : city$(j,17)="Anti Gran" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
-200206  if i=6 then city$(j,1)="Xanadu" : city$(j,2)="Raging Plains" : city$(j,3)="3" : city$(j,4)="5" : city$(j,5)="50" : city$(j,6)="pleasure dome" : city$(j,7)="10" : city$(j,8)="1" : city$(j,9)="0" : city$(j,10)="100" : city$(j,11)="0" : city$(j,12)="3" : city$(j,13)="weaponsmith" : city$(j,14)="armorers" : city$(j,15)="fighting" : city$(j,16)="Kubla Khan" : city$(j,17)="Alexanda the Great" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
+200206  if i=6 then city$(j,1)="Xanadu" : city$(j,2)="Raging Plains" : city$(j,3)="3" : city$(j,4)="5" : city$(j,5)="50" : city$(j,6)="pleasure dome" : city$(j,7)="10" : city$(j,8)="1" : city$(j,9)="0" : city$(j,10)="100" : city$(j,11)="0" : city$(j,12)="3" : city$(j,13)="weaponsmiths" : city$(j,14)="armorsmiths" : city$(j,15)="fighting" : city$(j,16)="Kubla Khan" : city$(j,17)="Alexanda the Great" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200207  if i=7 then city$(j,1)="Klaxisaur" : city$(j,2)="Earth Station" : city$(j,3)="4" : city$(j,4)="1" : city$(j,5)="6" : city$(j,6)="klaxisaur" : city$(j,7)="4" : city$(j,7)="0" : city$(j,8)="2" : city$(j,9)="10" : city$(j,10)="1" : city$(j,11)="1" : city$(j,13)="klaxisaur" : city$(j,14)="antisaur" : city$(j,15)="running away" : city$(j,16)="unknown" : city$(j,17)="also unknown" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200208  if i=8 then city$(j,1)="Erehwon" : city$(j,2)="The Back of Beyond" : city$(j,3)="2" : city$(j,4)=".1" : city$(j,5)="1" : city$(j,6)="pub" : city$(j,7)="0" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="0" : city$(j,12)="0" : city$(j,13)="brewers" : city$(j,14)="distillers" : city$(j,15)="drunk" : city$(j,16)="always drunk" : city$(j,17)="drunk or sleeping" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
 200209  if i=9 then city$(j,1)="Branchline" : city$(j,2)="Knowheresville" : city$(j,3)="2" : city$(j,4)=".2" : city$(j,5)="2" : city$(j,6)="umm not much" : city$(j,7)="1" : city$(j,8)="0" : city$(j,9)="0" : city$(j,10)="10" : city$(j,11)="-1" : city$(j,12)="0" : city$(j,13)="no" : city$(j,14)="deadpool" : city$(j,15)="sullen" : city$(j,16)="dead" : city$(j,17)="dying" : city$(j,18)="0" : city$(j,19)="0" : city$(j,20)="0"
@@ -830,7 +888,7 @@
 201011 on L goto 201012,201013,201014,201015,201016
 201012 S$="YOU OPEN YOUR EYES " : gosub 40009 : S=OS : return
 201013 S$="  YOU SEE ITS NIGHT" : gosub 40009 : S=OS : return
-201014 S$="    YOU FIND A COIN" : gosub 40009 : S=OS : return
+201014 S$="    YOU SEE A COIN " : gosub 40009 : S=OS : return
 201015 S$="      YOU PASS OUT " : gosub 40009 : S=OS : return
 201016 S$="        YOU WAKE UP" : gosub 40009 : S=OS : return
 203700 rem **************************
@@ -860,70 +918,139 @@
 205655   if (m(X,Y,4)&256)=0 then m(X,Y,4)=A else if (m(X,Y,4)&512)=0 then m(X,Y,4)=A+256 else if (m(X,Y,4)&1024)=0 then m(X,Y,4)=A+256+512 else m(X,Y,4)=A+256+512+1024
 205682  next X
 205691 next Y
+205797 gosub 206005
 205798 L=4 : gosub 201010
 205999 goto 8005 : ' setup done; jump to main part
+206000 rem *************************
+206001 rem *** set up individual ***
+206002 rem *************************
+206005 tHuman=0 : tLeader=0 : tNti=0 : tMonk=0 : tMage=0 : tKlax=0 : tGhost=0 : tTranslator=0 : tAggresive=0 : tWounded=0 : tMemory=0 : tRemember=0 : tTranscend=0 : tHibernate=0 : tHell=0 : tGuild=0 : tNtiGuild=0 : tHit=0 : tHome=0 : tLucky=0
+206010 if city$(C,1)="" then gosub 209010 : goto 207010
+206011 if city$(C,1)="Klaxisaur" then goto 208010
+206020 tHuman=1
+206030 R=rnd(11) : if R=5 or R=10 then tLeader=1
+206040 R=rnd(11) : if R=5 or R=10 then tGhost=1
+206050 R=rnd(KC) : if R/4=int(R/4) then tWounded=1
+206060 R=rnd(KC) : if R/8=int(R/8) then tAggressive=1
+206070 R=rnd(KC) : if R/4=int(R/4) then tWounded=tWounded+1
+206080 R=rnd(KC) : if R/8=int(R/8) then tMonk=1
+206090 R=rnd(KC) : if R/8=int(R/8) then tMage=1
+206110 if tGhost then R=rnd(11) : if R=5 or R=10 then tTranslaror=1
+206120 if tLeader then tGuild=C : R=rnd(KC) : if R/2=int(R/2) then tNti=1
+206130 if tGhost and tLeader then tTranslaror=1 : tRemember=1
+206140 if tMonk or tMage then tTranslaror=1 : tMemory=1 : tTranscend=1
+206150 if tGhost and tWounded and tAggressive then tTranscend=0 : R=rnd(KC) : if R/2=int(R/2) then tHuman=0 : tHell=1
+206160 if tLeader and tNti then tNtiGuild=C
+206170 if tLeader=0 and tWounded then R=rnd(KC) : if R/4=int(R/4) then R=rnd(KC) : if R/2=int(R/2) then tGuild=C else tNtiGuild=C
+206180 if tLeader=0 and tGuild then R=rnd(KC) : if R/4=int(R/4) then tNtiGuild=C
+206190 if tLeader=0 and tNtiGuild then R=rnd(KC) : if R/4=int(R/4) then tGuild=C
+206210 if tMonk or tMage then if city$(C,1)="Penicoast" then tLuck=tLuck+1
+206220 if city$(C,1)="Duskyville" then if tNtiGuild then tLuck=tLuck+1
+206310 if tGuild=0 and tNtiGuild=0 then R=0 else tHome=C : goto 206999
+206320 B=rnd(16) : if B=C then goto 206220
+206330 if tWounded then R=rnd(KC) : if R/4=int(R/4) then tLeader=B
+206340 if tWounded>1 then R=rnd(KC) : if R/2=int(R/2) then tLeader=B
+206350 if tLeader then R=rnd(KC) : if R/2=int(R/2) then tNti=1
+206360 if tLeader then if tNti then tNtiGuild=B else tGuild=B
+206370 if tNtiGuild then R=rnd(KC) : if R/2=int(R/2) then tGuild=B
+206380 if tGuild=0 and tNtiGuild=0 then R=rnd(KC) : if R/2=int(R/2) then R=rnd(KC) : if R/2=int(R/2) then tGuild=B else tNtiGuild=B
+206390 tHome=B : if B=CC then tLucky=1
+206400 if city$(B,1)="Klaxisaur" then tKlax=1 : if tGuild or tNtiGuild then tHuman=0 : if tNtiGuild and tGhost then tAggressive=1
+206999 return
+207000 rem ********************
+207001 rem *** set up ruins ***
+207002 rem ********************
+207010 tHuman=1 
+207020 R=rnd(KC) : if R/2=int(R/2) then tGhost=1
+207030 R=rnd(KC) : if R/2=int(R/2) then tTranslator=1
+207040 R=rnd(KC) : if R/2=int(R/2) then tAggresive=1
+207050 R=rnd(KC) : if R/2=int(R/2) then tWounded=1
+207060 if tHuman and tTranslator then R=rnd(KC) : if R/2=int(R/2) then tMonk=1
+207070 if tHuman and tTranslator then R=rnd(KC) : if R/2=int(R/2) then tMage=1
+207080 if tGhost and tAggressive and tWounded then tTranscend=0 : tHell=1 : R=rnd(KC) : if R/2=int(R/2) then tHuman=0
+207090 if city$(C,2)="a strange place" then goto 207110
+207100 R=rnd(KC) : if R/2=int(R/2) then tWounded=tWounded+1 : tHit=1
+207110 if tMage or tMonk then if city$(C,2)="a strange place" then tHome=C
+207120 if tGhost and tAggresive then tHome=C
+207130 rem 
+207999 return
+208000 rem ************************
+208001 rem *** set up Klaxisaur ***
+208002 rem ************************
+208010 R=rnd(KC) : if R/4=int(R/4) then tGhost=1
+208020 R=rnd(11) : if R=5 or R=10 then goto 208140 else if R/2=int(R/2) then goto 208130
+208120 tHuman=1 : R=rnd(KC) : if R/4=int(R/4) then tWounded=1
+208129 goto 208210
+208130 tHuman=1 : tKlax=1 : if tGhost=0 then R=rnd(KC) : if R/2=int(R/2) then tTranslator=1
+208139 goto 208210
+208140 tKlax=1 : if tGhost=1 then R=rnd(KC) : if R/2=int(R/2) then tAggresive=1
+208141 R=rnd(KC) : if R/4=int(R/4) then tTranslator=1
+208142 R=rnd(KC) : if R/4=int(R/4) then tLeader=1
+208143 if tLeader then R=rnd(KC) : if R/2=int(R/2) then tNti=1
+208210 R=rnd(KC) : if R/4=int(R/4) then tWounded=tWounded+1
+208999 return
 209000 rem ***************************
 209001 rem *** set up random place ***
 209002 rem ***************************
-209010 iL=rnd(11) : if iL=5 or iL=10 then goto 210201 else if iL/2=int(iL/2) then goto 210101
+209010 R=rnd(11) : if R=5 or R=10 then goto 210201 else if R/2=int(R/2) then goto 210101
 209999 '         ="S             SCORE"
-210001 city$(C,1)="You are" : iL=rnd(16)
+210001 city$(C,1)="You are" : R=rnd(16)
 210002 city$(C,2)="an abandoned ruins"
 210003 city$(C,3)="1"
 210004 city$(C,4)="0"
 210005 city$(C,5)="1"
 210006 city$(C,6)="falling stones"
-210007 city$(C,7)="0" : if iL/4=int(iL/4) then city$(C,7)="1"
+210007 city$(C,7)="0" : if R/4=int(R/4) then city$(C,7)="1"
 210008 city$(C,8)="1"
 210009 city$(C,9)="1"
-210010 city$(C,10)="0" : if iL/4=int(iL/4) then city$(C,7)="0"
+210010 city$(C,10)="0" : if R/4=int(R/4) then city$(C,7)="0"
 210011 city$(C,11)="0"
 210012 city$(C,12)="1"
 210013 city$(C,13)="old"
 210014 city$(C,14)="no"
-210015 city$(C,15)="but not here" : if iL/4=int(iL/4) then city$(C,15)="entering"
+210015 city$(C,15)="but not here" : if R/4=int(R/4) then city$(C,15)="entering"
 210016 city$(C,16)=""
 210017 city$(C,17)=""
 210018 city$(C,18)=str$(X)
 210019 city$(C,19)=str$(Y)
-210020 city$(C,20)=str$(1) : if iL/4=int(iL/4) then city$(C,20)="0" else if iL/2=int(iL/2) then city$(C,20)="0"
+210020 city$(C,20)=str$(1) : if R/4=int(R/4) then city$(C,20)="0" else if R/2=int(R/2) then city$(C,20)="0"
 210099 return : '="S             SCORE"
-210101 city$(C,1)="A burnt building" : iL=rnd(16)
+210101 city$(C,1)="A burnt building" : R=rnd(16)
 210102 city$(C,2)="an old ruins"
 210103 city$(C,3)="1"
 210104 city$(C,4)="0"
 210105 city$(C,5)="1"
 210106 city$(C,6)="falling timber"
-210107 city$(C,7)="0" : if iL/4=int(iL/4) then city$(C,7)="1"
+210107 city$(C,7)="0" : if R/4=int(R/4) then city$(C,7)="1"
 210108 city$(C,8)="0"
 210109 city$(C,9)="0"
 210110 city$(C,10)="1"
 210111 city$(C,11)="0"
-210112 city$(C,12)="0" : if iL/4=int(iL/4) then city$(C,12)="1"
+210112 city$(C,12)="0" : if R/4=int(R/4) then city$(C,12)="1"
 210113 city$(C,13)="no"
 210114 city$(C,14)="no"
-210115 city$(C,15)="but not here" : if iL/4=int(iL/4) then city$(C,15)="leaving"
+210115 city$(C,15)="but not here" : if R/4=int(R/4) then city$(C,15)="leaving"
 210116 city$(C,16)=""
 210117 city$(C,17)=""
 210118 city$(C,18)=str$(X)
 210119 city$(C,19)=str$(Y)
-210120 city$(C,20)=str$(1) : if iL/4=int(iL/4) then city$(C,20)="0" else if iL/2=int(iL/2) then city$(C,20)="0"
+210120 city$(C,20)=str$(1) : if R/4=int(R/4) then city$(C,20)="0" else if R/2=int(R/2) then city$(C,20)="0"
 210199 return : '="S             SCORE"
-210201 city$(C,1)="You appear" : iL=rnd(16)
+210201 city$(C,1)="You appear" : R=rnd(16)
 210202 city$(C,2)="a strange place"
 210203 city$(C,3)="3"
 210204 city$(C,4)="1"
 210205 city$(C,5)="1"
 210206 city$(C,6)="ancient ruins"
-210207 city$(C,7)="0" : if iL/4=int(iL/4) then city$(C,7)="1"
+210207 city$(C,7)="0" : if R/4=int(R/4) then city$(C,7)="1"
 210208 city$(C,8)="1"
 210209 city$(C,9)="1"
-210210 city$(C,10)="1" : if iL/4=int(iL/4) then city$(C,15)="3" : if iL/2=int(iL/2) then city$(C,10)="2"
-210211 city$(C,11)="1" : if iL/4=int(iL/4) then city$(C,11)="3" : if iL/2=int(iL/2) then city$(C,11)="2"
-210212 city$(C,12)="1" : if iL/4=int(iL/4) then city$(C,12)="3" : if iL/2=int(iL/2) then city$(C,12)="2"
+210210 city$(C,10)="1" : if R/4=int(R/4) then city$(C,15)="3" : if R/2=int(iL/2) then city$(C,10)="2"
+210211 city$(C,11)="1" : if R/4=int(R/4) then city$(C,11)="3" : if R/2=int(R/2) then city$(C,11)="2"
+210212 city$(C,12)="1" : if R/4=int(R/4) then city$(C,12)="3" : if R/2=int(R/2) then city$(C,12)="2"
 210213 city$(C,13)="old"
 210214 city$(C,14)="ancient"
-210215 city$(C,15)="but not heard" : if iL/4=int(iL/4) then city$(C,15)="coming at you" : if iL/2=int(iL/2) then city$(C,15)="floating near by"
+210215 city$(C,15)="but not heard" : if R/4=int(R/4) then city$(C,15)="coming at you" : if R/2=int(R/2) then city$(C,15)="floating here"
 210216 city$(C,16)=""
 210217 city$(C,17)=""
 210218 city$(C,18)=str$(X)

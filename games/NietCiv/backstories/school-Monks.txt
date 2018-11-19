@@ -1,0 +1,40 @@
+* Monks Schools of Learning
+(Monk) adds to Priests Guild Level and Physical Learning, Training and Practicing
+(Mage) adds to Mages Guild Level and Magic Learning, Practicing and Training
+(Monk) + (Mage) adds to Transcendance Level and Spirtual Learning
+
+NOTE: You dont NEED to be a Monk to learn Martial Arts, but it helps, and there are some things you cant learn, like any Ninja Path. Also to be a Ninja, you have to have "allegence to a House". And If you are a Samurai without "allegence to a House", you can still continue as a Rohan if you get a Horse.
+
+KungFu = (Monk)
+KungFu Mage = (Monk) + Mages
+Transcendist = (Mage) + (Monk)
+Transindentalist = Mages (Mage) + Priests (Monk)
+Drunken Monk = (Monk) + (Brewers or Distillers)
+Drunken Boxing = (Monk) + Barbarian + (Brewers or Distillers)
+Drunken Ninja = (Monk) + Ninja + (Brewers or Distillers)
+Assasin Monk = (Monk) + Thieves
+Magician = Priest + (Mage)
+Illusionist = Priest + Mages
+Hitman = Priests + Barbarians + Thieves
+Assasin = Priests + Thieves
+Ninja Monk = (Monk) + Ninja
+Ninja Master = (Monk) + Priests + Ninja
+Ninja Assasin = (Monk) + Priests + Ninja + Thieves
+Ranged Assasin = Priests + Ranger + Thieves
+Spacial Assasin = Priests + Mages + Thieves
+Spacial Ninja = (Monk) + Priests + Mages + Ninja
+Spacial Ninja Assasin = (Monk) + Priests + Mages + Ninja + Thieves
+Spacial Ninja = (Monk) + Priests + Mages + Ninja
+Cleric I = Priests + Rangers + Mages
+Cleric II = (Monk) + Priests + Rangers + Mages
+Cleric II = Priests + Rangers + Mages + (Mage)
+Cleric III = (Monk) + Priests + Rangers + Mages + (Mage)
+Paladin I = Priests + Mages + Knights
+Paladin II = (Monk) + Priests + Knights + Mages
+Paladin II = Priests + Knights + Mages + (Mage)
+Paladin III= (Monk) + Priests + Knights + Mages + (Mage)
+Lycanthrope = Priest + Mages + Farmers
+Necromancer = Priests + Mages + Rangers + Thieves 
+Skeleton Mage = Priests + Mages + Miners + Rangers + Farmers
+Zombie Mage = Priests + Mages + Miners + Thieves + Farmers
+Death Mage = Priests + Mages + Rangers + Ninja + Thieves 

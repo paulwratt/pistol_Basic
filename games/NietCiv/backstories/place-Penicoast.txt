@@ -1,0 +1,80 @@
+* Penicoast
+
+Location: medieval Europe, with many churches
+
+References: Fistandantilas (Fist And Antilla's), Raymond Fiest
+            The Cardinal, Roman Catholic Church
+
+* Game Details
+
+Leader: The Cardinal
+Guild: Priests
+Anti-Guild: Mages
+Anti-Leader: Fistandantilas
+Minimum Population:  2000
+Maximum Population: 10000
+City Size: 3
+City Wall: yes
+City Defences: no
+City Garrison: 1
+Warehouse size: 100,000 cubic meters (max 1000 of 100 products)
+Library size: 2
+Blacksmiths size: 0
+
+* Buildings
+- General Store
+- Specilist Store
+- Artisans
+- Furniture
+- Dairy
+- Bakers
+- Petissary
+- Brewery
+- Distillers
+- Winery
+- Alchemists
+- Herbalist
+- Textiles
+- Superior Clothing
+- Jewelers
+- Tavern
+- Large Library
+- School
+- University
+- Pottery (if Clay within 3 tiles)
+- Temple
+- 7 Churches
+- Mosque
+- Cathedral
+
+* Outside Buildings
+- Paddock
+- Field
+- Bee Keepers
+- Vinyard
+- Orchard
+- Fish Driers (if water within 3 tiles)
+
+* Shop - buy:
+  Resources - Grain, Fruit, Berries, Grapes, Flour, Jewels, Gems, Gold, Silver
+  Growing - Dung, Manure, Ferilizer
+  Seeds - Wild Vegitables, Wild Fruit, Wild Berries
+  Food - Fish, Poultry, Meat, Carcass
+  Alcohol - Whiskey, Bourbon, Fermented Milk
+  Tools - Hammer, Axe, Pickaxe, Hoe, Cythe, Knife
+  Fencing - Timber, Nails
+  Animals - Horse, Pony, Cow, Lamb, Sheep
+
+* Shop - sell:
+  Food - Milk, Cheese, Vegitables, Flour, Meat, Fish, Jam, Honey
+  Growing - Manure, Water (if within 3 tiles)
+  Seeds - Fruit, Vegitables
+  Tools - Hammer, Axe, Pickaxe, Hoe, Cythe, Knife
+  Fencing - Timber, Nails
+  Alcohol - Beer, Shnapps, Honey Mead, Cider, Wine
+  Animals - Pony, Horse, Lamb
+  Literature - Books, Poems, Paper, Pens
+  Artisans - Painting, Jewelery, Pottery, (if Clay within 3 tiles), 
+             Statues (if stone within 3 tiles)
+  Clothes - Basic Clothing, Superior Clothing, Shoes
+

@@ -1,0 +1,58 @@
+* Footrot Flats
+
+Location: rural New Zealand, hill country farming
+
+References: Footrot Flats cartoon by Murry Ball
+            Footrot Flats: The Movie
+
+* Game details
+
+Leader: Wallace Footrot
+Guild: Farmers
+Anti-Guild: Rangers
+Anti-Leader: Dog and Horse
+Minimum Population:  500
+Maximum Population: 1500
+City Size: 17 (arable farmland)
+City Wall: no
+City Defences: no
+City Garrison: 0
+Warehouse size: 10,000 cubic meters (max 1000 of 10 products)
+Library size: 0 (unless the Library Bus is visiting, then 1)
+Blacksmiths size: 1 (tools, horse shoes, and basic farm machinery)
+
+* Buildings
+- General Store
+- Dairy
+- Brewery
+- Stables
+- Blacksmith
+- Mill
+- Lumber Mill
+- Buthchers
+- Tanners
+- Basic Clothing
+- Chapel
+
+* Outside Buildings
+- Paddocks
+- Fields
+- Orchards
+
+* Shop
+- buy:
+  Resources - Grass, Wood, Small Hides, Medium Hides, Large Hides
+  Growing - Dung, Manure, Ferilizer
+  Seeds - Wild Grain, Wild Vegitables, Wild Fruit, Wild Berries
+  Alcohol - Whiskey, Bourbon, Honey Mead
+  Animals - Horses, Rams, Bulls, Medium Birds, Large Birds
+  Food - Fish, Poultry, Carcass
+- sell:
+  Food - Milk, Cheese, Vegitables, Flour, Meat
+  Growing - Manure, Water, Maize
+  Seeds - Grain, Corn, Vegitables
+  Tools - Hammer, Axe, Pickaxe, Hoe, Cythe, Knife
+  Fencing - Timber, Nails
+  Alcohol - Beer, Shnapps, Fermented Milk 
+  Animals - Pony, Bullock, Steer, Cow, Lamb, Sheep
+

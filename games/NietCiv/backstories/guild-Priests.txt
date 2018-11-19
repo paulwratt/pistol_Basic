@@ -1,0 +1,18 @@
+* Guild details
+- Priests = discount on literature, access to Hidden Library
+- Priests = Theology: improves Theological Knowledge
+- Priests = Chapel: allows Meditation
+- Priests + Masons = Church: allows Congrgation (income)
+- Priests + Rangers = Beekeepers: produces Honey
+- Priests + Merchants = Prayer House
+- Priests + Farmers = Spreads: ability to produce Honey and Jam
+- Priests + Farmers + Rangers = Vinyard: produce Grapes
+- Priests + Farmers + Brewers = Brewery: ability to make Mead and Cider
+- Priests + Farmers + Distillers = Shnapps: ability to make fruit alcohol
+- Priests + Farmers + Brewers + Distillers = Winary: produce Wine
+- Priests + Farmers + Brewers + Distillers + Merchants + Masons = Tavern:
+- Priests + Merchants + Masons = Mosque
+- Priests + Mages + Masons = School, University, Library
+- Priests + Mages + Merchants + Masons = Temple
+- Priests + Mages + Masons = School, University, Library
+
