@@ -1,18 +1,27 @@
-* Guild details
+# Priests Guild details
+
 - Priests = discount on literature, access to Hidden Library
 - Priests = Theology: improves Theological Knowledge
-- Priests = Chapel: allows Meditation
-- Priests + Masons = Church: allows Congrgation (income)
-- Priests + Rangers = Beekeepers: produces Honey
-- Priests + Merchants = Prayer House
-- Priests + Farmers = Spreads: ability to produce Honey and Jam
-- Priests + Farmers + Rangers = Vinyard: produce Grapes
-- Priests + Farmers + Brewers = Brewery: ability to make Mead and Cider
-- Priests + Farmers + Distillers = Shnapps: ability to make fruit alcohol
+- Priests = Chapel: allows Meditation, adds to Community
+- Priests + Masons = Building: allows creating Structures
+- Priests + Masons = Church: adds to Income, adds to Community
+- Priests + Rangers = Entomology: increase Lore, adds to Knowledge
+- Priests + Rangers = Beekeepers: produce Honey, Wax
+- Priests + Merchants = PrayerHouse: increase Community
+- Priests + Farmers = Spreads: produce Honey and Jam, adds to to Variety
+- Priests + Farmers + Masons = School: increase , adds to Community
+- Priests + Farmers + Rangers = Vinyard: produce Grapes, adds to to Diversity
+- Priests + Farmers + Brewers = Brewing: produce Mead and Cider, adds to to Variety
+- Priests + Farmers + Brewers + Mason = Brewery: produce Mead and Cider
+- Priests + Farmers + Distillers = Shnapps: produce Fruit Alcohol, adds to to Variety
+- Priests + Farmers + Distillers + Masons = Distillery: produce Fruit Alcohol
 - Priests + Farmers + Brewers + Distillers = Winary: produce Wine
-- Priests + Farmers + Brewers + Distillers + Merchants + Masons = Tavern:
-- Priests + Merchants + Masons = Mosque
-- Priests + Mages + Masons = School, University, Library
-- Priests + Mages + Merchants + Masons = Temple
-- Priests + Mages + Masons = School, University, Library
+- Priests + Farmers + Brewers + Distillers + Merchants + Masons = Tavern: increase Community, adds to to Diversity
+- Priests + Merchants + Masons = Mosque: increase Community, adds to Income
+- Priests + Mages + Masons = Library: adds to Knowledge
+- Priests + Mages + Merchants + Masons = Temple: increase Community, adds to Knowledge
+- Priests + Mages + Farmers + Masons = Technical Colledge: increase Farming, adds to Education
+- Priests + Miners + Masons = Bridges: allows building across water (tiles)
+- Priests + Rangers + Farmers + Masons = Carpenters Guild: ability to create Advanced Buildings, increase Lore
+- Priests + Rangers + Farmers + (any) + Merchant + Masons = University: adds to Knowledge, adds to Education, increase Community
 
