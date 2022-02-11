@@ -1,9 +1,9 @@
-* NietCiv Spoilers
+# NietCiv Spoilers
 This directory contains much information about "you" and "your relationship" to the world in which you find "your self".
 
 WARNING: These spoilers can cause a lack of interest in NietCiv, due to the fact that the games depth depends entirely on you as the "player". You dont need to know anything in these files to "win" the game. Just know that you can play a 5 minute game or a 2000 hour game, its up to you.  You have been warned.
 
-** Details
+## Details
 There is a lot, and I mean _A_ _LOT_, of "what if's" and "possibilities" in NietCiv, and they often have inter-relationships to other things. To help those who want to know more, especially backstories or references, but dont feel the need to know everything in one go, the spoilers are broken up into parts:
 
 - places
