@@ -1,6 +1,6 @@
-* Guild details
-- Rangers - discount on Tools and Archery items
-- Rangers - Law: improve Nature Knowledge
+# Rangers Guild details
+- Rangers = discount on Tools and Archery items
+- Rangers = Law: improve Nature Knowledge
 - Rangers - Fletchers: produce Bows and Arrows
 - Rangers + Masons = WatchTower: improves Hunting, adds to Defences 
 - Rangers + Priests = Beekeepers: produces Honey
