@@ -1,0 +1,66 @@
+# Monk Character details
+
+FIXME: move to class-Monk.txt
+
+## Monk Thiefs Characteristics
+- Thieves = PickPocket: Lucky
+- Thieves + Priest = Charliton: Lucky Lucky
+- Thieves + Weaponssmith = LockPicker: Lucky
+- Thieves + Rangers = Poacher: Lucky
+- Thieves + Miners = SneakThief: Lucky
+- Thieves + Masons = Fencer: Lucky
+- Thieves + Miners + Rangers = Explosive Traps: Lucky
+- Thieves + Masons + Rangers = non-Explosive Traps: Lucky
+
+## Monk Priestly Clases Characteristics
+- Priest = Priestly: Devotee: prayer related
+- Priest + Breeder = Priestly: Devotee: animal related, prayer related
+- Priest + Breeder + Barbarian = Priestly: BeastTamer: animal related, prayer related
+- Priest + Breeder + Rangers + Barbarian = Priestly: BeastMaster: animal related, prayer related
+- Priest + Knight = Priestly: Paledin: prayer related
+- Priest + Knight + Mages = Priestly: Light Paledin: prayer related, cast related
+- Priest + Knight + Mages + Thieves = Priestly: Dark Paledin: prayer related, cast related
+
+# Monk Sagely Class Characteristics
+- Mages + Rangers = Sagely: Druid: cast related, nature related
+- Mages + Priest = Sagely: Acolyte: cast related
+- Mages + Priest + Rangers = Sagely: Sage: cast related, prayer related, nature related
+- Mages + Priest + Knight = Sagely: Paledin: cast related, prayer related
+- Mages + Priest + Knight = Sagely: Light Paledin: cast related, prayer related
+- Mages + Priest + Knight + Thieves = Sagely: Dark Paledin: cast related, prayer related
+
+## Monk Druidic Class Characteristics
+- Rangers = Druidic: Druid: nature related
+- Breeder = Druidic: Whisperer: animal related
+- Breeder + Priest = Priestly: Devotee: animal related, prayer related
+- Breeder + Barbarian = Druidic: BeastMan: animal related
+- Breeder + Barbarian + Priest = Druidic: BeastTamer: animal related, prayer related
+- Breeder + Barbarian + Rangers = Druidic: BeastSummoner: animal related
+- Breeder + Barbarian + Rangers + Priests = Druidic: BeastMaser: animal related, prayer related
+- Rangers + Breeder = Druidic: Empath: prayer related, nature related, animal related
+- Rangers + Breeder + Priests = Druidic: Empath: prayer related, nature related, animal related
+- Rangers + Mages = Druidic: Druid: cast related, nature related
+
+## Monk Lycanthrope Class Characteristics
+- Breeder + Thieves = Lycanthrope: WereRat
+- Breeder + Thieves + Rangers = Lycanthrope: WereWolf
+- Breeder + Thieves + Miners = Lycanthrope: WereBear
+- Breeder + Thieves + Masons  = Lycanthrope: WereDwarf
+- Breeder + Thieves + Masons + Rangers = Lycanthrope: WereEnt
+- Breeder + Thieves + Miners + Rangers = Lycanthrope: WereInsect
+- Breeder + Thieves + Miners + Masons + Rangers = Lycanthrope: WereGiant
+- Breeder + Thieves + Miners + Masons + Rangers + Priest = Lycanthrope: WereVampire
+
+## Monk Martial Artist Class Characteristics
+- Human = Peasant: Kung Fu
+- Thieves =  Shunned: Moi Thai
+- Barbarian = Boxer: hand to hand, shoot wreslter
+- Samurai = Ronan: JuJitsu
+- Ninja = OutCast: NinJitsu
+- Ninja + Thieves = Assassin: small throwing weapons, poison darts
+- Ninja + Barbarian = Grappler: BuJuJitsu
+- Samurai + Thieves = Mercenary: large hand weapons, poison darts
+- Samurai + Knight = Samurai: one handed blades, two handed blades, dual blades
+- Samurai + Barbarian = Wrestler: Sumo, WWF
+- Samurai + Knight + Thieves = Shogun:
+
