@@ -1,10 +1,16 @@
 # Rangers Guild details
+
 - Rangers = discount on Tools and Archery items
 - Rangers = Lore: improves Nature Knowledge
-- Rangers - Fletchers: produce Bows and Arrows
+- Rangers = Fletchers: produce Short Bows and Arrows
 - Rangers + Masons = WatchTower: improves Hunting, adds to Defences 
-- Rangers + Priests = Beekeepers: produces Honey
-- Rangers + Priests + Farmers = Vinyard: produce Grapes
-- Rangers + Miners = Survey: allows detailed and better investigation
-- Rangers + Miners + Masons = Waterpump: produce water without a tile
-- Rangers + Mages = Naturalists: produce Potion ingredience, improves Law
+- Rangers + Priests = Beekeepers: produce Honey, Wax
+- Rangers + Farmers = Forest: produce Wood, FireWood, adds to Natural Diversity
+- Rangers + Farmers + Priests = Vinyard: produce Grapes
+- Rangers + Farmers + Masons = Sawmill: produce Timber
+- Rangers + Miners = Survey: allows detailed and better (tile) investigation
+- Rangers + Miners + Masons = Waterpump: produce water without a water (tile) nearby
+- Rangers + Mages = Apothocary: produce Potion ingredience, improves Lore
+- Rangers + Armorsmith = Tanners: produce Leather, Work Aprins, Leather Armor
+- Rangers + Weaponsmith = Outdoorsmith: produce Knives, Axes, Long Bows
+- Rangers + Farmers + Priests + Masons = Carpenters Guild: ability to create Advanced Buildings, increase Lore
