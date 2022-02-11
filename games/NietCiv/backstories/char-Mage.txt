@@ -1,0 +1,51 @@
+# Mage Character details
+
+FIXME: move to class-Mage.txt
+
+## Magic forms
+- Mages + Priest = Light:
+- Mages + Ranger = Nature:
+- Mages + Masons = Airmancy:
+- Mages + Miners = Alchemy:
+- Mages + Breeders = Summoner:
+- Mages + Gamblers = Lightning:
+- Mages + Thieves = Deception:
+- Mages + Priests + Thieves = Necromancy:
+- Mages + Priests + Miners + Rangers = Healing:
+- Mages + Miners + Ranger + Thieves = Poison:
+- Mages + Miners + Masons + Ranger + Thieves = Poison AOE:
+- Mages + Miners + Weaponsmith = Pyromancy:
+- Mages + Miners + Masons + Weaponsmith = Pyromancy AOE:
+- Mages + Priests + Miners + Masons = Illusionist:
+- Mages + Priests + Miners + Masons + Thieves = Fearist:
+
+## Summoners
+- Mages + Breeders + Thieves = Insect Summoning:
+- Mages + Breeders + Rangers = Animal Summoning:
+- Mages + Priests + Breeders = Beast Summoning:
+- Mages + Priests + Rangers = Nature Summoning:
+- Mages + Priests + Masons + Rangers = Giant Summoning:
+- Mages + Priests + Miners + Knights = Sacred Summoning:
+- Mages + Priests + Thieves + Knights = Undead Summoning:
+- Mages + Priests + Breeders + Rangers + Thieves = Giant Insect Summoning:
+- Mages + Priests + Miners + Mansons + Rangers + Knights = Holy Summoning:
+- Mages + Priests + Miners + Mansons + Thieves + Knights = UnHoly Summoning:
+
+## Magic Controllers
+- Mages + (any) + Armoursmiths = Defencemancy:
+- Mages + (any) + Weaponsmith = Offencemancy:
+- Mages + (any) + Masons + Armoursmiths = Shieldmancy:
+
+## Magic spells
+- Mages + Armoursmiths = Magic Shield:
+- Mages + Weaponsmith = Magic Sword:
+- Mages + Rangers = Magic Arrow:
+- Mages + Masons + Armorsmith = Magic Armor:
+- Mages + Miners + Masons + Armorsmith = Stone Armor:
+- Mages + Miners + Masons + Weaponsmith = Stone Hammer:
+- Mages + Miners + Barbarians + Weaponsmith = Stone Axe:
+- Mages + Priests + Miners + Masons + Armorsmith = Stone Giant:
+- Mages + Miners + Masons + Armorsmith = Multishield:
+- Mages + Miners + Ranger + Weaponsmith = Multishot:
+- Mages + Miners + Ranger + Thieves + Weaponsmith = Poison Multishot:
+
