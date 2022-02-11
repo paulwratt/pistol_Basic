@@ -1,12 +1,15 @@
-* Guild details
+# Mages Guild details
+
 - Mages = discount on literature, access to Forbidden Library
 - Mages = Potions: can produce Potions
 - Mages + Miners = Alchemists: produce Alchemy ingredience
-- Mages + Rangers = Naturalists: produce Potion ingredience, improves Law
+- Mages + Rangers = Naturalists: produce Potion ingredience, improves Lore
+- Mages + Rangers = Apothocary: produce Potion ingredience, improves Lore
 - Mages + Rangers + Masons = Herbalist: produce Potions
 - Mages + Miners + Masons = Explosives: produce Gunpowder, Dynamite and Jellignite
-- Mages + Miners + Weaponsmiths + Masons = Artilery: Produce Cannons
+- Mages + Miners + Weaponsmiths + Masons = Artilery: produce Cannons
 - Mages + Miners + Armoursmiths + Masons = Artilery: produce Bullets, Shells 
 - Mages + Miners + Weaponsmiths + Armoursmiths + Masons = Weapons Factory: 
 - Mages + Rangers + Miners + Weaponsmiths + Armoursmiths + Masons = Engineers School: 
 - Mages + Rangers + Miners + Merchants + Masons = Pharmistist
+
