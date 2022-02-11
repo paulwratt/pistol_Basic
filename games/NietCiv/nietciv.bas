@@ -273,7 +273,7 @@
 6711 for i=1 to e
 6720  X=X+((3*S)*2)
 6730  x$=mid$(S$,i,1) : if x$=" " then goto 6791
-6740  il=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
+6740  iL=asc(x$)-64 : if iL<1 then iL=iL+64-47+26
 6760  R=128 : G=128 : B=128 : A=128 : pen 3 : X=X+4 : Y=Y+3 : if fR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 6760  R=255 : G=255 : B=0 : A=255 : pen 3 : X=X-4 : Y=Y-3 : if fR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
 6770  R=0 : G=0 : B=255 : A=255 : pen 1 : X=X+1 : if fR=1 then on iL gosub 150004,150006,150008,150010,150012,150014,150016,150018,150020,150022,150024,150026,150028,150030,150032,150034,150036,150038,150040,150042,150044,150046,150048,150050,150052,150054,150056,150058,150060,150062,150064,150066,150068,150070,150072,150074
@@ -935,10 +935,10 @@
 206070 R=rnd(KC) : if R/4=int(R/4) then tWounded=tWounded+1
 206080 R=rnd(KC) : if R/8=int(R/8) then tMonk=1
 206090 R=rnd(KC) : if R/8=int(R/8) then tMage=1
-206110 if tGhost then R=rnd(11) : if R=5 or R=10 then tTranslaror=1
+206110 if tGhost then R=rnd(11) : if R=5 or R=10 then tTranslator=1
 206120 if tLeader then tGuild=C : R=rnd(KC) : if R/2=int(R/2) then tNti=1
-206130 if tGhost and tLeader then tTranslaror=1 : tRemember=1
-206140 if tMonk or tMage then tTranslaror=1 : tMemory=1 : tTranscend=1
+206130 if tGhost and tLeader then tTranslator=1 : tRemember=1
+206140 if tMonk or tMage then tTranslator=1 : tMemory=1 : tTranscend=1
 206150 if tGhost and tWounded and tAggressive then tTranscend=0 : R=rnd(KC) : if R/2=int(R/2) then tHuman=0 : tHell=1
 206160 if tLeader and tNti then tNtiGuild=C
 206170 if tLeader=0 and tWounded then R=rnd(KC) : if R/4=int(R/4) then R=rnd(KC) : if R/2=int(R/2) then tGuild=C else tNtiGuild=C
@@ -1045,7 +1045,7 @@
 210207 city$(C,7)="0" : if R/4=int(R/4) then city$(C,7)="1"
 210208 city$(C,8)="1"
 210209 city$(C,9)="1"
-210210 city$(C,10)="1" : if R/4=int(R/4) then city$(C,15)="3" : if R/2=int(iL/2) then city$(C,10)="2"
+210210 city$(C,10)="1" : if R/4=int(R/4) then city$(C,10)="3" : if R/2=int(R/2) then city$(C,10)="2"
 210211 city$(C,11)="1" : if R/4=int(R/4) then city$(C,11)="3" : if R/2=int(R/2) then city$(C,11)="2"
 210212 city$(C,12)="1" : if R/4=int(R/4) then city$(C,12)="3" : if R/2=int(R/2) then city$(C,12)="2"
 210213 city$(C,13)="old"
