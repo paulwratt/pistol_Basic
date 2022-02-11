@@ -9,6 +9,8 @@ I have some older platforms which do support SDL 1.2, but just dont have enough 
 
 # On Raspberry Pi you can built pistol_Basic (and SDL_Basic) using the baremetal repo found [here](https://github.com/maccasoft/raspberry-pi).
 
+SDL_Basic is unlike most other versions of BASIC, in that it does not have _pixel based_ graphics. It also does not have inline _file commands_. The NietCiv example shows what is possible.
+
 # WYABI
 Why _Yet Another BASIC Implimentation_ when there are already alot available. Well I prefer to use an 68000 STe or 68040 ARAnyM system, and they (now both) support various BASIC's, STOS is the ST version of AMOS, and there is GFA-BASIC. They both do grapics, sounds, music and system GUI intergration right out of the box. They also BOTH support an Interpreter, and a Compiler.
 
